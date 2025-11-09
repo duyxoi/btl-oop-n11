@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang bác sĩ - Phòng khám Đa khoa ABC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+            font-family: "Poppins", "Segoe UI", sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #007bff, #00b4d8);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 12px 20px;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+            width: 38px;
+        }
+
+        .notif-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            padding: 8px 10px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notif-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.7rem;
+            background: #ffc107;
+            color: #000;
+        }
+
+        .container-main {
+            max-width: 850px;
+            margin-top: 130px;
+            background: white;
+            padding: 50px;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 🌈 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <a class="navbar-brand text-white" href="/bacsi/">
+                <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="logo">
+                Trang bác sĩ - ABC Clinic
+            </a>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <button class="notif-btn me-3" type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offCanvasNotif"
+                    aria-controls="offCanvasNotif">
+                <i class="bi bi-bell"></i>
+                <span th:if="${notifications != null and #lists.size(notifications) > 0}"
+                      th:text="${#lists.size(notifications)}"
+                      class="badge notif-badge rounded-circle"></span>
+            </button>
+
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- 🔔 Offcanvas thông báo -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offCanvasNotif" aria-labelledby="offCanvasNotifLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offCanvasNotifLabel">🔔 Thông báo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div th:if="${notifications == null or #lists.isEmpty(notifications)}" class="text-center text-muted py-4">
+            <i class="bi bi-bell-slash fs-3"></i>
+            <p class="mb-0 mt-2">Không có thông báo nào</p>
+        </div>
+
+        <div th:if="${notifications != null and !#lists.isEmpty(notifications)}">
+            <div class="list-group">
+                <a th:each="n : ${notifications}"
+                   href="#"
+                   th:classappend="${n.read} ? 'list-group-item' : 'list-group-item list-group-item-warning'"
+                   class="list-group-item list-group-item-action">
+                    <div class="d-flex justify-content-between">
+                        <h6 th:text="${n.title}" class="fw-bold text-primary">Tiêu đề</h6>
+                        <small class="text-muted" th:text="${#temporals.format(n.createdAt, 'dd/MM/yyyy HH:mm')}"></small>
+                    </div>
+                    <p th:text="${n.message}" class="mb-1"></p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🩺 Nội dung chính -->
+<div class="container container-main text-center">
+    <div class="intro mb-4">
+        <h4>Xin chào, Bác sĩ <span th:text="${doctor.hoTen}">Nguyễn Văn A</span> 👨‍⚕️</h4>
+        <p>Chào mừng bạn đến với trang quản lý bác sĩ. Tại đây bạn có thể xem thông tin cá nhân, lịch khám và danh sách bệnh nhân.</p>
+    </div>
+
+    <div class="d-grid gap-3">
+        <a th:href="@{/bacsi/thong-tin/{id}(id=${doctor.getPersonId()})}" class="btn btn-info btn-main text-white">
+            <i class="bi bi-person-badge"></i> Xem thông tin bác sĩ
+        </a>
+
+        <a th:href="@{/bacsi/lich-kham/{id}(id=${doctor.getPersonId()})}" class="btn btn-success btn-main">
+            <i class="bi bi-calendar-week"></i> Xem lịch khám
+        </a>
+
+        <a th:href="@{/bacsi/benh-nhan-hom-nay}" class="btn btn-secondary btn-main">
+            <i class="bi bi-people-fill"></i> Danh sách bệnh nhân hôm nay
+        </a>
+    </div>
+
+    <div class="footer mt-5">
+        <p>📍 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết hồ sơ bệnh án</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #e3f2fd, #f8f9fa);
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .header-bar {
+            background: linear-gradient(90deg, #0d6efd, #4dabf7);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-bar h3 {
+            margin: 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-bar h3 i {
+            font-size: 1.5rem;
+        }
+
+        .action-buttons a {
+            margin-left: 10px;
+            transition: 0.3s;
+        }
+
+        .action-buttons a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            font-weight: 700;
+            color: #007bff;
+        }
+
+        h4 {
+            font-weight: 600;
+            border-left: 4px solid #007bff;
+            padding-left: 10px;
+        }
+
+        th {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f9ff;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+
+        .info-item {
+            margin-bottom: 8px;
+        }
+
+        .info-item strong {
+            color: #333;
+        }
+
+        .container {
+            max-width: 950px;
+        }
+    </style>
+</head>
+
+<body class="p-4">
+
+<div class="container">
+
+    <!-- Thanh tiêu đề + nút đăng xuất -->
+    <div class="header-bar">
+        <h3><i class="fa-solid fa-file-medical"></i> Chi tiết hồ sơ bệnh án</h3>
+        <div class="action-buttons">
+            <a th:href="@{/benhnhan/}" class="btn btn-light text-primary">
+                <i class="fa-solid fa-house"></i> Trang chủ
+            </a>
+            <a th:href="@{/logout}" class="btn btn-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+            </a>
+        </div>
+    </div>
+
+    <!-- Thông tin bệnh nhân -->
+    <div class="card p-4 mb-4">
+        <h4 class="mb-3 text-primary"><i class="fa-solid fa-user"></i> Thông tin bệnh nhân</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="info-item"><strong>Mã hồ sơ:</strong> <span th:text="${hoSo.maHoSo}"></span></p>
+                <p class="info-item"><strong>Tên bệnh nhân:</strong> <span th:text="${hoSo.benhNhan.nguoi.hoTen}"></span></p>
+                <p class="info-item"><strong>Ngày nhập viện:</strong> <span th:text="${#dates.format(hoSo.ngayNhapVien, 'dd/MM/yyyy')}"></span></p>
+                <p class="info-item"><strong>Ngày xuất viện:</strong> <span th:text="${#dates.format(hoSo.ngayXuatVien, 'dd/MM/yyyy')}"></span></p>
+            </div>
+
+            <div class="col-md-6">
+                <p class="info-item"><strong>Chẩn đoán:</strong> <span th:text="${hoSo.chuanDoan}"></span></p>
+                <p class="info-item"><strong>Phương án điều trị:</strong> <span th:text="${hoSo.phuongAnDieuTri}"></span></p>
+                <p class="info-item"><strong>Kết quả:</strong> <span th:text="${hoSo.ketQua}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lịch sử khám -->
+    <div class="card p-4 mb-4">
+        <h4 class="mb-3 text-primary"><i class="fa-solid fa-stethoscope"></i> Lịch sử khám</h4>
+
+        <div th:if="${#lists.isEmpty(hoSo.lichSuKham)}" class="text-center text-muted fst-italic py-3">
+            <i class="fa-regular fa-folder-open fa-2x mb-2"></i>
+            <p>Chưa có lịch sử khám</p>
+        </div>
+
+        <div th:unless="${#lists.isEmpty(hoSo.lichSuKham)}">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle shadow-sm">
+                    <thead>
+                    <tr class="text-center">
+                        <th>STT</th>
+                        <th>Mã lịch sử khám</th>
+                        <th>Ngày khám</th>
+                        <th>Bác sĩ</th>
+                        <th>Đơn thuốc / Ghi chú</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ls, iterStat : ${hoSo.lichSuKham}">
+                        <td class="text-center fw-semibold text-secondary" th:text="${iterStat.index + 1}"></td>
+                        <td class="text-center" th:text="${ls.maLichSuKham}"></td>
+                        <td class="text-center text-nowrap" th:text="${#dates.format(ls.ngayKham, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${ls.bacSi.nguoi.hoTen}"></td>
+                        <td th:text="${ls.donThuoc}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nút quay lại -->
+    <div class="text-center mt-4">
+        <a th:href="@{/benhnhan/}" class="btn btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách bệnh nhân
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
