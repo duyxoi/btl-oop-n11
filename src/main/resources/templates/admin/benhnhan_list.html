@@ -115,7 +115,7 @@
                 <td th:text="${bn.maBaoHiem}"></td>
                 <td th:text="${bn.nguoiGiamHo != null ? bn.nguoiGiamHo.nguoi.hoTen : 'Không có'}"></td>
                 <td>
-                    <a th:href="@{/admin/hosobenhnhan/{id}(id=${bn.maBenhNhan})}" class="btn btn-info btn-sm">
+                    <a th:href="@{/benhnhan/hoso/{id}(id=${bn.nguoi.getPersonId()})}" class="btn btn-info btn-sm">
                         <i class="bi bi-file-earmark-person"></i> Xem hồ sơ
                     </a>
                 </td>
