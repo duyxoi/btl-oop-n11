@@ -92,18 +92,25 @@
         </a>
     </div>
 
+    <div class="text-center mb-3">
+        <a th:href="@{/admin/list/benhnhan(sort='ten')}" class="btn btn-outline-primary me-2">
+            <i class="bi bi-sort-alpha-down"></i> Sắp xếp theo tên
+        </a>
+        <a th:href="@{/admin/list/benhnhan(sort='ngaySinh')}" class="btn btn-outline-success me-2">
+            <i class="bi bi-calendar-date"></i> Sắp xếp theo ngày sinh
+        </a>
+        <a th:href="@{/admin/list/benhnhan(sort='maBenhNhan')}" class="btn btn-outline-dark">
+            <i class="bi bi-list-ol"></i> Sắp xếp theo mã bệnh nhân
+        </a>
+    </div>
+
+
     <!-- Bảng danh sách -->
     <div class="table-responsive shadow-sm rounded">
         <table class="table table-bordered table-hover align-middle text-center">
             <thead>
             <tr>
-                <th>Mã bệnh nhân</th>
-                <th>Họ tên</th>
-                <th>CCCD</th>
-                <th>Ngày sinh</th>
-                <th>Mã bảo hiểm</th>
-                <th>Người giám hộ</th>
-                <th>Chi tiết</th>
+
             </tr>
             </thead>
             <tbody>

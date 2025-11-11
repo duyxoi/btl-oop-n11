@@ -2,6 +2,7 @@ package healthcare.example.nhom10.Entity;
 
 import com.fasterxml.jackson.databind.DatabindException;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -20,6 +21,8 @@ public class LoaiThuoc {
     private double giaThuoc;
 
     @Column(name = "HanSuDung")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date hanSuDung;
 
     public LoaiThuoc() {
