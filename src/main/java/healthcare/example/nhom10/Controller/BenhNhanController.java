@@ -70,16 +70,20 @@ public class BenhNhanController {
         Nguoi nguoi = userDetails.getNguoi();
         System.out.println(nguoi);
 
-        BenhNhan bn = benhNhanService.getBenhNhanByNguoi(nguoi)
-                .orElseThrow(()-> new RuntimeException("Benh nhan id "+ id+" not found"));
+//        BenhNhan bn = benhNhanService.getBenhNhanByNguoi(nguoi)
+//                .orElseThrow(()-> new RuntimeException("Benh nhan id "+ id+" not found"));
 
+        Nguoi nguoiCanTim = nguoiService.getNguoiById(id).orElseThrow(()-> new RuntimeException("Nguoi id not found"));
+
+        BenhNhan bn = benhNhanService.getBenhNhanByNguoi(nguoiCanTim)
+                .orElseThrow(() -> new RuntimeException("Benh nhan id "+id+" not found."));
 
         HoSoBeNhan hoSo = hoSoBeNhanService.getHoSoBeNhanByBenhNhan(bn)
                 .orElseThrow(() -> new RuntimeException("HoSoBeNhan id " + id + " not found"));
 
-//        if(nguoi.getRole().equals("ROLE_PATIENT") && hoSo.getBenhNhan().getNguoi().getPersonId() != personId){
-//            return "error/403";
-//        }
+        if(nguoi.getRole().equals("ROLE_PATIENT") && hoSo.getBenhNhan().getNguoi().getPersonId() != personId){
+            return "error/403";
+        }
 
         model.addAttribute("nguoi", nguoi);
         model.addAttribute("hoSo", hoSo);

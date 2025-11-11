@@ -162,7 +162,7 @@
                         <th>Mã lịch sử khám</th>
                         <th>Ngày khám</th>
                         <th>Bác sĩ</th>
-                        <th>Đơn thuốc / Ghi chú</th>
+                        <th>Xem chi tiết</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -171,7 +171,11 @@
                         <td class="text-center" th:text="${ls.maLichSuKham}"></td>
                         <td class="text-center text-nowrap" th:text="${#dates.format(ls.ngayKham, 'dd/MM/yyyy')}"></td>
                         <td th:text="${ls.bacSi.nguoi.hoTen}"></td>
-                        <td th:text="${ls.donThuoc}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/benhnhan/hoso/xem-lich-su/{id}(id=${ls.maLichSuKham})}" class="btn btn-outline-primary btn-sm px-3">
+                                <i class="fa-solid fa-eye"></i> Xem chi tiết
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

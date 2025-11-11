@@ -32,7 +32,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                 break;
             }
             else if (role.equals("ROLE_DOCTOR")) {
-                redirectUrl = "/doctor/";
+                redirectUrl = "/bacsi/";
                 break;
             }
         }
