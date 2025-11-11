@@ -183,7 +183,7 @@ public class BacSiController {
         datLichKhamService.delete(id);
 
         redirectAttributes.addFlashAttribute("successMessage", "Cập nhật kết quả khám thành công!");
-        return "redirect:/bacsi/lich-kham";
+        return "redirect:/bacsi/lich-kham/"+bacSi.getNguoi().getPersonId();
     }
 
     @GetMapping("/hoso/chinh-sua/{id}")
