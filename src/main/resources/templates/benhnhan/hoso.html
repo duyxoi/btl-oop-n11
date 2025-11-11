@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Chi tiết hồ sơ bệnh án</title>
@@ -182,6 +182,12 @@
             </div>
         </div>
     </div>
+    <div th:if="${nguoi.role == 'ROLE_DOCTOR'}">
+        <a th:href="@{/bacsi/hoso/chinh-sua/{id}(id=${hoSo.getMaHoSo()})}" class="btn btn-warning">
+            <i class="fa fa-edit"></i> Chỉnh sửa
+        </a>
+    </div>
+
 
     <!-- Nút quay lại -->
     <div class="text-center mt-4">
@@ -189,6 +195,8 @@
             <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách bệnh nhân
         </a>
     </div>
+    <!-- Chỉ hiện nút chỉnh sửa nếu là DOCTOR -->
+
 
 </div>
 
