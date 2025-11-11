@@ -1,6 +1,8 @@
 package healthcare.example.nhom10.service;
 
 import healthcare.example.nhom10.Entity.BacSi;
+import healthcare.example.nhom10.Entity.BenhNhan;
+import healthcare.example.nhom10.Entity.Nguoi;
 import healthcare.example.nhom10.Entity.PhieuDichVu;
 
 import java.util.List;
@@ -12,5 +14,6 @@ public interface BacSiService {
         BacSi createBacSi(BacSi bacSi);
         BacSi updateBacSi(Integer id, BacSi bacSiDetails);
         void deleteBacSi(Integer id);
+        Optional<BacSi> getBacSiByNguoi(Nguoi nguoi);
 
 }

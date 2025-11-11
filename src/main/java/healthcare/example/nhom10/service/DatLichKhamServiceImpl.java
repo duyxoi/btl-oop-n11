@@ -69,4 +69,9 @@ public class DatLichKhamServiceImpl implements DatLichKhamService {
     public boolean existsByBacSiAndNgayKham(BacSi bacSi, LocalDateTime ngayKham) {
         return datLichKhamRepository.existsByBacSiAndNgayKham(bacSi, ngayKham);
     }
+
+    @Override
+    public List<DatLichKham> getByBacSi(BacSi bacSi) {
+        return datLichKhamRepository.findByBacSi(bacSi);
+    }
 }

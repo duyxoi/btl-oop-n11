@@ -10,8 +10,12 @@ public class PhieuDichVu {
     @Column(name = "MaSoPhieu")
     private int maSoPhieu;
 
-    @Column(name = "MaDichVu")
-    private int maDichVu;
+//    @Column(name = "MaDichVu")
+//    private int maDichVu;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MaDichVu", referencedColumnName = "MaDichVu")
+    private DichVuYTe dichVuYTe;
 
     @Column(name = "SoLuong")
     private int soLuong;
@@ -27,13 +31,13 @@ public class PhieuDichVu {
         this.maSoPhieu = maSoPhieu;
     }
 
-    public int getMaDichVu() {
-        return maDichVu;
-    }
-
-    public void setMaDichVu(int maDichVu) {
-        this.maDichVu = maDichVu;
-    }
+//    public int getMaDichVu() {
+//        return maDichVu;
+//    }
+//
+//    public void setMaDichVu(int maDichVu) {
+//        this.maDichVu = maDichVu;
+//    }
 
     public int getSoLuong() {
         return soLuong;
@@ -41,5 +45,13 @@ public class PhieuDichVu {
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
+    }
+
+    public DichVuYTe getDichVuYTe() {
+        return dichVuYTe;
+    }
+
+    public void setDichVuYTe(DichVuYTe dichVuYTe) {
+        this.dichVuYTe = dichVuYTe;
     }
 }

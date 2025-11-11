@@ -86,6 +86,20 @@ public class BenhNhanController {
         return "benhnhan/hoso";
     }
 
+
+    @GetMapping("/hoso/xem-lich-su/{id}")
+    public String xemHoSoLichSu(@PathVariable int id, Model model) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Nguoi nguoiTruyCap = userDetails.getNguoi();
+        LichSuKham lichSuKham = lichSuKhamService.getLichSuKhamById(id) .orElseThrow(()-> new RuntimeException("LichSuKham id "+ id + " not found"));
+        Nguoi nguoiCanTim = lichSuKham.getHoSoBeNhan().getBenhNhan().getNguoi();
+        if(nguoiTruyCap.getRole().equals("ROLE_PATIENT") && nguoiTruyCap.getPersonId() != nguoiCanTim.getPersonId()) return "error/403";
+        model.addAttribute("lichSuKham", lichSuKham);
+        return "benhnhan/lichsukham";
+    }
+
+
+
     @GetMapping("/dat-lich")
     public String hienThiFormDatLich(Model model) {
         // Lấy thông tin user hiện tại

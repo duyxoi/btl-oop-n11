@@ -19,6 +19,7 @@ import java.util.List;
 @Repository
 public interface DatLichKhamRepository extends JpaRepository<DatLichKham, Integer> {
     List<DatLichKham> findByBenhNhan(BenhNhan benhNhan);
+    List<DatLichKham> findByBacSi(BacSi bacSi);
 
     @Query("SELECT new healthcare.example.nhom10.dto.LichKhamDTO(d.bacSi.maBacSi, d.ngayKham) FROM DatLichKham d")
     List<LichKhamDTO> findAllMaBacSiVaNgayKham();

@@ -5,6 +5,7 @@ import healthcare.example.nhom10.Entity.Nguoi;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.BenhNhanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,5 +67,25 @@ public class BenhNhanServiceImpl implements BenhNhanService {
                 .orElseThrow(() -> new ResourceNotFoundException("BenhNhan not found with id: " + id));
 
         benhNhanRepository.delete(benhNhan);
+    }
+
+    @Override
+    public List<BenhNhan> findByCccd(String cccd) {
+        return benhNhanRepository.findByNguoi_CccdContainingIgnoreCase(cccd);
+    }
+
+    @Override
+    public List<BenhNhan> sortByHoTen() {
+        return benhNhanRepository.findAll(Sort.by(Sort.Direction.ASC, "nguoi.hoTen"));
+    }
+
+    @Override
+    public List<BenhNhan> sortByNgaySinh() {
+        return benhNhanRepository.findAll(Sort.by(Sort.Direction.ASC, "nguoi.ngaySinh"));
+    }
+
+    @Override
+    public List<BenhNhan> sortByMaBenhNhan() { // 🆕 Thêm hàm mới
+        return benhNhanRepository.findAll(Sort.by(Sort.Direction.ASC, "maBenhNhan"));
     }
 }

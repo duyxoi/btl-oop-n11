@@ -19,6 +19,13 @@ public class KeDon {
     @JoinColumn(name = "MaThuoc",referencedColumnName = "MaThuoc")
     private LoaiThuoc loaiThuoc;
 
+    @Column(name ="lieuluong")
+    private String lieuLuong;
+
+    @Column(name = "huongdansudung")
+    private String huongDanSuDung;
+
+
     public KeDon() {
     }
 
@@ -44,5 +51,21 @@ public class KeDon {
 
     public void setLoaiThuoc(LoaiThuoc loaiThuoc) {
         this.loaiThuoc = loaiThuoc;
+    }
+
+    public String getLieuLuong() {
+        return lieuLuong;
+    }
+
+    public void setLieuLuong(String lieuLuong) {
+        this.lieuLuong = lieuLuong;
+    }
+
+    public String getHuongDanSuDung() {
+        return huongDanSuDung;
+    }
+
+    public void setHuongDanSuDung(String huongDanSuDung) {
+        this.huongDanSuDung = huongDanSuDung;
     }
 }

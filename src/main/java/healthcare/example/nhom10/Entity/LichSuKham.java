@@ -38,6 +38,9 @@ public class LichSuKham {
     @Column(name = "GhiChu")
     private String ghiChu;
 
+    @Column(name = "chuandoan")
+    private String chuanDoan;
+
 //    @ManyToOne
 //    @JoinColumn(name = "MaHoSo")  // tên cột khóa ngoại trong bảng lichsukham
 //    private HoSoBeNhan hoSoBeNhan;
@@ -115,5 +118,13 @@ public class LichSuKham {
 
     public void setGhiChu(String ghiChu) {
         this.ghiChu = ghiChu;
+    }
+
+    public String getChuanDoan() {
+        return chuanDoan;
+    }
+
+    public void setChuanDoan(String chuanDoan) {
+        this.chuanDoan = chuanDoan;
     }
 }

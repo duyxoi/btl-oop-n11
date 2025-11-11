@@ -31,27 +31,27 @@ public class PhieuDichVuServiceImpl implements  PhieuDichVuService {
     @Override
     public PhieuDichVu createPhieuDichVu(PhieuDichVu phieuDichVu) {
         // Logic nghiệp vụ: Kiểm tra xem MaDichVu có tồn tại không
-        dichVuYTeRepository.findById(phieuDichVu.getMaDichVu())
-                .orElseThrow(() -> new ResourceNotFoundException("DichVuYTe not found with id: " + phieuDichVu.getMaDichVu()));
+//        dichVuYTeRepository.findById(phieuDichVu.getMaDichVu())
+//                .orElseThrow(() -> new ResourceNotFoundException("DichVuYTe not found with id: " + phieuDichVu.getMaDichVu()));
 
         return phieuDichVuRepository.save(phieuDichVu);
     }
 
     @Override
     public PhieuDichVu updatePhieuDichVu(Integer id, PhieuDichVu phieuDichVuDetails) {
-        // Tìm phiếu hiện có
-        PhieuDichVu phieu = phieuDichVuRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("PhieuDichVu not found with id: " + id));
+//        // Tìm phiếu hiện có
+//        PhieuDichVu phieu = phieuDichVuRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("PhieuDichVu not found with id: " + id));
+//
+//        // Xác thực MaDichVu mới
+//        dichVuYTeRepository.findById(phieuDichVuDetails.getMaDichVu())
+//                .orElseThrow(() -> new ResourceNotFoundException("DichVuYTe not found with id: " + phieuDichVuDetails.getMaDichVu()));
+//
+//        // Cập nhật các trường
+//        phieu.setMaDichVu(phieuDichVuDetails.getMaDichVu());
+//        phieu.setSoLuong(phieuDichVuDetails.getSoLuong());
 
-        // Xác thực MaDichVu mới
-        dichVuYTeRepository.findById(phieuDichVuDetails.getMaDichVu())
-                .orElseThrow(() -> new ResourceNotFoundException("DichVuYTe not found with id: " + phieuDichVuDetails.getMaDichVu()));
-
-        // Cập nhật các trường
-        phieu.setMaDichVu(phieuDichVuDetails.getMaDichVu());
-        phieu.setSoLuong(phieuDichVuDetails.getSoLuong());
-
-        return phieuDichVuRepository.save(phieu);
+        return phieuDichVuRepository.save(phieuDichVuDetails);
     }
 
     @Override

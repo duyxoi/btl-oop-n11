@@ -1,6 +1,7 @@
 package healthcare.example.nhom10.service;
 
 import healthcare.example.nhom10.Entity.BacSi;
+import healthcare.example.nhom10.Entity.Nguoi;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.BacSiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,10 @@ public class BacSiServiceImpl implements BacSiService {
                 .orElseThrow(() -> new ResourceNotFoundException("BacSi not found with id: " + id));
 
         bacSiRepository.delete(bacSi);
+    }
+
+    @Override
+    public Optional<BacSi> getBacSiByNguoi(Nguoi nguoi){
+        return bacSiRepository.findByNguoi(nguoi);
     }
 }
