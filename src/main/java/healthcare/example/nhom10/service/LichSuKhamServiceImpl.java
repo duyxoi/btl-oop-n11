@@ -62,6 +62,7 @@ public class LichSuKhamServiceImpl implements LichSuKhamService {
         lichSuKham.setNgayKham(lichSuKhamDetails.getNgayKham());
         lichSuKham.setPhongKham(lichSuKhamDetails.getPhongKham());
         lichSuKham.setGhiChu(lichSuKhamDetails.getGhiChu());
+        lichSuKham.setChiPhi(lichSuKhamDetails.getChiPhi());
 
         return lichSuKhamRepository.save(lichSuKham);
     }

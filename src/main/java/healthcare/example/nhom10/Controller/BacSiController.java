@@ -131,44 +131,61 @@ public class BacSiController {
     public String capNhatKetQua(
             @PathVariable int id,
             @RequestParam("chuanDoan") String chuanDoan,
-            @RequestParam("maDichVuYTe") int maDichVuYTe,   // 👈 nhận ID dịch vụ từ form
+            @RequestParam("maDichVuYTe") int maDichVuYTe,
             @ModelAttribute("lichSuKham") LichSuKham lichSuKham,
-            @RequestParam("thuocIds") List<Integer> thuocIds,
-            @RequestParam("lieuLuongs") List<String> lieuLuongs,
-            @RequestParam("huongDans") List<String> huongDans,
+
+            // Chỉ nhận ID thuốc, Liều lượng, Hướng dẫn (ĐÃ BỎ SO_LUONGS)
+            @RequestParam(value = "thuocIds", required = false) List<Integer> thuocIds,
+            @RequestParam(value = "lieuLuongs", required = false) List<String> lieuLuongs,
+            @RequestParam(value = "huongDans", required = false) List<String> huongDans,
+
             @RequestParam(value = "ghiChuThem", required = false) String ghiChuThem,
             RedirectAttributes redirectAttributes) {
 
         DatLichKham dlKham = datLichKhamService.getById(id).orElseThrow();
-        CustomUserDetails userDetails =
-                (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        BacSi bacSi = bacSiService.getBacSiByNguoi(userDetails.getNguoi())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ."));
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BacSi bacSi = bacSiService.getBacSiByNguoi(userDetails.getNguoi()).orElseThrow();
 
-        // 🔹 Tạo Phiếu dịch vụ y tế
-        DichVuYTe dichVuYTe = dichVuYTeService.getDichVuYTeById(maDichVuYTe)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy dịch vụ y tế."));
+        // 1. TÍNH TIỀN DỊCH VỤ
+        DichVuYTe dichVuYTe = dichVuYTeService.getDichVuYTeById(maDichVuYTe).orElseThrow();
         PhieuDichVu phieu = new PhieuDichVu();
         phieu.setDichVuYTe(dichVuYTe);
-        phieu.setSoLuong(1); // có thể để bác sĩ chọn sau
+        phieu.setSoLuong(1);
         phieuDichVuService.createPhieuDichVu(phieu);
 
-        // 🔹 Tạo đơn thuốc như trước
+        double giaDichVu = (dichVuYTe.getChiPhi() != null) ? dichVuYTe.getChiPhi() : 0.0;
+        long tongChiPhiTinhToan = (long) giaDichVu;
+
+        // 2. TÍNH TIỀN THUỐC (Không nhân số lượng)
         DonThuoc donThuoc = new DonThuoc();
         List<KeDon> chiTietList = new ArrayList<>();
-        for (int i = 0; i < thuocIds.size(); i++) {
-            KeDon ct = new KeDon();
-            ct.setLoaiThuoc(loaiThuocService.getLoaiThuocById(thuocIds.get(i)).get());
-            ct.setLieuLuong(lieuLuongs.get(i));
-            ct.setHuongDanSuDung(huongDans.get(i));
-            ct.setDonThuoc(donThuoc);
-            chiTietList.add(ct);
+
+        if (thuocIds != null && !thuocIds.isEmpty()) {
+            for (int i = 0; i < thuocIds.size(); i++) {
+                KeDon ct = new KeDon();
+                LoaiThuoc thuoc = loaiThuocService.getLoaiThuocById(thuocIds.get(i)).orElseThrow();
+
+                ct.setLoaiThuoc(thuoc);
+
+                // Nếu Entity KeDon bắt buộc phải có số lượng, ta set cứng là 1
+                // ct.setSoLuong(1);
+
+                ct.setLieuLuong(lieuLuongs.get(i));
+                ct.setHuongDanSuDung(huongDans.get(i));
+                ct.setDonThuoc(donThuoc);
+
+                chiTietList.add(ct);
+
+                // CỘNG TIỀN: Chỉ cộng đơn giá thuốc
+                tongChiPhiTinhToan += (long) thuoc.getGiaThuoc();
+            }
         }
+
         donThuoc.setNgayKeDon(Date.from(dlKham.getNgayKham().atZone(ZoneId.systemDefault()).toInstant()));
         donThuoc.setKeDon(chiTietList);
         donThuocService.createDonThuoc(donThuoc);
 
-        // 🔹 Gán dữ liệu cho lịch sử khám
+        // 3. LƯU LỊCH SỬ KHÁM
         lichSuKham.setDonThuoc(donThuoc);
         lichSuKham.setBacSi(bacSi);
         lichSuKham.setPhongKham(dlKham.getKhoa().getViTri());
@@ -178,14 +195,15 @@ public class BacSiController {
         lichSuKham.setPhieuDichVu(phieu);
         lichSuKham.setGhiChu(ghiChuThem);
 
-        lichSuKhamService.createLichSuKham(lichSuKham);
+        // Lưu tổng tiền
+        lichSuKham.setChiPhi((long) tongChiPhiTinhToan);
 
+        lichSuKhamService.createLichSuKham(lichSuKham);
         datLichKhamService.delete(id);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật kết quả khám thành công!");
-        return "redirect:/bacsi/lich-kham/"+bacSi.getNguoi().getPersonId();
+        redirectAttributes.addFlashAttribute("successMessage", "Lưu thành công! Tổng chi phí: " + tongChiPhiTinhToan + " VNĐ");
+        return "redirect:/bacsi/lich-kham/" + bacSi.getNguoi().getPersonId();
     }
-
     @GetMapping("/hoso/chinh-sua/{id}")
     public String hienThiFormChinhSua(@PathVariable int id, Model model) {
         HoSoBeNhan hoSo = hoSoBeNhanService.getHoSoBeNhanById(id)
