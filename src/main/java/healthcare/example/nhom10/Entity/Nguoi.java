@@ -1,6 +1,7 @@
 package healthcare.example.nhom10.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -22,6 +23,8 @@ public class Nguoi {
     private String gioiTinh;
 
     @Column(name = "NgaySinh")
+    @Temporal(TemporalType.DATE) // Giữ nguyên cái này nếu có
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngaySinh;
 
     @Column(name = "DiaChi")

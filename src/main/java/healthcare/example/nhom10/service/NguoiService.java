@@ -11,4 +11,5 @@ public interface NguoiService {
     Nguoi createNguoi(Nguoi nguoi);
     Nguoi updateNguoi(Integer id, Nguoi nguoiDetails);
     void deleteNguoi(Integer id);
+    boolean existsByUsername(String username);
 }
