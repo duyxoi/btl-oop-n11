@@ -55,4 +55,9 @@ public class NguoiServiceImpl implements NguoiService {
 
         nguoiRepository.delete(nguoi);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return nguoiRepository.existsByUsername(username);
+    }
 }

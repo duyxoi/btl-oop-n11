@@ -8,4 +8,5 @@ import java.util.*;
 @Repository
 public interface NguoiRepository extends JpaRepository<Nguoi, Integer> {
     Optional<Nguoi> findByUsername(String username);
+    boolean existsByUsername(String username);
 }
