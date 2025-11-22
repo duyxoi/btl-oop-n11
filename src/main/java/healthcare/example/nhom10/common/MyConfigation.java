@@ -30,31 +30,27 @@ public class MyConfigation {
     @Autowired
     private HoSoBeNhanService hoSoBeNhanService;
 
+    @Autowired
+    private LichSuKhamService lichSuKhamService;
+
     // 4. Tạo Bean CommandLineRunner
     @Bean
     public CommandLineRunner testKhoaRunner() {
         return args -> {
-            Optional<Nguoi> optionalNguoi = nguoiService.getNguoiById(60);
+//           List<LichSuKham> lichSuKhams = lichSuKhamService.getAllLichSuKham();
+//           for(LichSuKham ls : lichSuKhams) {
+//               long tongChiPhi = 0;
+//               List<KeDon> dt = ls.getDonThuoc().getKeDon();
+//               for(KeDon d : dt) {
+//                   tongChiPhi+= d.getLoaiThuoc().getGiaThuoc();
+//               }
+//               tongChiPhi+=ls.getPhieuDichVu().getDichVuYTe().getChiPhi();
+//               System.out.println(ls.getMaLichSuKham()+" "+ls.getHoSoBeNhan().getBenhNhan().getNguoi().getHoTen()+" tong chi phi la "+tongChiPhi);
+//               ls.setChiPhi(tongChiPhi);
+//               lichSuKhamService.updateLichSuKham(ls.getMaLichSuKham(),ls);
 
-            if (optionalNguoi.isEmpty()) {
-                System.out.println("❌ Không tìm thấy người có ID = 35 trong cơ sở dữ liệu!");
-                return;
-            }
-
-            Nguoi nguoi = optionalNguoi.get();
-
-            Optional<BenhNhan> optionalBenhNhan = benhNhanService.getBenhNhanByNguoi(nguoi);
-
-            if (optionalBenhNhan.isEmpty()) {
-                System.out.println("⚠️ Người này chưa có hồ sơ bệnh nhân tương ứng trong bảng benhnhan!");
-                return;
-            }
-
-            BenhNhan bn = optionalBenhNhan.get();
-            System.out.println("✅ Bệnh nhân tìm thấy: " + bn);
-
-            HoSoBeNhan hs = hoSoBeNhanService.getHoSoBeNhanByBenhNhan(bn).get();
-            System.out.println(hs.getMaHoSo());
+           //}
+            System.out.println("Hello World");
         };
     }
 
