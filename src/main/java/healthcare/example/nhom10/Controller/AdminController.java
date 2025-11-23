@@ -136,6 +136,12 @@ public class AdminController {
         return "redirect:/admin/list/dichvu";
     }
 
+    @GetMapping("/thongke")
+    public String thongKe(Model model) {
+        model.addAttribute("lichSuKham",lichSuKhamService.getAllLichSuKham());
+        return "admin/thongke";
+    }
+
 
 
 }

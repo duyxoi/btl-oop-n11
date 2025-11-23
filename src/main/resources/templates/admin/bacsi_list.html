@@ -116,7 +116,7 @@
                 <td th:text="${bs.maBacSi}"></td>
                 <td th:text="${bs.nguoi.hoTen}"></td>
                 <td th:text="${bs.nguoi.cccd}"></td>
-                <td th:text="${#temporals.format(bs.nguoi.ngaySinh.toLocalDateTime(), 'dd/MM/yyyy')}"></td>
+                <td th:text="${#dates.format(bs.nguoi.ngaySinh, 'dd/MM/yyyy')}"></td>
                 <td th:text="${bs.khoa != null ? bs.khoa.getTenKhoa() : 'Không có'}"></td>
                 <td th:text="${bs.capDoHanhNghe}"></td>
                 <td th:text="${bs.nguoi.getSdt()}"></td>
