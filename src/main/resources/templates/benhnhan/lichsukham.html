@@ -142,6 +142,22 @@
                 <textarea class="form-control" rows="2" readonly
                           th:text="${lichSuKham.ghiChu}">Không có ghi chú</textarea>
             </div>
+
+            <div class="total-box d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="fs-5 fw-bold text-dark"><i class="bi bi-cash-stack"></i> Tổng chi phí thanh toan:</span>
+                </div>
+                <div>
+    <span id="displayTongTien"
+          class="fs-2 fw-bold text-danger"
+          th:text="${#numbers.formatDecimal(lichSuKham.chiPhi, 0, 'POINT', 0, 'COMMA')}">
+        0
+    </span>
+                    <span class="fs-4 fw-bold text-danger">VNĐ</span>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

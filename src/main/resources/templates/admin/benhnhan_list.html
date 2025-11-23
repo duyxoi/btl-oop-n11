@@ -118,7 +118,7 @@
                 <td th:text="${bn.maBenhNhan}"></td>
                 <td th:text="${bn.nguoi.hoTen}"></td>
                 <td th:text="${bn.nguoi.cccd}"></td>
-                <td th:text="${#temporals.format(bn.nguoi.ngaySinh.toLocalDateTime(), 'dd/MM/yyyy')}"></td>
+                <td th:text="${#dates.format(bn.nguoi.ngaySinh, 'dd/MM/yyyy')}"></td>
                 <td th:text="${bn.maBaoHiem}"></td>
                 <td th:text="${bn.nguoiGiamHo != null ? bn.nguoiGiamHo.nguoi.hoTen : 'Không có'}"></td>
                 <td>
