@@ -160,13 +160,17 @@
 <!-- 🌈 Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" th:href="@{/}">
             <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="logo">
             Phòng khám Đa khoa ABC
         </a>
         <div>
             <a th:href="@{/benhnhan/}" class="btn btn-light me-2">
                 <i class="bi bi-arrow-left-circle"></i> Quay lại
+            </a>
+            <!-- Nút xem các lịch đã đặt dạng Calendar -->
+            <a th:href="@{/benhnhan/lich-kham(mode='calendar')}" class="btn btn-outline-light me-2">
+                <i class="bi bi-calendar3"></i> Lịch đã đặt
             </a>
             <form th:action="@{/logout}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-danger">

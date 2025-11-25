@@ -12,10 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/benhnhan")
@@ -49,18 +47,17 @@ public class BenhNhanController {
         this.datLichKhamService = datLichKhamService;
     }
 
-        @GetMapping("/")
-        public String home(Model model){
-            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @GetMapping("/")
+    public String home(Model model){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            int personId = userDetails.getPersonId();
-            Nguoi nguoi = userDetails.getNguoi();
+        int personId = userDetails.getPersonId();
+        Nguoi nguoi = userDetails.getNguoi();
 
-            model.addAttribute("personId", personId);
+        model.addAttribute("personId", personId);
 
-
-            return "benhnhan/home";
-        }
+        return "benhnhan/home";
+    }
 
     @GetMapping("/hoso/{id}")
     public String xemHoSo(@PathVariable int id, Model model){
@@ -90,19 +87,19 @@ public class BenhNhanController {
         return "benhnhan/hoso";
     }
 
-
     @GetMapping("/hoso/xem-lich-su/{id}")
     public String xemHoSoLichSu(@PathVariable int id, Model model) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Nguoi nguoiTruyCap = userDetails.getNguoi();
-        LichSuKham lichSuKham = lichSuKhamService.getLichSuKhamById(id) .orElseThrow(()-> new RuntimeException("LichSuKham id "+ id + " not found"));
+        LichSuKham lichSuKham = lichSuKhamService.getLichSuKhamById(id)
+                .orElseThrow(()-> new RuntimeException("LichSuKham id "+ id + " not found"));
         Nguoi nguoiCanTim = lichSuKham.getHoSoBeNhan().getBenhNhan().getNguoi();
-        if(nguoiTruyCap.getRole().equals("ROLE_PATIENT") && nguoiTruyCap.getPersonId() != nguoiCanTim.getPersonId()) return "error/403";
+        if(nguoiTruyCap.getRole().equals("ROLE_PATIENT") && nguoiTruyCap.getPersonId() != nguoiCanTim.getPersonId()) {
+            return "error/403";
+        }
         model.addAttribute("lichSuKham", lichSuKham);
         return "benhnhan/lichsukham";
     }
-
-
 
     @GetMapping("/dat-lich")
     public String hienThiFormDatLich(Model model) {
@@ -124,10 +121,8 @@ public class BenhNhanController {
         model.addAttribute("bacSiList", bacSiList);
         model.addAttribute("khoaList", khoaService.getAllKhoa());
 
-
         return "benhnhan/dat_lich"; // -> templates/benhnhan/dat_lich.html
     }
-
 
     // ------------------- LẤY DANH SÁCH BÁC SĨ THEO KHOA (AJAX) -------------------
     @GetMapping("/bacsi-by-khoa/{maKhoa}")
@@ -182,7 +177,6 @@ public class BenhNhanController {
                 return "redirect:/benhnhan/dat-lich";
             }
 
-
             // --- 5️⃣ Tạo đối tượng lịch khám ---
             DatLichKham lich = new DatLichKham();
             lich.setBenhNhan(benhNhan);
@@ -197,8 +191,8 @@ public class BenhNhanController {
             // --- 6️⃣ Gửi thông báo flash ---
             redirectAttributes.addFlashAttribute("successMessage", "✅ Đặt lịch khám thành công!");
 
-            // --- 7️⃣ Quay về trang home ---
-            return "redirect:/benhnhan/lich-kham";
+            // --- 7️⃣ Quay về trang lịch khám (chế độ Calendar) ---
+            return "redirect:/benhnhan/lich-kham?mode=calendar";
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,7 +202,10 @@ public class BenhNhanController {
     }
 
     @GetMapping("/lich-kham")
-    public String xemLichKham(Model model) {
+    public String xemLichKham(
+            @RequestParam(name = "mode", defaultValue = "table") String mode,
+            Model model
+    ) {
         // Lấy thông tin user hiện tại
         CustomUserDetails userDetails =
                 (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -222,7 +219,8 @@ public class BenhNhanController {
         List<DatLichKham> lichKhams = datLichKhamService.getByBenhNhan(benhNhan);
 
         model.addAttribute("lichKhams", lichKhams);
-        return "benhnhan/lich_kham"; // Giao diện hiển thị danh sách lịch khám
+        model.addAttribute("mode", mode); // truyền mode xuống view để đổi giao diện (table / calendar)
+        return "benhnhan/lich_kham"; // Giao diện hiển thị danh sách / calendar lịch khám
     }
 
     @PostMapping("/huy-lich/{id}")
@@ -235,8 +233,4 @@ public class BenhNhanController {
         }
         return "redirect:/benhnhan/lich-kham";
     }
-
-
-
-
 }
