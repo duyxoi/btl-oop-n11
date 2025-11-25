@@ -5,6 +5,8 @@
     <title>Lịch khám của tôi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -96,6 +98,78 @@
             color: white;
         }
 
+        #calendar {
+            min-height: 500px;
+        }
+
+        /* ===== Style event chung ===== */
+        .patient-event {
+            background: #0d6efd;
+            border: none;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 0.75rem;
+        }
+
+        /* ===== View DANH SÁCH (list) – tránh chữ trắng trùng nền ===== */
+        .fc-list .patient-event {
+            background: transparent;       /* bỏ nền xanh trong list */
+            color: #0d6efd;                /* chữ xanh đậm */
+            border-radius: 0;
+            padding: 0;
+            font-weight: 500;
+        }
+        .fc-list .patient-event:hover {
+            background: transparent;       /* không che màu row */
+            color: #0b5ed7;                /* chữ xanh đậm hơn khi hover */
+        }
+        .fc-list-event:hover td {
+            background-color: rgba(13,110,253,0.06);  /* row hover xanh nhạt */
+        }
+
+        /* ===== Tháng (dayGrid) ===== */
+        .fc-daygrid-event.patient-event {
+            padding: 2px 4px;
+        }
+        .fc-daygrid-event.patient-event .bb-event-body--month {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .bb-event-time {
+            font-weight: 700;
+            margin-bottom: 1px;
+        }
+        .bb-event-doctor {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .bb-event-dept {
+            font-size: 0.68rem;
+            opacity: 0.9;
+        }
+
+        /* ===== Tuần / Ngày (timeGrid) ===== */
+        .fc-timegrid-event.patient-event {
+            padding: 1px 3px;
+        }
+        .fc-timegrid-event.patient-event .bb-event-body--timegrid {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 0.72rem;
+            line-height: 1.1;
+            white-space: normal;
+        }
+        .fc-timegrid-event.patient-event .bb-event-doctor {
+            font-weight: 500;
+        }
+        .fc-timegrid-event.patient-event .bb-event-dept {
+            font-size: 0.68rem;
+            opacity: 0.9;
+        }
     </style>
 </head>
 
@@ -123,59 +197,237 @@
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-    <!-- Table -->
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <table class="table table-hover align-middle mb-0">
-                <thead>
-                <tr class="text-center">
-                    <th>#</th>
-                    <th>Bác sĩ</th>
-                    <th>Ngày khám</th>
-                    <th>Trạng thái</th>
-                    <th>Thao tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="lich, iterStat : ${lichKhams}">
-                    <td class="text-center fw-semibold" th:text="${iterStat.index + 1}"></td>
-                    <td th:text="${lich.bacSi.nguoi.hoTen}"></td>
-                    <td class="text-center text-nowrap" th:text="${#temporals.format(lich.ngayKham, 'dd/MM/yyyy HH:mm')}"></td>
-                    <td class="text-center">
-                        <span class="badge px-3 py-2 fs-6"
-                              th:classappend="${lich.trangThai == 'DA_HUY'} ? 'bg-danger' : 'bg-success'"
-                              th:text="${lich.trangThai == 'DA_HUY'} ? 'ĐÃ HỦY' : 'ĐÃ XÁC NHẬN'"></span>
-                    </td>
-                    <td class="text-center">
-                        <form th:action="@{'/benhnhan/huy-lich/' + ${lich.maLichKham}}" method="post">
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="return confirm('Bạn có chắc muốn xóa lịch khám này không?')">
-                                <i class="bi bi-trash"></i> Xóa
-                            </button>
-                        </form>
-                    </td>
-                </tr>
+    <!-- View mode toggle -->
+    <div class="d-flex justify-content-end mb-3">
+        <div class="btn-group">
+            <a th:href="@{/benhnhan/lich-kham(mode='table')}"
+               th:class="'btn btn-sm ' + (${mode} == 'table' ? 'btn-primary' : 'btn-outline-primary')">
+                <i class="bi bi-list-ul"></i> Dạng danh sách
+            </a>
+            <a th:href="@{/benhnhan/lich-kham(mode='calendar')}"
+               th:class="'btn btn-sm ' + (${mode} == 'calendar' ? 'btn-primary' : 'btn-outline-primary')">
+                <i class="bi bi-calendar3"></i> Dạng Calendar
+            </a>
+        </div>
+    </div>
 
-                <tr th:if="${#lists.isEmpty(lichKhams)}">
-                    <td colspan="6" class="empty-state">
-                        <i class="bi bi-calendar-x display-6 d-block mb-3"></i>
-                        <span>Chưa có lịch khám nào được đặt</span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <!-- TABLE MODE -->
+    <div th:if="${mode} == 'table'">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr class="text-center">
+                        <th>#</th>
+                        <th>Bác sĩ</th>
+                        <th>Ngày khám</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="lich, iterStat : ${lichKhams}">
+                        <td class="text-center fw-semibold" th:text="${iterStat.index + 1}"></td>
+                        <td th:text="${lich.bacSi.nguoi.hoTen}"></td>
+                        <td class="text-center text-nowrap"
+                            th:text="${#temporals.format(lich.ngayKham, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td class="text-center">
+                            <span class="badge px-3 py-2 fs-6"
+                                  th:classappend="${lich.trangThai == 'DA_HUY'} ? 'bg-danger' : 'bg-success'"
+                                  th:text="${lich.trangThai == 'DA_HUY'} ? 'ĐÃ HỦY' : 'ĐÃ XÁC NHẬN'"></span>
+                        </td>
+                        <td class="text-center">
+                            <form th:action="@{'/benhnhan/huy-lich/' + ${lich.maLichKham}}" method="post">
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="return confirm('Bạn có chắc muốn xóa lịch khám này không?')">
+                                    <i class="bi bi-trash"></i> Xóa
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(lichKhams)}">
+                        <td colspan="6" class="empty-state">
+                            <i class="bi bi-calendar-x display-6 d-block mb-3"></i>
+                            <span>Chưa có lịch khám nào được đặt</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CALENDAR MODE -->
+    <div th:if="${mode} == 'calendar'">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar3-week me-2"></i>Lịch khám (dạng Calendar)</span>
+                <span class="badge bg-light text-primary">
+                    <span th:text="${#lists.size(lichKhams)}"></span> lịch
+                </span>
+            </div>
+            <div class="card-body">
+                <div th:if="${#lists.isEmpty(lichKhams)}" class="empty-state">
+                    <i class="bi bi-calendar-x display-6 d-block mb-3"></i>
+                    <span>Chưa có lịch khám nào được đặt</span>
+                </div>
+
+                <!-- dữ liệu thô cho calendar -->
+                <div id="calendar-data" class="d-none" th:if="${!#lists.isEmpty(lichKhams)}">
+                    <div class="lich-item"
+                         th:each="lich : ${lichKhams}"
+                         th:data-id="${lich.maLichKham}"
+                         th:data-title="'Lịch khám'"
+                         th:data-start="${#temporals.format(lich.ngayKham, 'yyyy-MM-dd''T''HH:mm:ss')}"
+                         th:data-doctor="${lich.bacSi.nguoi.hoTen}"
+                         th:data-dept="${lich.khoa.tenKhoa}"
+                         th:data-date-label="${#temporals.format(lich.ngayKham, 'dd/MM/yyyy')}"
+                         th:data-time-label="${#temporals.format(lich.ngayKham, 'HH:mm')}"
+                         th:data-status="${lich.trangThai}">
+                    </div>
+                </div>
+
+                <div id="calendar" th:if="${!#lists.isEmpty(lichKhams)}"></div>
+            </div>
         </div>
     </div>
 
 </div>
 
-<!-- Auto-hide alerts -->
+<!-- Modal chi tiết lịch khám -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-info-circle"></i> Chi tiết lịch khám</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Bác sĩ:</strong> <span id="modalDoctor"></span></p>
+                <p><strong>Khoa khám:</strong> <span id="modalDept"></span></p>
+                <p><strong>Thời gian:</strong> <span id="modalTime"></span></p>
+                <p><strong>Trạng thái:</strong> <span id="modalStatus" class="badge"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS + FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
 <script>
+    // Auto-hide alerts
     document.addEventListener("DOMContentLoaded", () => {
         const alerts = document.querySelectorAll(".alert");
         if (alerts.length > 0) {
             setTimeout(() => alerts.forEach(a => a.style.display = "none"), 3000);
         }
+    });
+</script>
+
+<!-- Calendar init -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const calendarEl = document.getElementById("calendar");
+        const dataContainer = document.getElementById("calendar-data");
+        if (!calendarEl || !dataContainer) return;
+
+        const events = Array.from(dataContainer.querySelectorAll(".lich-item")).map(el => ({
+            id: el.dataset.id,
+            title: el.dataset.title,
+            start: el.dataset.start,
+            classNames: ["patient-event"],
+            extendedProps: {
+                doctor: el.dataset.doctor,
+                dept: el.dataset.dept,
+                dateLabel: el.dataset.dateLabel,
+                timeLabel: el.dataset.timeLabel,
+                status: el.dataset.status
+            }
+        }));
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            locale: "vi",
+            height: "auto",
+            headerToolbar: {
+                left: "prev,next today",
+                center: "title",
+                right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+            },
+            buttonText: {
+                today: "Hôm nay",
+                month: "Tháng",
+                week: "Tuần",
+                day: "Ngày",
+                list: "Danh sách"
+            },
+            events: events,
+            eventTimeFormat: {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
+            },
+            eventContent: function(arg) {
+                const doctor  = arg.event.extendedProps.doctor;
+                const dept    = arg.event.extendedProps.dept;
+                const viewType = arg.view.type;
+                const timeText = arg.timeText;
+
+                let html = "";
+
+                if (viewType === "dayGridMonth") {
+                    // Tháng: giờ + BS + khoa, 3 dòng
+                    html =
+                        '<div class="bb-event-body--month">' +
+                        '<div class="bb-event-time">' + timeText + '</div>' +
+                        '<div class="bb-event-doctor">BS: ' + doctor + '</div>' +
+                        '<div class="bb-event-dept">' + dept + '</div>' +
+                        '</div>';
+                } else if (viewType === "timeGridWeek" || viewType === "timeGridDay") {
+                    // Tuần / Ngày: chỉ BS + khoa (giờ hiển thị ở cột bên trái)
+                    html =
+                        '<div class="bb-event-body--timegrid">' +
+                        '<div class="bb-event-doctor">BS: ' + doctor + '</div>' +
+                        '<div class="bb-event-dept">' + dept + '</div>' +
+                        '</div>';
+                } else {
+                    // Danh sách: gộp BS + khoa trên 1 dòng
+                    html =
+                        '<div class="bb-event-body--timegrid">' +
+                        '<div class="bb-event-doctor">BS: ' + doctor + ' - ' + dept + '</div>' +
+                        '</div>';
+                }
+
+                return { html: html };
+            },
+            eventClick: function(info) {
+                const ev = info.event;
+                const doctor   = ev.extendedProps.doctor;
+                const dept     = ev.extendedProps.dept;
+                const dateLabel = ev.extendedProps.dateLabel;
+                const timeLabel = ev.extendedProps.timeLabel;
+                const status   = ev.extendedProps.status || "DA_XAC_NHAN";
+
+                document.getElementById("modalDoctor").textContent = doctor;
+                document.getElementById("modalDept").textContent = dept;
+                document.getElementById("modalTime").textContent = timeLabel + " " + dateLabel;
+
+                const statusEl = document.getElementById("modalStatus");
+                statusEl.textContent = (status === "DA_HUY") ? "ĐÃ HỦY" : "ĐÃ XÁC NHẬN";
+                statusEl.className = "badge " + (status === "DA_HUY" ? "bg-danger" : "bg-success");
+
+                const modal = new bootstrap.Modal(document.getElementById("eventModal"));
+                modal.show();
+            }
+        });
+
+        calendar.render();
     });
 </script>
 
