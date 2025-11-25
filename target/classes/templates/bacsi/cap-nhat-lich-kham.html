@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật kết quả khám bệnh</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f6ff, #ffffff);
+            font-family: "Segoe UI", sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        .header-bar {
+            background: linear-gradient(90deg, #0d6efd, #4dabf7);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header-bar h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+        .thuoc-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .btn-add {
+            background-color: #e7f1ff;
+            color: #0d6efd;
+            border: 1px dashed #0d6efd;
+        }
+        .btn-add:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .btn-submit {
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        /* --- THÊM STYLE HIỂN THỊ TỔNG TIỀN --- */
+        .total-box {
+            background-color: #fff8e1; /* Màu vàng nhạt */
+            border: 2px dashed #ffc107;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container my-4">
+
+    <div class="header-bar d-flex justify-content-between align-items-center">
+        <h3><i class="bi bi-clipboard2-pulse"></i> Cập nhật kết quả khám bệnh</h3>
+        <div>
+            <a th:href="@{/bacsi/lich-kham}" class="btn btn-light text-primary me-2">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+            <a th:href="@{/logout}" class="btn btn-danger">
+                <i class="bi bi-box-arrow-right"></i> Đăng xuất
+            </a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="mb-3"><i class="bi bi-person-lines-fill"></i> Thông tin lịch khám</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Bệnh nhân</label>
+                    <input type="text" th:value="${lichKham.benhNhan.nguoi.hoTen}" class="form-control" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Bác sĩ</label>
+                    <input type="text" th:value="${lichKham.bacSi.nguoi.hoTen}" class="form-control" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phòng khám</label>
+                    <input type="text" th:value="${lichKham.khoa.tenKhoa}" class="form-control" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Ngày khám</label>
+                    <input type="text"
+                           class="form-control"
+                           readonly
+                           th:value="${lichKham.ngayKham != null ? #temporals.format(lichKham.ngayKham, 'dd/MM/yyyy HH:mm') : 'Chưa xác định'}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form th:action="@{/bacsi/lich-kham/cap-nhat/{id}(id=${lichKham.maLichKham})}" th:object="${lichSuKham}" method="post">
+
+        <input type="hidden" id="hiddenTongChiPhi" th:field="*{chiPhi}" value="0">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="mb-3"><i class="bi bi-journal-medical"></i> Thông tin khám</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Chuẩn đoán</label>
+                    <textarea th:field="*{chuanDoan}" class="form-control" rows="3" placeholder="Nhập chuẩn đoán của bác sĩ..." required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Dịch vụ y tế</label>
+                    <select name="maDichVuYTe" id="selectDichVu" class="form-select" onchange="tinhTien()" required>
+                        <option value="" data-price="0">-- Chọn dịch vụ --</option>
+
+                        <option th:each="dv : ${dsDichVuYTe}"
+                                th:value="${dv.maDichVu}"
+                                th:text="${dv.tenDichVu + ' - ' + #numbers.formatDecimal(dv.chiPhi, 0, 'POINT', 0, 'COMMA') + ' đ'}"
+                                th:data-price="${dv.chiPhi}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kê đơn thuốc</label>
+                    <div id="thuocList">
+                        <div class="thuoc-item">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <select name="thuocIds" class="form-select select-thuoc" onchange="tinhTien()" required>
+                                        <option value="" data-price="0">-- Chọn thuốc --</option>
+                                        <option th:each="t : ${dsLoaiThuoc}"
+                                                th:value="${t.maThuoc}"
+                                                th:text="${t.tenThuoc + ' (' + #numbers.formatDecimal(t.giaThuoc, 0, 'POINT', 0, 'COMMA') + 'đ)'}"
+                                                th:data-price="${t.giaThuoc}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="lieuLuongs" class="form-control" placeholder="Liều lượng (ví dụ: 2 viên/ngày)" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="huongDans" class="form-control" placeholder="Hướng dẫn sử dụng (sáng, tối)" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-add mt-2" onclick="themThuoc()">
+                        <i class="bi bi-plus-circle"></i> Thêm thuốc
+                    </button>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ghi chú thêm</label>
+                    <textarea class="form-control" name="ghiChuThem" placeholder="Ghi chú (nếu có)..."></textarea>
+                </div>
+
+                <div class="total-box d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fs-5 fw-bold text-dark"><i class="bi bi-cash-stack"></i> Tổng chi phí ước tính:</span>
+                    </div>
+                    <div>
+                        <span id="displayTongTien" class="fs-2 fw-bold text-danger">0</span>
+                        <span class="fs-4 fw-bold text-danger">VNĐ</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 btn-submit mt-3">
+                    <i class="bi bi-check-circle"></i> Lưu kết quả khám
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Hàm format tiền Việt
+    const formatVND = (number) => {
+        return new Intl.NumberFormat('vi-VN').format(number);
+    }
+
+    // Hàm tính tiền (Dịch vụ + Thuốc)
+    function tinhTien() {
+        let tongTien = 0;
+
+        // 1. Tính Dịch vụ
+        const selectDichVu = document.getElementById("selectDichVu");
+        if(selectDichVu.selectedIndex >= 0){
+            const optionDichVu = selectDichVu.options[selectDichVu.selectedIndex];
+            const giaDichVu = parseFloat(optionDichVu.getAttribute("data-price")) || 0;
+            tongTien += giaDichVu;
+        }
+
+        // 2. Tính Thuốc (Cộng dồn giá thuốc)
+        const cacDongThuoc = document.querySelectorAll(".thuoc-item");
+        cacDongThuoc.forEach(dong => {
+            const selectThuoc = dong.querySelector(".select-thuoc");
+            if (selectThuoc && selectThuoc.selectedIndex >= 0) {
+                const optionThuoc = selectThuoc.options[selectThuoc.selectedIndex];
+                const giaThuoc = parseFloat(optionThuoc.getAttribute("data-price")) || 0;
+                tongTien += giaThuoc;
+            }
+        });
+
+        // 3. Hiển thị và gán vào input ẩn
+        document.getElementById("displayTongTien").innerText = formatVND(tongTien);
+        document.getElementById("hiddenTongChiPhi").value = tongTien;
+    }
+
+    // Hàm thêm dòng thuốc (Giữ nguyên của bạn + thêm lệnh tính tiền)
+    function themThuoc() {
+        const list = document.getElementById("thuocList");
+        const item = list.querySelector(".thuoc-item").cloneNode(true);
+        item.querySelectorAll("input").forEach(i => i.value = "");
+        item.querySelector("select").selectedIndex = 0;
+        list.appendChild(item);
+
+        tinhTien(); // Gọi lại hàm tính tiền sau khi thêm dòng mới
+    }
+</script>
+
+</body>
+</html>

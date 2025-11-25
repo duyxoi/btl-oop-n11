@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách dịch vụ y tế - Phòng khám ABC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+
+<!-- 🔹 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" th:href="@{/}">
+            <i class="fa-solid fa-hospital"></i> Phòng khám ABC
+        </a>
+        <div class="d-flex">
+            <a th:href="@{/admin/}" class="btn btn-outline-primary me-2">
+                <i class="fa-solid fa-house"></i> Trang chủ
+            </a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- 🔹 Nội dung -->
+<div class="container mt-5 pt-5">
+    <h2 class="text-center text-primary fw-bold mb-4">🧾 Danh sách Dịch vụ y tế</h2>
+
+    <!-- Nút mở form -->
+    <div class="text-end mb-3">
+        <button class="btn btn-success" id="btnToggleForm">
+            <i class="fa-solid fa-plus"></i> Thêm dịch vụ
+        </button>
+    </div>
+
+    <!-- Form thêm (ẩn mặc định) -->
+    <form id="formAddDichVu" th:action="@{/admin/list/dichvu/add}" method="post"
+          class="row g-3 mb-4 border p-3 rounded bg-white shadow-sm" style="display:none;">
+        <div class="col-md-6">
+            <label class="form-label fw-semibold">Tên dịch vụ</label>
+            <input type="text" name="tenDichVu" class="form-control" placeholder="Nhập tên dịch vụ" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-semibold">Giá tiền (VNĐ)</label>
+            <input type="number" name="chiPhi" step="1000" min="0" class="form-control" placeholder="Nhập giá tiền" required>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu
+            </button>
+        </div>
+    </form>
+
+    <!-- Danh sách -->
+    <table class="table table-bordered table-hover text-center bg-white shadow-sm">
+        <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Tên dịch vụ</th>
+            <th>Giá tiền (VNĐ)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dv : ${dsDichVu}">
+            <td th:text="${dv.maDichVu}"></td>
+            <td th:text="${dv.tenDichVu}"></td>
+            <td th:text="${#numbers.formatDecimal(dv.chiPhi, 0, 'COMMA', 0, 'POINT')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 🔹 Script toggle -->
+<script>
+    document.getElementById('btnToggleForm').addEventListener('click', function () {
+        const form = document.getElementById('formAddDichVu');
+        form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+    });
+</script>
+
+</body>
+</html>
