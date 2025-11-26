@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng khám Tận Tâm | Dịch vụ Chăm sóc Sức khỏe Toàn diện</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS CHÍNH */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f7f9fc;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* ⛔️ LOGO VÀ TYPOGRAPHY ⛔️ */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            z-index: 20;
+
+            /* 💡 MỚI: Thêm hiệu ứng viền LED xanh 💡 */
+            border-radius: 8px; /* Bo góc nhẹ để viền trông đẹp hơn */
+            padding: 5px 10px; /* Thêm padding để viền không quá sát nội dung */
+            animation: neon-pulse 2s infinite alternate; /* Áp dụng animation */
+        }
+
+        .logo-section img {
+            height: 100px; /* Kích thước icon */
+            margin-right: 15px;
+            object-fit: contain;
+        }
+
+        .clinic-name {
+    /* Đảm bảo font size đủ lớn để cân xứng với logo (height: 60px) */
+    font-size: 28px;
+    font-weight: 700;
+    color: #0056b3;
+}
+        /* -------------------------------- */
+
+        /* 💡 MỚI: Keyframes cho hiệu ứng Neon LED 💡 */
+        @keyframes neon-pulse {
+            0% {
+                box-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px rgba(0, 170, 255, 0.5);
+                /* Màu xanh dương nhạt */
+            }
+            100% {
+                box-shadow: 0 0 2px #00aaff, 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px rgba(0, 170, 255, 0.3);
+                /* Giảm độ sáng nhẹ */
+            }
+        }
+        /* Nav Links và Viền */
+        .nav-links a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 25px;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #0056b3; /* Viền xanh cho Đăng nhập */
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #e0f2f7;
+        }
+
+        .nav-links .signup-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-left: 25px;
+            border: none;
+        }
+
+        .nav-links .signup-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* ---- HERO SECTION WRAPPER (NỀN XANH TRÀN) ---- */
+        .hero-section-wrapper {
+            background-color: #e0f7fa; /* Màu nền xanh nhạt */
+            width: 100vw; /* Kéo nền tràn hết bề ngang */
+            padding: 40px 0;
+        }
+
+        /* HERO SECTION MAIN LAYOUT (1.5:1 Ratio + Overlap) */
+        .hero-section-new {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 5%;
+            gap: 0px;
+            flex-wrap: wrap;
+            max-width: 1300px;
+            margin: 0 auto; /* Canh giữa nội dung */
+        }
+
+        .hero-image-container {
+            flex: 1.5; /* Tỷ lệ 1.5 (Ảnh to hơn) */
+            min-width: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-content-card {
+            flex: 1; /* Tỷ lệ 1 (Nội dung nhỏ hơn) */
+            min-width: 400px;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            max-width: 600px;
+
+            /* THIẾT LẬP OVERLAP */
+            margin-top: -50px;
+            margin-left: -70px;
+            z-index: 10;
+        }
+
+        .hero-content-card h2 {
+            font-size: 44px;
+            color: #0056b3;
+            margin-bottom: 20px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        .hero-content-card p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* Nút Bắt đầu ngay (Animated Button) */
+        .start-trial-btn {
+            display: inline-block;
+            background-color: #ff8c00;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 17px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            animation: pulse-button 1.5s infinite alternate;
+        }
+
+        .start-trial-btn:hover {
+            background-color: #e67e00;
+            transform: scale(1.05);
+            animation: none;
+        }
+
+        /* Keyframes cho hiệu ứng nhấp nháy */
+        @keyframes pulse-button {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); }
+            100% { transform: scale(1.2);  box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);}
+        }
+
+        /* Feature Section */
+        .features-section {
+            padding: 60px 5%;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .features-section h2 {
+            font-size: 36px;
+            color: #0056b3;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background-color: #f7f9fc;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-item img {
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h3 {
+            font-size: 22px;
+            color: #007bff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            padding: 80px 5%;
+            background-color: #0056b3;
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 38px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section .cta-btn {
+            background-color: #ffc107;
+            color: #333;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-section .cta-btn:hover {
+            background-color: #e0a800;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: #eee;
+            padding: 30px 5%;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Floating Phone Bubble */
+        .phone-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #28a745;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1001;
+            animation: pulse 2s infinite;
+            text-decoration: none;
+        }
+
+        .phone-bubble span {
+            display: none;
+            font-size: 16px;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        .phone-bubble:hover {
+            width: 200px;
+            border-radius: 30px;
+            padding: 0 20px;
+        }
+
+        .phone-bubble:hover span {
+            display: inline;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        /* Icon điện thoại SVG */
+        .phone-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .hero-section-wrapper {
+                padding: 40px 5%;
+                width: auto;
+            }
+            .hero-section-new {
+                flex-direction: column;
+                gap: 40px;
+                margin: 0 auto;
+            }
+            .hero-image-container, .hero-content-card {
+                min-width: unset;
+                width: 100%;
+                max-width: 700px;
+                margin-left: 0 !important;
+                margin-top: 0 !important;
+                z-index: 1;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links a { margin-left: 15px; padding: 6px 10px; }
+            .nav-links .signup-btn { padding: 8px 15px; }
+            .hero-content-card { padding: 30px; }
+            .hero-content-card h2 { font-size: 28px; }
+            .feature-item { padding: 20px; }
+            .cta-section h2 { font-size: 30px; }
+        }
+        @media (max-width: 480px) {
+            header { flex-direction: column; padding: 15px; }
+            .logo-section { margin-bottom: 15px; }
+            .nav-links { display: flex; flex-wrap: wrap; justify-content: center; }
+            .nav-links a { margin: 5px; }
+            .nav-links .signup-btn { margin-top: 10px; }
+            .features-section h2 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-section">
+        <img th:src="@{/images/icon-phongkham.png}" alt="Logo Phòng khám Tận Tâm">
+        <span class="clinic-name">Phòng khám Tận Tâm</span>
+    </div>
+    <nav class="nav-links">
+        <a th:href="@{/login}">Đăng nhập</a>
+        <a th:href="@{/register}" class="signup-btn">Đăng ký</a>
+    </nav>
+</header>
+<div class="hero-section-wrapper">
+    <section class="hero-section-new">
+        <div class="hero-image-container">
+            <img th:src="@{/images/doctor-patient-highfive.jpg}" alt="Bác sĩ và bệnh nhân tương tác" class="hero-main-image">
+        </div>
+        <div class="hero-content-card">
+            <h2>Chăm sóc hôm nay,<br>khoẻ mạnh ngày mai.</h2>
+            <p>Gặp gỡ nền tảng quản lý Hồ sơ Y tế Điện tử (EHR) và Lịch hẹn giúp phòng khám Tận Tâm phát triển vững mạnh.</p>
+
+            <p>Giúp bạn tiết kiệm thời gian, để bạn có thể dành nhiều hơn cho bệnh nhân. Công nghệ trực quan của chúng tôi được thúc đẩy bởi thông tin chi tiết từ khách hàng để đáp ứng nhu cầu của bạn hiệu quả nhất. Với sự hỗ trợ của chúng tôi, bạn có thể chăm sóc tốt nhất cho bệnh nhân của mình.</p>
+
+            <a th:href="@{/register}" class="start-trial-btn">Hãy bắt đầu ngay</a>
+        </div>
+    </section>
+</div>
+
+<section id="features" class="features-section">
+    <h2>Những lợi ích bạn sẽ nhận được</h2>
+    <div class="feature-grid">
+        <div class="feature-item">
+            <img th:src="@{/images/icon-hoso.png}" alt="Icon Hồ sơ">
+            <h3>Quản lý Hồ sơ Điện tử</h3>
+            <p>Toàn bộ lịch sử khám bệnh, kết quả xét nghiệm, đơn thuốc được lưu trữ an toàn và dễ dàng truy cập. Không lo thất lạc giấy tờ.</p>
+        </div>
+        <div class="feature-item">
+            <img th:src="@{/images/icon-lichhen.png}" alt="Icon Lịch hẹn">
+            <h3>Đặt lịch Hẹn Trực tuyến</h3>
+            <p>Chủ động đặt lịch khám với bác sĩ chuyên khoa phù hợp, nhận nhắc nhở tự động, giúp bạn tiết kiệm thời gian chờ đợi.</p>
+        </div>
+        <div class="feature-item">
+            <img th:src="@{/images/icon-tuvan.png}" alt="Icon Tư vấn">
+            <h3>Tư vấn Trực tuyến</h3>
+            <p>Kết nối với đội ngũ bác sĩ chuyên nghiệp của chúng tôi thông qua tin nhắn hoặc cuộc gọi video khi cần thiết.</p>
+        </div>
+        <div class="feature-item">
+            <img th:src="@{/images/icon-baomat.png}" alt="Icon Bảo mật">
+            <h3>Bảo mật Dữ liệu Cao cấp</h3>
+            <p>Chúng tôi cam kết bảo vệ thông tin cá nhân và y tế của bạn với các tiêu chuẩn bảo mật hàng đầu.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2>Sẵn sàng trải nghiệm dịch vụ chăm sóc sức khỏe thông minh?</h2>
+    <p>Tham gia Phòng khám Tận Tâm ngay hôm nay để bắt đầu hành trình chăm sóc sức khỏe chủ động và hiệu quả hơn.</p>
+    <a th:href="@{/register}" class="cta-btn">Đăng ký tài khoản miễn phí</a>
+</section>
+
+<footer>
+    <p>&copy; 2025 Phòng khám Tận Tâm. Mọi quyền được bảo lưu.</p>
+</footer>
+
+<a href="tel:0338141241" class="phone-bubble">
+    <svg class="phone-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.32.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.75-.25 1.02l-2.2 2.2z"/>
+    </svg>
+    <span>0338141241</span>
+</a>
+
+<script>
+    // JS cho Floating Phone Bubble animation (không cần thay đổi)
+    const phoneBubble = document.querySelector('.phone-bubble');
+    phoneBubble.addEventListener('mouseover', () => {
+        phoneBubble.style.animation = 'none';
+    });
+    phoneBubble.addEventListener('mouseout', () => {
+        phoneBubble.style.animation = 'pulse 2s infinite';
+    });
+</script>
+</body>
+</html>
