@@ -15,12 +15,14 @@
             line-height: 1.6;
             background-color: #f7f9fc;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Kích hoạt cuộn mượt */
         }
 
         /* Header */
         header {
             background-color: #fff;
-            padding: 15px 5%;
+            padding: 0 5%;
+            height: 100px; /* Chiều cao cố định của Header */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -36,51 +38,73 @@
             align-items: center;
             z-index: 20;
 
-            /* 💡 MỚI: Thêm hiệu ứng viền LED xanh 💡 */
-            border-radius: 8px; /* Bo góc nhẹ để viền trông đẹp hơn */
-            padding: 5px 10px; /* Thêm padding để viền không quá sát nội dung */
-            animation: neon-pulse 2s infinite alternate; /* Áp dụng animation */
+            /* Hiệu ứng viền LED xanh */
+            border-radius: 8px;
+            padding: 5px 10px;
+            animation: neon-pulse 2s infinite alternate;
+            background-color: transparent;
         }
 
         .logo-section img {
-            height: 100px; /* Kích thước icon */
+            height: 80px; /* Kích thước icon */
             margin-right: 15px;
             object-fit: contain;
         }
 
+        /* Typography Tận Tâm (1 dòng) */
         .clinic-name {
-    /* Đảm bảo font size đủ lớn để cân xứng với logo (height: 60px) */
-    font-size: 28px;
-    font-weight: 700;
-    color: #0056b3;
-}
+            font-size: 28px;
+            font-weight: 700;
+            color: #0056b3;
+        }
         /* -------------------------------- */
 
-        /* 💡 MỚI: Keyframes cho hiệu ứng Neon LED 💡 */
+        /* 💡 Keyframes cho hiệu ứng Neon LED 💡 */
         @keyframes neon-pulse {
-            0% {
-                box-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px rgba(0, 170, 255, 0.5);
-                /* Màu xanh dương nhạt */
-            }
-            100% {
-                box-shadow: 0 0 2px #00aaff, 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px rgba(0, 170, 255, 0.3);
-                /* Giảm độ sáng nhẹ */
-            }
+            0% { box-shadow: 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px #00aaff, 0 0 20px rgba(0, 170, 255, 0.5); }
+            100% { box-shadow: 0 0 2px #00aaff, 0 0 5px #00aaff, 0 0 10px #00aaff, 0 0 15px rgba(0, 170, 255, 0.3); }
         }
-        /* Nav Links và Viền */
+
+        /* ⛔️ NAV LINKS (FULL VERTICAL HEIGHT & KHÍT VUÔNG VẮN) ⛔️ */
+        .nav-links {
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+        }
+
         .nav-links a {
             color: #0056b3;
             text-decoration: none;
             font-weight: 500;
-            margin-left: 25px;
-            font-size: 16px;
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: 1px solid #0056b3; /* Viền xanh cho Đăng nhập */
-            transition: background-color 0.3s ease;
+
+            /* ⛔️ KHẮC PHỤC LỖI BO TRÒN VÀ KHOẢNG CÁCH BAN ĐẦU ⛔️ */
+            margin-left: 25px; /* Giữ khoảng cách giữa các nút */
+            border-radius: 0; /* 💡 FIX LỖI: Xóa bo tròn cho các liên kết 💡 */
+            border: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            /* Định dạng chiều dọc */
+            padding: 0 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .nav-links a:hover {
+        /* ⛔️ NÚT ĐIỀU HƯỚNG: TIỆN ÍCH, PHẢN HỒI, DỊCH VỤ (KHÍT VUÔNG) ⛔️ */
+        .nav-links .nav-link {
+            margin-left: 0; /* 💡 FIX LỖI: Xóa margin-left để dính sát vào nhau 💡 */
+            padding: 0 20px; /* Thêm padding ngang để tạo khoảng cách giữa chữ */
+
+            /* Đảm bảo border-radius là 0 */
+        }
+
+        .nav-links .nav-link:hover {
+            color: white;
+            background-color: #0056b3;
+        }
+
+        .nav-links a:hover:not(.nav-link) {
             background-color: #e0f2f7;
         }
 
@@ -88,23 +112,23 @@
             background-color: #007bff;
             color: white;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 5px; /* Giữ bo góc cho nút có nền */
             margin-left: 25px;
             border: none;
         }
-
         .nav-links .signup-btn:hover {
             background-color: #0056b3;
         }
+        /* --- END NAV LINKS --- */
 
-        /* ---- HERO SECTION WRAPPER (NỀN XANH TRÀN) ---- */
+        /* ---- HERO SECTION WRAPPER ---- */
         .hero-section-wrapper {
-            background-color: #e0f7fa; /* Màu nền xanh nhạt */
-            width: 100vw; /* Kéo nền tràn hết bề ngang */
+            background-color: #c0e7ed; /* Màu nền xanh nhạt */
+            width: 100vw;
             padding: 40px 0;
         }
 
-        /* HERO SECTION MAIN LAYOUT (1.5:1 Ratio + Overlap) */
+        /* HERO SECTION MAIN LAYOUT */
         .hero-section-new {
             display: flex;
             justify-content: center;
@@ -113,11 +137,11 @@
             gap: 0px;
             flex-wrap: wrap;
             max-width: 1300px;
-            margin: 0 auto; /* Canh giữa nội dung */
+            margin: 0 auto;
         }
 
         .hero-image-container {
-            flex: 1.5; /* Tỷ lệ 1.5 (Ảnh to hơn) */
+            flex: 1.5;
             min-width: 450px;
             border-radius: 15px;
             overflow: hidden;
@@ -132,7 +156,7 @@
         }
 
         .hero-content-card {
-            flex: 1; /* Tỷ lệ 1 (Nội dung nhỏ hơn) */
+            flex: 1;
             min-width: 400px;
             background-color: #fff;
             padding: 40px;
@@ -185,28 +209,33 @@
         /* Keyframes cho hiệu ứng nhấp nháy */
         @keyframes pulse-button {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); }
-            100% { transform: scale(1.2);  box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);}
+            100% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(255, 140, 0, 0); }
         }
 
         /* Feature Section */
-        .features-section {
+        .section-container {
             padding: 60px 5%;
             background-color: #fff;
             text-align: center;
         }
 
-        .features-section h2 {
+        .section-container.grey-background {
+            background-color: #f8f9fa;
+        }
+
+        .section-title {
             font-size: 36px;
             color: #0056b3;
             margin-bottom: 40px;
             font-weight: 700;
         }
 
+        /* Layout Grid cho Features (Tiện ích) */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -240,6 +269,90 @@
             color: #666;
         }
 
+        /* Layout Grid cho Testimonials (Phản hồi) */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .testimonial-item {
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .customer-image {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid #007bff;
+        }
+
+        .customer-quote {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: #333;
+            font-size: 18px;
+        }
+
+        /* Layout cho Services (Dịch vụ) */
+        .services-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .service-item {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .service-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .service-title {
+            color: #0056b3;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .service-description {
+            color: #666;
+            font-size: 15px;
+        }
         /* Call to Action Section */
         .cta-section {
             padding: 80px 5%;
@@ -265,16 +378,20 @@
         .cta-section .cta-btn {
             background-color: #ffc107;
             color: #333;
-            padding: 15px 35px;
+            padding: 18px 40px;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 19px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
         }
 
         .cta-section .cta-btn:hover {
             background-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
         /* Footer */
@@ -285,13 +402,12 @@
             text-align: center;
             font-size: 14px;
         }
-
         /* Floating Phone Bubble */
         .phone-bubble {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
             width: 60px;
             height: 60px;
@@ -305,12 +421,12 @@
             z-index: 1001;
             animation: pulse 2s infinite;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .phone-bubble span {
             display: none;
             font-size: 16px;
-            margin-left: 10px;
             white-space: nowrap;
         }
 
@@ -325,37 +441,26 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
         }
 
-        /* Icon điện thoại SVG */
         .phone-icon {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             fill: white;
+            display: block;
         }
-
         /* Responsive adjustments */
         @media (max-width: 1024px) {
-            .hero-section-wrapper {
-                padding: 40px 5%;
-                width: auto;
-            }
-            .hero-section-new {
-                flex-direction: column;
-                gap: 40px;
-                margin: 0 auto;
-            }
-            .hero-image-container, .hero-content-card {
-                min-width: unset;
-                width: 100%;
-                max-width: 700px;
-                margin-left: 0 !important;
-                margin-top: 0 !important;
-                z-index: 1;
-            }
+            .hero-section-wrapper { padding: 40px 5%; width: auto; }
+            .hero-section-new { flex-direction: column; gap: 40px; margin: 0 auto; }
+            .hero-image-container, .hero-content-card { min-width: unset; width: 100%; max-width: 700px; margin-left: 0 !important; margin-top: 0 !important; z-index: 1; }
+            .services-grid { flex-direction: column; } /* Dịch vụ xếp cột */
+        }
+        @media (max-width: 900px) {
+            .testimonials-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } /* 2 cột trên tablet */
         }
         @media (max-width: 768px) {
             .nav-links a { margin-left: 15px; padding: 6px 10px; }
@@ -364,6 +469,9 @@
             .hero-content-card h2 { font-size: 28px; }
             .feature-item { padding: 20px; }
             .cta-section h2 { font-size: 30px; }
+        }
+        @media (max-width: 600px) {
+            .testimonials-grid { grid-template-columns: 1fr; } /* 1 cột trên điện thoại */
         }
         @media (max-width: 480px) {
             header { flex-direction: column; padding: 15px; }
@@ -382,10 +490,15 @@
         <span class="clinic-name">Phòng khám Tận Tâm</span>
     </div>
     <nav class="nav-links">
+        <a href="#tien-ich" class="nav-link">Tiện ích</a>
+        <a href="#phan-hoi" class="nav-link">Phản hồi</a>
+        <a href="#dich-vu" class="nav-link">Dịch vụ</a>
+
         <a th:href="@{/login}">Đăng nhập</a>
         <a th:href="@{/register}" class="signup-btn">Đăng ký</a>
     </nav>
 </header>
+
 <div class="hero-section-wrapper">
     <section class="hero-section-new">
         <div class="hero-image-container">
@@ -402,8 +515,8 @@
     </section>
 </div>
 
-<section id="features" class="features-section">
-    <h2>Những lợi ích bạn sẽ nhận được</h2>
+<div class="section-container" id="tien-ich">
+    <h2 class="section-title">Những lợi ích bạn sẽ nhận được</h2>
     <div class="feature-grid">
         <div class="feature-item">
             <img th:src="@{/images/icon-hoso.png}" alt="Icon Hồ sơ">
@@ -426,7 +539,75 @@
             <p>Chúng tôi cam kết bảo vệ thông tin cá nhân và y tế của bạn với các tiêu chuẩn bảo mật hàng đầu.</p>
         </div>
     </div>
-</section>
+</div>
+
+<div class="section-container grey-background" id="phan-hoi">
+    <h2 class="section-title">Khách hàng nói gì về chúng tôi</h2>
+    <div class="testimonials-grid">
+        <div class="testimonial-item">
+            <img th:src="@{/images/placeholder-customer-1.jpg}" alt="Ảnh khách hàng 1" class="customer-image">
+            <p class="customer-quote">"Đặt lịch hẹn trực tuyến rất tiện lợi và nhanh chóng. Không cần phải chờ đợi lâu như trước nữa!"</p>
+            <p class="customer-name">Anh si</p>
+        </div>
+        <div class="testimonial-item">
+            <img th:src="@{/images/placeholder-customer-2.jpg}" alt="Ảnh khách hàng 2" class="customer-image">
+            <p class="customer-quote">"Hồ sơ điện tử rõ ràng, tôi có thể theo dõi toàn bộ quá trình khám chữa bệnh của mình dễ dàng."</p>
+            <p class="customer-name">Anh bỉ đãy</p>
+        </div>
+        <div class="testimonial-item">
+            <img th:src="@{/images/placeholder-customer-3.jpg}" alt="Ảnh khách hàng 3" class="customer-image">
+            <p class="customer-quote">"Tôi rất yên tâm với chính sách bảo mật dữ liệu ở đây. Thông tin cá nhân luôn được an toàn."</p>
+            <p class="customer-name">Anh mar </p>
+        </div>
+        <div class="testimonial-item">
+            <img th:src="@{/images/placeholder-customer-4.jpg}" alt="Ảnh khách hàng 4" class="customer-image">
+            <p class="customer-quote">"Dịch vụ tư vấn trực tuyến rất hữu ích. Tôi nhận được câu trả lời nhanh chóng từ bác sĩ chuyên khoa."</p>
+            <p class="customer-name">Mixigaming</p>
+        </div>
+        <div class="testimonial-item">
+            <img th:src="@{/images/placeholder-customer-5.jpg}" alt="Ảnh khách hàng 5" class="customer-image">
+            <p class="customer-quote">"Giao diện dễ sử dụng, ngay cả người lớn tuổi như tôi cũng có thể đặt lịch hẹn dễ dàng."</p>
+            <p class="customer-name">pewnoy</p>
+        </div>
+        <div class="testimonial-item">
+            <img th:src="@{/images/placeholder-customer-6.jpg}" alt="Ảnh khách hàng 6" class="customer-image">
+            <p class="customer-quote">"Một nền tảng chăm sóc sức khỏe toàn diện và hiện đại nhất tôi từng sử dụng."</p>
+            <p class="customer-name">xeme</p>
+        </div>
+    </div>
+</div>
+
+<div class="section-container" id="dich-vu">
+    <h2 class="section-title">Các Dịch vụ Nổi bật</h2>
+    <div class="services-grid">
+
+        <div class="service-item">
+            <img th:src="@{/images/service-image-1.jpg}" alt="Dịch vụ khám tổng quát" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Khám Tổng Quát Định Kỳ</h3>
+                <p class="service-description">Khám sức khỏe toàn diện với các gói dịch vụ được thiết kế riêng, giúp phát hiện sớm các vấn đề tiềm ẩn.</p>
+            </div>
+        </div>
+
+        <div class="service-item">
+            <img th:src="@{/images/service-image-2.png}" alt="Dịch vụ tư vấn tâm lý" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Tư Vấn Tâm Lý Trực Tuyến</h3>
+                <p class="service-description">Kết nối với các chuyên gia tâm lý hàng đầu một cách riêng tư và bảo mật, mọi lúc mọi nơi.</p>
+            </div>
+        </div>
+
+        <div class="service-item">
+            <img th:src="@{/images/service-image-3.jpg}" alt="Dịch vụ tiêm chủng" class="service-image">
+            <div class="service-content">
+                <h3 class="service-title">Dịch Vụ Tiêm Chủng Mở Rộng</h3>
+                <p class="service-description">Cung cấp các loại vắc-xin theo chương trình tiêm chủng quốc gia và các vắc-xin dịch vụ chất lượng cao.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 <section class="cta-section">
     <h2>Sẵn sàng trải nghiệm dịch vụ chăm sóc sức khỏe thông minh?</h2>
@@ -437,23 +618,24 @@
 <footer>
     <p>&copy; 2025 Phòng khám Tận Tâm. Mọi quyền được bảo lưu.</p>
 </footer>
-
 <a href="tel:0338141241" class="phone-bubble">
-    <svg class="phone-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <svg class="phone-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="24px" height="24px">
+        <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.32.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.75-.25 1.02l-2.2 2.2z"/>
     </svg>
     <span>0338141241</span>
 </a>
 
 <script>
-    // JS cho Floating Phone Bubble animation (không cần thay đổi)
+    // JS cho Floating Phone Bubble animation
     const phoneBubble = document.querySelector('.phone-bubble');
     phoneBubble.addEventListener('mouseover', () => {
-        phoneBubble.style.animation = 'none';
+        phoneBubble.style.animation = 'none'; // Tắt animation khi hover
     });
     phoneBubble.addEventListener('mouseout', () => {
-        phoneBubble.style.animation = 'pulse 2s infinite';
+        phoneBubble.style.animation = 'pulse 2s infinite'; // Bật lại animation khi không hover
     });
 </script>
+
 </body>
 </html>
