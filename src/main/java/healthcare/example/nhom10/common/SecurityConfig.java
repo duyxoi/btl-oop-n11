@@ -13,16 +13,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
+    // (Bỏ qua cấu hình PasswordEncoder nếu đang sử dụng {noop})
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**","/register","/error").permitAll()
+                        // ⛔️ SỬA ĐỔI QUAN TRỌNG: Thêm đường dẫn gốc ("/") và "/index" vào permitAll() ⛔️
+                        .requestMatchers("/", "/index", "/login", "/css/**", "/js/**", "/images/**","/register","/error").permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/bacsi/lich-kham/**").hasAnyRole("DOCTOR","ADMIN")
                         .requestMatchers("/bacsi/**").hasRole("DOCTOR")
@@ -45,21 +44,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-    // ✅ Thêm người dùng mẫu để test
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        var admin = User.withUsername("admin")
-//                .password("{noop}123") // {noop} = không mã hoá mật khẩu
-//                .roles("ADMIN")
-//                .build();
-//
-//        var patient = User.withUsername("benhnhan")
-//                .password("{noop}123")
-//                .roles("PATIENT")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin, patient);
-//    }
-
 }

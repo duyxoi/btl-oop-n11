@@ -26,6 +26,13 @@ public class MainController {
     @Autowired
     private HoSoBeNhanService hoSoBeNhanService;
 
+    // ⛔️ THÊM PHƯƠNG THỨC LANDING PAGE ⛔️
+    @GetMapping({"/", "/index"})
+    public String landingPage() {
+        return "landing"; // Trả về tệp HTML có tên là landing.html
+    }
+    // ------------------------------------
+
     @GetMapping("/login")
     public String login() {
         return "login"; // trả về trang login.html
