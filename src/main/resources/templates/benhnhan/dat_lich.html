@@ -2,88 +2,119 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>🩺 Đặt lịch khám</title>
+    <title>🩺 Đặt lịch khám | Phòng khám Tận Tâm</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #e3f2fd, #ffffff);
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: #E3F2FD;
+            font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
 
         /* 🌈 Navbar */
         .navbar {
-            background: linear-gradient(90deg, #007bff, #00b4d8);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 12px 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid #007bff;
+            padding: 15px 5%;
         }
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.3rem;
-            color: #fff;
+            font-size: 1.5rem;
+            color: #0056b3 !important;
             display: flex;
             align-items: center;
         }
 
         .navbar-brand img {
-            width: 36px;
-            margin-right: 8px;
+            width: 45px;
+            margin-right: 10px;
         }
 
-        .navbar .btn {
+        /* ⭐️ ĐỒNG BỘ: NÚT QUAY LẠI & LỊCH ĐÃ ĐẶT ⭐️ */
+        .navbar .btn-light {
+            color: #0056b3;
+            background-color: transparent;
+            border: 2px solid #0056b3;
+            font-weight: 600;
+            transition: all 0.2s;
             border-radius: 8px;
-            font-weight: 500;
+            padding: 8px 15px;
+        }
+        .navbar .btn-light:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            transform: translateY(-1px);
+        }
+
+        /* ⭐️ ĐỒNG BỘ: NÚT ĐĂNG XUẤT ⭐️ */
+        .navbar .btn-primary {
+            background-color: #007bff; /* Màu xanh dương chính */
+            border-color: #007bff;
+            font-weight: 600;
+            transition: all 0.2s;
+            border-radius: 8px;
+            padding: 8px 15px;
+        }
+        .navbar .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-1px);
         }
 
         /* 🌟 Card chính */
         .card {
             border: none;
-            border-radius: 20px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             background: #fff;
             padding: 2.5rem 3rem;
-            max-width: 720px;
+            max-width: 800px;
             margin: 60px auto;
             transition: all 0.3s;
         }
 
-        .card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-
         h3 {
             font-weight: 700;
-            color: #007bff;
+            color: #0056b3;
             text-align: center;
             margin-bottom: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0f2f7;
         }
 
         label {
             font-weight: 600;
-            color: #333;
+    color: #0056b3; /* ⭐️ THAY ĐỔI MÀU SẮC THÀNH XANH ĐẬM ⭐️ */
+    margin-bottom: 5px; /* Thêm khoảng cách dưới nhãn */
+    display: block;
         }
 
         .form-control, .form-select {
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 10px 14px;
-            border: 1px solid #ced4da;
+            border: 1px solid #ddd;
             transition: all 0.2s ease;
         }
 
         .form-control:focus, .form-select:focus {
             box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+            border-color: #007bff;
         }
 
         /* 🕓 Time slot */
         .time-slot {
             display: inline-block;
             background: #f1f3f4;
-            padding: 12px 18px;
+            padding: 10px 16px;
             margin: 6px;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             border: 1px solid transparent;
@@ -91,22 +122,22 @@
         }
 
         .time-slot:hover:not(.disabled) {
-            background: #007bff;
+            background: #0056b3;
             color: #fff;
             transform: translateY(-2px);
         }
 
         .time-slot.selected {
-            background: linear-gradient(90deg, #007bff, #00b4d8);
+            background: #007bff;
             color: #fff;
-            border-color: #007bff;
+            border-color: #0056b3;
         }
 
         .time-slot.disabled {
             background: #e0e0e0;
             color: #777;
             cursor: not-allowed;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
         /* 🟢 Nút chính */
@@ -115,26 +146,13 @@
             padding: 12px 22px;
             border-radius: 10px;
             font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .btn-success {
-            background: linear-gradient(90deg, #28a745, #20c997);
+            background-color: #28a745;
             border: none;
         }
 
-        .btn-success:hover {
-            background: linear-gradient(90deg, #20c997, #28a745);
+        .btn-main:hover {
+            background-color: #218838;
             transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            border: none;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
         }
 
         .loading {
@@ -157,23 +175,21 @@
 
 <body>
 
-<!-- 🌈 Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" th:href="@{/}">
-            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="logo">
-            Phòng khám Đa khoa ABC
+        <a class="navbar-brand" th:href="@{/benhnhan/}">
+            <img th:src="@{/images/icon-phongkham.png}" alt="Logo Tận Tâm">
+            Phòng khám Tận Tâm
         </a>
         <div>
             <a th:href="@{/benhnhan/}" class="btn btn-light me-2">
                 <i class="bi bi-arrow-left-circle"></i> Quay lại
             </a>
-            <!-- Nút xem các lịch đã đặt dạng Calendar -->
-            <a th:href="@{/benhnhan/lich-kham(mode='calendar')}" class="btn btn-outline-light me-2">
+            <a th:href="@{/benhnhan/lich-kham(mode='calendar')}" class="btn btn-light me-2">
                 <i class="bi bi-calendar3"></i> Lịch đã đặt
             </a>
             <form th:action="@{/logout}" method="post" class="d-inline">
-                <button type="submit" class="btn btn-danger">
+                <button type="submit" class="btn btn-primary">
                     <i class="bi bi-box-arrow-right"></i> Đăng xuất
                 </button>
             </form>
@@ -181,12 +197,10 @@
     </div>
 </nav>
 
-<!-- 🩺 Nội dung -->
 <div class="container">
     <div class="card">
         <h3><i class="bi bi-calendar2-check"></i> Đặt lịch khám</h3>
 
-        <!-- Thông báo -->
         <div th:if="${successMessage}" class="alert alert-success text-center" th:text="${successMessage}"></div>
         <div th:if="${errorMessage}" class="alert alert-danger text-center" th:text="${errorMessage}"></div>
 
@@ -228,7 +242,7 @@
             </div>
 
             <div class="text-center mt-4">
-                <button class="btn btn-success btn-main">
+                <button type="submit" class="btn btn-success btn-main">
                     ✅ Xác nhận đặt lịch
                 </button>
             </div>
@@ -236,6 +250,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // === Giới hạn ngày trong 7 ngày tới ===
     const today = new Date();
@@ -272,6 +287,7 @@
         timeSlotsDiv.innerHTML = "";
 
         try {
+            // FIX: Đảm bảo URL API là đúng
             const response = await fetch(`/api/lich-kham/da-dat?MaBacSi=${bacSiId}&ngayKham=${ngayKham} 00:00:00`);
             const gioDaDat = await response.json();
             renderTimeSlots(khungGioMacDinh, gioDaDat);
@@ -291,7 +307,11 @@
             btn.className = "time-slot";
             btn.textContent = `${slot[0]} - ${slot[1]}`;
 
-            if (disabledTimes.includes(slot[0])) {
+            // Chuyển mảng gioDaDat thành Set để kiểm tra nhanh hơn
+            const disabledSet = new Set(disabledTimes.map(time => time.substring(0, 5)));
+
+            // Kiểm tra xem giờ bắt đầu (HH:MM) có trong danh sách đã đặt không
+            if (disabledSet.has(slot[0])) {
                 btn.classList.add("disabled");
                 btn.title = "Đã có người đặt";
             } else {
@@ -333,8 +353,13 @@
                             bacSiSelect.appendChild(option);
                         });
                     }
+                    // Trigger loadAvailableTimeSlots sau khi bác sĩ được tải
+                    loadAvailableTimeSlots();
                 })
                 .catch(err => console.error("Lỗi load bác sĩ:", err));
+        } else {
+            // Reset khung giờ khi không chọn khoa
+            renderTimeSlots(khungGioMacDinh, []);
         }
     });
 

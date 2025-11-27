@@ -47,16 +47,29 @@ public class BenhNhanController {
         this.datLichKhamService = datLichKhamService;
     }
 
+    // Trong BenhNhanController.java
     @GetMapping("/")
     public String home(Model model){
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        int personId = userDetails.getPersonId();
-        Nguoi nguoi = userDetails.getNguoi();
+        // ⭐️ LOGIC BẢO VỆ AN TOÀN CHO PRINCIPAL ⭐️
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int personId = 0; // Giá trị mặc định
 
-        model.addAttribute("personId", personId);
+        if (principal.getClass().getName().equals("java.lang.String")) {
+            // Chưa đăng nhập (AnonymousUser)
+            model.addAttribute("personId", 0);
+        } else {
+            // Đã đăng nhập (CustomUserDetails)
+            CustomUserDetails userDetails = (CustomUserDetails) principal;
+            personId = userDetails.getPersonId();
+            model.addAttribute("personId", personId);
+        }
 
-        return "benhnhan/home";
+        // Thêm các biến bắt buộc khác để tránh lỗi Thymeleaf
+        model.addAttribute("notifications", null);
+        model.addAttribute("articles", null); // Hoặc List<Article> thật
+
+        return "benhnhan/home"; // Tên template của bạn
     }
 
     @GetMapping("/hoso/{id}")

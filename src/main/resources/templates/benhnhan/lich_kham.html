@@ -2,202 +2,257 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Lịch khám của tôi</title>
+    <title>Lịch khám của tôi | Phòng khám Tận Tâm</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <!-- FullCalendar CSS -->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
-
     <style>
+        /* ⭐️ 1. FONT VÀ MÀU NỀN THỐNG NHẤT ⭐️ */
         body {
-            background: linear-gradient(to bottom right, #e9f2ff, #f8f9fa);
-            font-family: 'Segoe UI', sans-serif;
+            /* Đã xóa Gradient, chỉ dùng màu xanh nhạt phẳng */
+            background: #E0F7FA;
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            min-height: 100vh;
         }
 
-        .header-bar {
-            background: linear-gradient(90deg, #0d6efd, #4dabf7);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+        /* 2. Style Navbar, Buttons, Table Head Styles (GIỮ NGUYÊN) */
+        .navbar { background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-bottom: 4px solid #007bff; padding: 15px 5%; }
+        .navbar-brand { font-weight: 700; font-size: 1.5rem; color: #0056b3 !important; display: flex; align-items: center; }
+        .navbar-brand img { width: 45px; margin-right: 10px; }
+        .navbar .btn { border-radius: 8px; font-weight: 600; padding: 8px 15px; transition: all 0.2s; }
+        .navbar .btn-light { color: #0056b3; background-color: transparent; border: 2px solid #0056b3; }
+        .navbar .btn-light:hover { color: #fff; background-color: #007bff; border-color: #007bff; transform: translateY(-1px); }
+        .navbar .btn-danger { background-color: #007bff; border-color: #007bff; }
+        .navbar .btn-danger:hover { background-color: #0056b3; border-color: #0056b3; transform: translateY(-1px); }
+        .page-main-title { font-weight: 700; color: #0056b3; text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #e0f2f7; padding-top: 10px; font-size: 1.75rem; }
+        .card { border: none; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .table thead { background: #007bff; color: white; }
 
-        .header-bar h3 {
-            margin: 0;
-            font-weight: 600;
+        /* ==================================================== */
+        /* ⭐️ TÙY CHỈNH FULLCALENDAR ⭐️ */
+        /* ==================================================== */
+        .fc-toolbar-chunk:nth-child(2) {
+            flex-grow: 1; /* Cho phép khối giữa chiếm toàn bộ không gian */
             display: flex;
+            justify-content: center; /* ⭐️ CĂN GIỮA TUYỆT ĐỐI NỘI DUNG ⭐️ */
             align-items: center;
-            gap: 8px;
+            /* Thêm position relative nếu có lỗi chồng chéo */
+            position: relative;
+        }
+        .fc-toolbar-title {
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            font-weight: 700 !important;
+            font-size: 1.8rem !important;
+            color: #333;
+            text-transform: capitalize;
         }
 
-        .header-bar h3 i {
-            font-size: 1.6rem;
+        /* 2. Styling Nút Chung (Thu nhỏ kích thước và thêm khoảng cách) */
+        .fc-toolbar-chunk .fc-button {
+            border-radius: 8px !important;
+            text-transform: none !important;
+            font-weight: 600 !important;
+            box-shadow: none !important;
+
+            /* ⭐️ THU NHỎ NÚT ⭐️ */
+            padding: 5px 10px !important;
+            font-size: 0.9rem !important;
+
+            /* ⭐️ THÊM KHOẢNG CÁCH GIỮA CÁC NÚT RIÊNG LẺ ⭐️ */
+            margin: 0 2px !important;
+
+            /* Đảm bảo style viền đen đã chọn */
+            border: 1px solid #333 !important;
+            background-color: transparent !important;
+            color: #333 !important;
         }
 
-        .action-buttons a {
-            transition: all 0.3s ease;
+        /* 3. Phá vỡ Grouping mặc định của FullCalendar */
+        .fc-button-group {
+            display: inline-flex !important;
+            gap: 0;
+        }
+        /* Xóa các quy tắc bo góc đặc biệt của nhóm để mỗi nút bo góc riêng */
+        .fc-button-group .fc-button:first-child {
+            border-top-left-radius: 8px !important;
+            border-bottom-left-radius: 8px !important;
+        }
+        .fc-button-group .fc-button:last-child {
+            border-top-right-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
         }
 
-        .action-buttons a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        /* 4. Nút Active/Màu Chính (Giữ màu xanh khi active) */
+        .fc-button-primary {
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+            color: white !important;
+        }
+        .fc-button-primary:hover:not(:disabled) {
+            background-color: #0056b3 !important;
+            border-color: #0056b3 !important;
         }
 
-        .table {
+        /* 5. Nút 'Hôm nay' */
+        .fc-today-button:not(:disabled) {
+            background-color: transparent !important;
+            border: 1px solid #333 !important;
+            color: #333 !important;
+        }
+        .fc-today-button:hover:not(:disabled) {
+            background-color: #eee !important;
+        }
+        /* 1. Loại bỏ viền lưới */
+        .fc-theme-standard td, .fc-theme-standard th, .fc-theme-standard .fc-scrollgrid {
+            border: none !important;
+        }
+        .fc-daygrid-body table, .fc-col-header table {
+            border-collapse: separate;
+            border-spacing: 5px;
+        }
+
+        /* 2. Header Ngày trong Tuần (CN, Th2,...) */
+        .fc-col-header-cell {
+            background-color: transparent !important;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        /* ⭐️ GHI ĐÈ: XÓA GẠCH CHÂN CỦA TÊN NGÀY ⭐️ */
+        .fc-col-header-cell a, .fc-col-header-cell-cushion {
+            text-decoration: none !important;
+        }
+
+        /* 3. Định kiểu cho Ô Ngày (Thẻ Card Màu Xanh Nhạt) */
+        /* 3. Định kiểu cho Ô Ngày (Thẻ Card Nổi) */
+        .fc-daygrid-day-frame {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             border-radius: 12px;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            height: 10rem; width: 10rem; margin: 0.25rem; padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; /* Thêm border-color vào transition */
         }
 
-        .table thead {
-            background: #0d6efd;
-            color: white;
+        .fc-daygrid-day-frame:hover {
+            transform: scale(1.03);
+            /* ⭐️ SỬA: Đổ bóng màu xanh rõ ràng ⭐️ */
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4); /* Bóng xanh dương mạnh hơn */
+            border-color: #007bff; /* ⭐️ Viền xanh khi hover ⭐️ */
         }
 
-        .table tbody tr:hover {
-            background-color: #f1f9ff;
-        }
-
-        .alert {
-            border-radius: 10px;
-            text-align: center;
+        /* 4. Style Số Ngày (Day Number) */
+        .fc-daygrid-day-number {
+            font-size: 1.5rem;
             font-weight: 500;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-
-        .card {
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .btn {
-            border-radius: 8px;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        .btn-light {
-            border: 1px solid #d0d7de;
-        }
-
-        .btn-outline-danger:hover {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        #calendar {
-            min-height: 500px;
-        }
-
-        /* ===== Style event chung ===== */
-        .patient-event {
-            background: #0d6efd;
-            border: none;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 0.75rem;
-        }
-
-        /* ===== View DANH SÁCH (list) – tránh chữ trắng trùng nền ===== */
-        .fc-list .patient-event {
-            background: transparent;       /* bỏ nền xanh trong list */
-            color: #0d6efd;                /* chữ xanh đậm */
-            border-radius: 0;
+            margin: 0 0 1rem 0;
             padding: 0;
-            font-weight: 500;
-        }
-        .fc-list .patient-event:hover {
-            background: transparent;       /* không che màu row */
-            color: #0b5ed7;                /* chữ xanh đậm hơn khi hover */
-        }
-        .fc-list-event:hover td {
-            background-color: rgba(13,110,253,0.06);  /* row hover xanh nhạt */
+            color: #0056b3;
+            text-align: left;
+            /* ⭐️ XÓA GẠCH CHÂN Ở SỐ NGÀY ⭐️ */
+            text-decoration: none !important;
         }
 
-        /* ===== Tháng (dayGrid) ===== */
-        .fc-daygrid-event.patient-event {
-            padding: 2px 4px;
+        /* Ngày hôm nay (Today) */
+        .fc-day-today .fc-daygrid-day-frame {
+            background: #C8E6C9;
+            border: 2px solid #388E3C;
         }
-        .fc-daygrid-event.patient-event .bb-event-body--month {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+
+        /* Event Color Synchronization */
+        /* Event Color Synchronization */
+        .fc-event-main, .fc-event {
+            /* ⭐️ SỬA: Thay đổi màu sự kiện (màu xanh lá cây đậm) ⭐️ */
+            background-color: #4CAF50 !important; /* Ví dụ: Xanh lá cây đậm */
+            border-color: #4CAF50 !important;
+            border-radius: 8px;
+            padding: 3px 6px; /* Thêm padding nhẹ cho event */
         }
-        .bb-event-time {
-            font-weight: 700;
-            margin-bottom: 1px;
+
+        /* Đổi màu chữ cho event để dễ đọc trên nền màu mới */
+        .patient-event {
+            color: white !important;
+            font-weight: 500;
+        }
+        .fc-daygrid-event-harness {
+            margin-top: 5px; /* Tạo khoảng trống giữa số ngày và event */
+        }
+
+        /* Nếu bạn muốn văn bản trong event nhỏ hơn để chứa được nhiều nội dung hơn */
+        .bb-event-body--month {
+            font-size: 0.75rem; /* Có thể điều chỉnh nếu cần */
+            line-height: 1.2;
         }
         .bb-event-doctor {
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: normal; /* Cho phép chữ xuống dòng */
         }
-        .bb-event-dept {
-            font-size: 0.68rem;
-            opacity: 0.9;
-        }
+        .fc-timegrid-col.fc-day-today {
+        background-color: #f7f9fc !important; /* Nền xanh nhạt/trắng dịu mắt */
+    }
 
-        /* ===== Tuần / Ngày (timeGrid) ===== */
-        .fc-timegrid-event.patient-event {
-            padding: 1px 3px;
-        }
-        .fc-timegrid-event.patient-event .bb-event-body--timegrid {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            font-size: 0.72rem;
-            line-height: 1.1;
-            white-space: normal;
-        }
-        .fc-timegrid-event.patient-event .bb-event-doctor {
-            font-weight: 500;
-        }
-        .fc-timegrid-event.patient-event .bb-event-dept {
-            font-size: 0.68rem;
-            opacity: 0.9;
-        }
+    /* Làm mềm đường kẻ lưới thời gian (Horizontal Grid Lines) */
+    .fc-timegrid-slot {
+        border-bottom: 1px dashed #e0e0e0; /* Đường nét đứt và nhạt màu */
+    }
+    .fc-timegrid-slots table {
+        border-collapse: collapse;
+    }
+
+    /* Style label thời gian (00 giờ, 01 giờ,...) */
+    .fc-timegrid-slot-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #666;
+        padding-right: 5px;
+    }
+
+    /* Đảm bảo Event (lịch đã đặt) nổi bật trên nền trắng của cột */
+    .fc-timegrid-event.patient-event {
+        background-color: #007bff !important; /* Giữ event màu xanh đậm */
+        border-color: #007bff !important;
+        border-radius: 6px;
+    }
+    .fc-timegrid-now-indicator-line {
+        border-color: #dc3545; /* Đường kẻ chỉ giờ hiện tại (màu đỏ) */
+    }
     </style>
 </head>
 
-<body>
+<body class="p-0">
 
-<div class="container mt-4">
-
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center header-bar">
-        <h3><i class="bi bi-calendar-check"></i> Lịch khám của bạn</h3>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" th:href="@{/benhnhan/}">
+            <img th:src="@{/images/icon-phongkham.png}" alt="Logo Tận Tâm">
+            Phòng khám Tận Tâm
+        </a>
         <div class="action-buttons">
-            <a th:href="@{/benhnhan/}" class="btn btn-light text-primary me-2">
+            <a th:href="@{/benhnhan/}" class="btn btn-light me-2">
                 <i class="bi bi-house-door"></i> Trang chủ
             </a>
             <a th:href="@{/benhnhan/dat-lich}" class="btn btn-success me-2">
                 <i class="bi bi-plus-circle"></i> Đặt lịch mới
             </a>
-            <a th:href="@{/logout}" class="btn btn-danger">
-                <i class="bi bi-box-arrow-right"></i> Đăng xuất
-            </a>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                </button>
+            </form>
         </div>
     </div>
+</nav>
 
-    <!-- Flash messages -->
+<div class="container mt-4">
+
+    <h3 class="page-main-title">
+        <i class="bi bi-calendar-check"></i> Lịch khám của bạn
+    </h3>
+
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-    <!-- View mode toggle -->
     <div class="d-flex justify-content-end mb-3">
         <div class="btn-group">
             <a th:href="@{/benhnhan/lich-kham(mode='table')}"
@@ -211,7 +266,6 @@
         </div>
     </div>
 
-    <!-- TABLE MODE -->
     <div th:if="${mode} == 'table'">
         <div class="card shadow-sm border-0">
             <div class="card-body p-0">
@@ -258,13 +312,12 @@
         </div>
     </div>
 
-    <!-- CALENDAR MODE -->
     <div th:if="${mode} == 'calendar'">
         <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="background-color: #007bff !important;">
                 <span><i class="bi bi-calendar3-week me-2"></i>Lịch khám (dạng Calendar)</span>
                 <span class="badge bg-light text-primary">
-                    <span th:text="${#lists.size(lichKhams)}"></span> lịch
+                    <span th:text="${#lists.size(lichKhams)}"></span> lịch hẹn khám
                 </span>
             </div>
             <div class="card-body">
@@ -273,7 +326,6 @@
                     <span>Chưa có lịch khám nào được đặt</span>
                 </div>
 
-                <!-- dữ liệu thô cho calendar -->
                 <div id="calendar-data" class="d-none" th:if="${!#lists.isEmpty(lichKhams)}">
                     <div class="lich-item"
                          th:each="lich : ${lichKhams}"
@@ -295,7 +347,6 @@
 
 </div>
 
-<!-- Modal chi tiết lịch khám -->
 <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -316,7 +367,6 @@
     </div>
 </div>
 
-<!-- Bootstrap JS + FullCalendar JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
@@ -330,7 +380,6 @@
     });
 </script>
 
-<!-- Calendar init -->
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const calendarEl = document.getElementById("calendar");
@@ -358,7 +407,7 @@
             headerToolbar: {
                 left: "prev,next today",
                 center: "title",
-                right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+                right: ""
             },
             buttonText: {
                 today: "Hôm nay",
