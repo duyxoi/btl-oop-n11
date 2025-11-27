@@ -1,243 +1,243 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Đăng ký Bệnh Nhân</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #c0e7ed;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org" lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <title>Đăng ký Bệnh Nhân</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <style>
+            /* General Styles */
+            body {
+                font-family: 'Roboto', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #c0e7ed;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
 
-        /* Modern Header */
-        .modern-header {
-            background-color: #ffffff;
-            padding: 15px 5%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+            /* Modern Header */
+            .modern-header {
+                background-color: #ffffff;
+                padding: 15px 5%;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-        .header-logo-section {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: inherit;
-        }
+            .header-logo-section {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: inherit;
+            }
 
-        .header-logo-section img {
-            height: 80px;
-            margin-right: 15px;
-            object-fit: contain;
-        }
+            .header-logo-section img {
+                height: 80px;
+                margin-right: 15px;
+                object-fit: contain;
+            }
 
-        .header-clinic-name {
-            font-size: 32px;
-            font-weight: 700;
-            color: #0056b3;
-        }
+            .header-clinic-name {
+                font-size: 32px;
+                font-weight: 700;
+                color: #0056b3;
+            }
 
-        /* Register Container */
-        .register-container {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px 15px;
-        }
+            /* Register Container */
+            .register-container {
+                flex-grow: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 30px 15px;
+            }
 
-        /* Modern Register Card (Tương tự Login Card) */
-        .register-card {
-            width: 100%;
-            max-width: 700px;
-            padding: 40px;
-            border-radius: 12px;
-            background-color: #ffffff;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
+            /* Modern Register Card (Tương tự Login Card) */
+            .register-card {
+                width: 100%;
+                max-width: 700px;
+                padding: 40px;
+                border-radius: 12px;
+                background-color: #ffffff;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            }
 
-        /* ⛔️ ĐÃ SỬA: TIÊU ĐỀ CHÍNH MÀU XANH ⛔️ */
-        .register-card h3 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #007bff; /* MÀU XANH DƯƠNG */
-            margin-bottom: 30px;
-            text-align: center;
-        }
+            /* ⛔️ ĐÃ SỬA: TIÊU ĐỀ CHÍNH MÀU XANH ⛔️ */
+            .register-card h3 {
+                font-size: 28px;
+                font-weight: 700;
+                color: #007bff; /* MÀU XANH DƯƠNG */
+                margin-bottom: 30px;
+                text-align: center;
+            }
 
-        /* Typography và Labels */
-        /* ⛔️ ĐÃ SỬA: TIÊU ĐỀ PHỤ MÀU XANH ⛔️ */
-        .text-primary-header {
-            font-size: 1.25rem;
-            color: #007bff !important; /* MÀU XANH DƯƠNG */
-            font-weight: 600;
-        }
+            /* Typography và Labels */
+            /* ⛔️ ĐÃ SỬA: TIÊU ĐỀ PHỤ MÀU XANH ⛔️ */
+            .text-primary-header {
+                font-size: 1.25rem;
+                color: #007bff !important; /* MÀU XANH DƯƠNG */
+                font-weight: 600;
+            }
 
-        .form-label {
-            font-weight: 500;
-            color: #333; /* Giữ màu đen cho nhãn nhập liệu */
-            text-align: left;
-            display: block;
-            margin-bottom: 8px;
-        }
+            .form-label {
+                font-weight: 500;
+                color: #007bff; /* Giữ màu đen cho nhãn nhập liệu */
+                text-align: left;
+                display: block;
+                margin-bottom: 8px;
+            }
 
-        .form-control {
-            border-radius: 8px;
-            padding: 10px 15px;
-        }
+            .form-control {
+                border-radius: 8px;
+                padding: 10px 15px;
+            }
 
-        /* Button */
-        .btn-register {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            background-color: #28a745;
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            border: none;
-            transition: background-color 0.3s ease;
-        }
+            /* Button */
+            .btn-register {
+                width: 100%;
+                padding: 12px;
+                border-radius: 8px;
+                background-color: #28a745;
+                color: white;
+                font-size: 18px;
+                font-weight: 600;
+                border: none;
+                transition: background-color 0.3s ease;
+            }
 
-        .btn-register:hover {
-            background-color: #1e7e34;
-        }
+            .btn-register:hover {
+                background-color: #1e7e34;
+            }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px 0;
-            color: #888;
-            font-size: 14px;
-            background-color: #ffffff;
-            border-top: 1px solid #eee;
-        }
+            /* Footer */
+            .footer {
+                text-align: center;
+                padding: 20px 0;
+                color: #888;
+                font-size: 14px;
+                background-color: #ffffff;
+                border-top: 1px solid #eee;
+            }
 
-        /* Responsive Adjustments */
-        @media (max-width: 576px) {
-            .modern-header { padding: 10px 3%; }
-            .header-logo-section img { height: 45px; margin-right: 10px; }
-            .header-clinic-name { font-size: 26px; }
-            .register-card { padding: 30px; }
-            .register-card h3 { font-size: 24px; margin-bottom: 25px; }
-        }
-    </style>
-</head>
-<body>
+            /* Responsive Adjustments */
+            @media (max-width: 576px) {
+                .modern-header { padding: 10px 3%; }
+                .header-logo-section img { height: 45px; margin-right: 10px; }
+                .header-clinic-name { font-size: 26px; }
+                .register-card { padding: 30px; }
+                .register-card h3 { font-size: 24px; margin-bottom: 25px; }
+            }
+        </style>
+    </head>
+    <body>
 
-<header class="modern-header">
-    <a th:href="@{/}" class="header-logo-section">
-        <img th:src="@{/images/icon-phongkham.png}" alt="Logo Phòng khám Tận Tâm">
-        <span class="header-clinic-name">Phòng khám Tận Tâm</span>
-    </a>
-</header>
+    <header class="modern-header">
+        <a th:href="@{/}" class="header-logo-section">
+            <img th:src="@{/images/icon-phongkham.png}" alt="Logo Phòng khám Tận Tâm">
+            <span class="header-clinic-name">Phòng khám Tận Tâm</span>
+        </a>
+    </header>
 
-<div class="container register-container">
-    <div class="register-card">
-        <h3 class="mb-4">Đăng ký Tài khoản Bệnh nhân</h3>
+    <div class="container register-container">
+        <div class="register-card">
+            <h3 class="mb-4">Đăng ký Tài khoản Bệnh nhân</h3>
 
-        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-        <form th:action="@{/register}" th:object="${benhNhan}" method="post">
+            <form th:action="@{/register}" th:object="${benhNhan}" method="post">
 
-            <h5 class="text-primary-header mb-3">Thông tin tài khoản</h5>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Tên đăng nhập</label>
-                    <input type="text" class="form-control" th:field="*{nguoi.username}" required>
+                <h5 class="text-primary-header mb-3">Thông tin tài khoản</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tên đăng nhập</label>
+                        <input type="text" class="form-control" th:field="*{nguoi.username}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" th:field="*{nguoi.password}" required>
+                    </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Mật khẩu</label>
-                    <input type="password" class="form-control" th:field="*{nguoi.password}" required>
+
+                <h5 class="text-primary-header mt-4 mb-3">Thông tin cá nhân</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" th:field="*{nguoi.hoTen}" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">CCCD</label>
+                        <input type="text" class="form-control" th:field="*{nguoi.cccd}" required>
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{nguoi.sdt}" required placeholder="Nhập số điện thoại...">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{nguoi.email}" required placeholder="Nhập email...">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" th:field="*{nguoi.ngaySinh}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Giới tính</label>
+                        <select class="form-control" th:field="*{nguoi.gioiTinh}">
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" th:field="*{nguoi.diaChi}">
+                </div>
+
+                <h5 class="text-primary-header mt-4 mb-3">Thông tin y tế</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nhóm máu</label>
+                        <select class="form-control" th:field="*{nhomMau}">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="AB">AB</option>
+                            <option value="O">O</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Mã BHYT</label>
+                        <input type="text" class="form-control" th:field="*{maBaoHiem}">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Tiền sử bệnh</label>
+                    <textarea class="form-control" th:field="*{tienSuBenh}" rows="3" placeholder="Nhập tiền sử bệnh (nếu có)"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-register w-100">Đăng ký ngay</button>
+            </form>
+
+            <div class="text-center mt-3">
+                <a th:href="@{/login}" class="text-decoration-none fw-bold text-primary">Quay lại đăng nhập</a>
             </div>
-
-            <h5 class="text-primary-header mt-4 mb-3">Thông tin cá nhân</h5>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Họ và tên</label>
-                    <input type="text" class="form-control" th:field="*{nguoi.hoTen}" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">CCCD</label>
-                    <input type="text" class="form-control" th:field="*{nguoi.cccd}" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" th:field="*{nguoi.sdt}" required placeholder="Nhập số điện thoại...">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" th:field="*{nguoi.email}" required placeholder="Nhập email...">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Ngày sinh</label>
-                    <input type="date" class="form-control" th:field="*{nguoi.ngaySinh}">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Giới tính</label>
-                    <select class="form-control" th:field="*{nguoi.gioiTinh}">
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Địa chỉ</label>
-                <input type="text" class="form-control" th:field="*{nguoi.diaChi}">
-            </div>
-
-            <h5 class="text-primary-header mt-4 mb-3">Thông tin y tế</h5>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Nhóm máu</label>
-                    <select class="form-control" th:field="*{nhomMau}">
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="AB">AB</option>
-                        <option value="O">O</option>
-                    </select>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Mã BHYT</label>
-                    <input type="text" class="form-control" th:field="*{maBaoHiem}">
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label">Tiền sử bệnh</label>
-                <textarea class="form-control" th:field="*{tienSuBenh}" rows="3" placeholder="Nhập tiền sử bệnh (nếu có)"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-register w-100">Đăng ký ngay</button>
-        </form>
-
-        <div class="text-center mt-3">
-            <a th:href="@{/login}" class="text-decoration-none fw-bold text-primary">Quay lại đăng nhập</a>
         </div>
     </div>
-</div>
 
-<footer class="footer">
-    <p>&copy; 2025 Phòng khám Tận Tâm. Mọi quyền được bảo lưu.</p>
-</footer>
+    <footer class="footer">
+        <p>&copy; 2025 Phòng khám Tận Tâm. Mọi quyền được bảo lưu.</p>
+    </footer>
 
-</body>
-</html>
+    </body>
+    </html>

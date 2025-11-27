@@ -1,5 +1,5 @@
 package healthcare.example.nhom10.Controller;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import healthcare.example.nhom10.Entity.BenhNhan;
 import healthcare.example.nhom10.Entity.HoSoBeNhan;
 import healthcare.example.nhom10.Entity.Nguoi;
@@ -32,54 +32,61 @@ public class MainController {
         return "landing"; // Trả về tệp HTML có tên là landing.html
     }
     // ------------------------------------
-
     @GetMapping("/login")
     public String login() {
-        return "login"; // trả về trang login.html
+        // Thay vì trả về view login, ta chuyển hướng về trang chủ
+        // nơi JavaScript sẽ kiểm tra tham số URL và hiển thị Modal Login.
+        return "redirect:/";
     }
-
 
     // 1. Hiển thị form đăng ký (GET)
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         BenhNhan benhNhan = new BenhNhan();
-
-        // QUAN TRỌNG: Phải tạo mới đối tượng Nguoi bên trong BenhNhan
-        // Nếu không, view sẽ không thể trỏ tới *{nguoi.hoTen}...
+        // Bắt buộc phải tạo Nguoi để Thymeleaf trên register.html không bị lỗi Null
         benhNhan.setNguoi(new Nguoi());
-
         model.addAttribute("benhNhan", benhNhan);
+
+        // 💡 TRẢ VỀ VIEW "register"
         return "register";
     }
 
+    // 2. Xử lý POST Đăng ký
     @PostMapping("/register")
-    public String processRegister(@ModelAttribute("benhNhan") BenhNhan benhNhan, Model model) {
+    public String processRegister(@ModelAttribute("benhNhan") BenhNhan benhNhan, RedirectAttributes redirectAttributes) {
 
-        // Lấy đối tượng Nguoi từ BenhNhan ra để xử lý
         Nguoi nguoi = benhNhan.getNguoi();
+
+        // ⛔️ FIX LỖI NULL POINTER VÀ KIỂM TRA ĐẦU VÀO ⛔️
+        if (nguoi == null || nguoi.getUsername() == null || nguoi.getUsername().isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Tên đăng nhập không được để trống.");
+            return "redirect:/register";
+        }
 
         // Kiểm tra trùng username
         if (nguoiService.existsByUsername(nguoi.getUsername())) {
-            model.addAttribute("error", "Tên đăng nhập đã tồn tại!");
-            return "register";
+            redirectAttributes.addFlashAttribute("error", "Tên đăng nhập đã tồn tại. Vui lòng chọn tên khác.");
+            return "redirect:/register"; // Quay lại trang đăng ký nếu lỗi
         }
 
         String matKhauTho = nguoi.getPassword();
         nguoi.setPassword("{noop}" + matKhauTho);
 
-        // Thiết lập các giá trị mặc định
-        nguoi.setRole("ROLE_PATIENT");  // Mặc định là Bệnh nhân
-        nguoi.setEnabled(true);    // Kích hoạt tài khoản
+        nguoi.setRole("ROLE_PATIENT");
+        nguoi.setEnabled(true);
 
-        // Lưu vào DB
-        // Do CascadeType.ALL, chỉ cần lưu BenhNhan, Nguoi sẽ tự được lưu
-        benhNhanService.createBenhNhan(benhNhan);
+        try {
+            benhNhanService.createBenhNhan(benhNhan);
+            HoSoBeNhan hoSoBeNhan = new HoSoBeNhan();
+            hoSoBeNhan.setBenhNhan(benhNhan);
+            hoSoBeNhanService.createHoSoBeNhan(hoSoBeNhan);
 
-        HoSoBeNhan hoSoBeNhan = new HoSoBeNhan();
-        hoSoBeNhan.setBenhNhan(benhNhan);
-        hoSoBeNhanService.createHoSoBeNhan(hoSoBeNhan);
+            // ✅ THÀNH CÔNG: Chuyển hướng về trang chủ và mở Modal Login
+            return "redirect:/?registerSuccess=true";
 
-        return "redirect:/login?registerSuccess";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Đã xảy ra lỗi hệ thống khi đăng ký. Vui lòng thử lại.");
+            return "redirect:/register"; // Quay lại trang đăng ký nếu lỗi
+        }
     }
-
 }

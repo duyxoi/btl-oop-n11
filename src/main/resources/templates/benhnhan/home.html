@@ -2,136 +2,214 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Trang chủ - Phòng khám Đa khoa ABC</title>
+    <title>Trang chủ Bệnh nhân | Phòng khám Tận Tâm</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        /* [KHỐI CSS CHUNG VÀ NAVBAR GIỮ NGUYÊN] */
         body {
-            background: linear-gradient(135deg, #e3f2fd, #ffffff);
-            font-family: "Poppins", "Segoe UI", sans-serif;
+            background: #f0f2f5;
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+        }
+        .app-nav-link {
+    color: #0056b3 !important;
+    text-decoration: none;
+    font-weight: 600;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-radius: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transition: all 0.3s;
+    /* 🛠️ THÊM VIỀN TRONG SUỐT ĐỂ TRÁNH NHẢY KHI HOVER/ACTIVE */
+    border-bottom: 3px solid transparent;
+}
+
+/* Hiệu ứng khi di chuột qua */
+.app-nav-link:hover {
+    background-color: #e0f2f7 !important; /* Giữ màu nền hover nhạt */
+    color: #007bff !important;
+    /* ⭐️ THÊM VIỀN XANH PHÍA DƯỚI KHI HOVER ⭐️ */
+    border-bottom: 3px solid #0056b3;
+}
+
+/* Hiệu ứng khi nút đang ở trang hiện tại (active) */
+.app-nav-link.active,
+.app-nav-link:focus { /* focus là khi nút được tab đến hoặc nhấn */
+    background-color: #e0f2f7 !important;
+    color: #007bff !important;
+    /* ⭐️ THÊM VIỀN XANH PHÍA DƯỚI KHI ACTIVE/FOCUS ⭐️ */
+    border-bottom: 3px solid #0056b3;
+}
+        .navbar { background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 15px 5%; height: auto; }
+        .navbar .container-fluid, .navbar .d-flex.align-items-center { height: 100%; }
+        .navbar-brand { font-weight: 700; font-size: 1.5rem; color: #0056b3 !important; display: flex; align-items: center; }
+        .navbar-brand img { margin-right: 10px; width: 45px; height: 45px; }
+        .app-nav-link { color: #0056b3 !important; text-decoration: none; font-weight: 600; height: 100%; display: flex; align-items: center; padding: 0 15px; border-radius: 0 !important; margin-right: 0 !important; margin-left: 0 !important; transition: all 0.3s; }
+        .app-nav-link:hover { background-color: #e0f2f7 !important; color: #007bff !important; }
+        .notif-btn { position: relative; background: rgba(0, 86, 179, 0.1); border: none; color: #0056b3; font-size: 1.2rem; padding: 8px 10px; border-radius: 50%; transition: all 0.3s; }
+        .notif-btn:hover { background: rgba(0, 86, 179, 0.2); }
+        .notif-badge { position: absolute; top: 4px; right: 4px; font-size: 0.7rem; background: #ffc107; color: #000; }
+
+        /* 🏥 MAIN APPLICATION GRID (2 CỘT) */
+        .app-grid { display: flex; max-width: 1300px; margin: 40px auto; gap: 30px; padding: 0 5%; }
+        .main-article-feed { flex-grow: 1; min-width: 650px; }
+        .feed-header { font-size: 1.5rem; font-weight: 700; color: #0056b3; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .article-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); transition: transform 0.3s; }
+        .article-item:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); }
+        .article-item h5 { color: #007bff; font-weight: 600; margin-bottom: 10px; }
+        .article-item img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+
+        /* ⛔️ ĐỌC THÊM STYLE FIX (10 DÒNG) ⛔️ */
+        .article-content {
+            line-height: 1.6em;
+            max-height: 16em; /* 10 DÒNG */
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .article-content.expanded {
+            max-height: none;
+        }
+        .read-more-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4em;
+            background: linear-gradient(to top, white 50%, rgba(255, 255, 255, 0));
+            pointer-events: none;
+            z-index: 5;
+        }
+        .article-content.expanded .read-more-overlay {
+            display: none;
+        }
+        .read-more-btn {
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            color: #007bff;
+            display: block;
+            margin-top: 10px;
+            font-size: 0.95rem;
         }
 
-        /* 🔷 NAVBAR HIỆN ĐẠI */
-        .navbar {
-            background: linear-gradient(90deg, #007bff, #00b4d8);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 12px 20px;
+        /* RIGHT COLUMN (Profile Sidebar) */
+        .sidebar-profile {
+            width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content; /* Sửa: Quan trọng để sidebar hiển thị đủ nội dung */
         }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #007bff;
+            margin-bottom: 15px;
         }
+        .profile-name { font-size: 1.3rem; font-weight: 700; color: #0056b3; margin-bottom: 5px; }
+        .profile-info-box { background: #f7f9fc; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; }
+        .profile-info-box strong { color: #333; }
 
-        .navbar-brand img {
-            margin-right: 10px;
-            width: 38px;
-        }
-
-        .navbar .btn {
+        /* ⭐️ STYLE CHO NÚT HÀNH ĐỘNG CÓ VIỀN XANH KHI HOVER ⭐️ */
+        .btn-sidebar-action {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
             border-radius: 8px;
             font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.3s, border 0.3s;
+            border: 2px solid transparent;
         }
-
-        /* 🔔 Nút chuông đẹp */
-        .notif-btn {
-            position: relative;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            padding: 8px 10px;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .notif-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
-        }
-
-        .notif-badge {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            font-size: 0.7rem;
-            background: #ffc107;
-            color: #000;
-        }
-
-        /* 🩺 THẺ NỘI DUNG CHÍNH */
-        .container-main {
-            max-width: 850px;
-            margin-top: 130px;
-            background: white;
-            padding: 50px;
-            border-radius: 18px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
-        }
-
-        .intro h4 {
-            font-weight: 700;
-            color: #007bff;
-        }
-
-        .intro p {
-            color: #555;
-        }
-
-        .btn-main {
-            width: 100%;
-            padding: 14px;
-            font-size: 18px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-main:hover {
+        .btn-sidebar-action:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 2px solid #0056b3;
+            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
         }
 
-        /* 🔽 Offcanvas thông báo */
-        .offcanvas {
-            width: 350px;
-        }
-
-        .offcanvas-title {
-            font-weight: 600;
-        }
-
-        .list-group-item {
-            border-radius: 10px !important;
-            margin-bottom: 8px;
-        }
-
-        .footer {
-            margin-top: 60px;
-            text-align: center;
-            color: #888;
-            font-size: 0.9rem;
-        }
+        .footer { text-align: center; padding: 30px 0; color: #888; font-size: 0.9rem; background-color: white; border-top: 1px solid #eee; }
+        @media (max-width: 1024px) { .app-grid { flex-direction: column; } .sidebar-profile { width: 100%; position: static; margin-bottom: 30px; } .main-article-feed { min-width: unset; } }
     </style>
+
+    <script th:inline="javascript">
+        // Hàm giả lập nội dung dài (50 dòng)
+        function generateLongContent(topic) {
+            let baseText = "Đây là thông tin chi tiết về **" + topic + "**. Các chuyên gia y tế khuyến cáo rằng việc tuân thủ các quy tắc sức khỏe cơ bản là chìa khóa để duy trì một cơ thể khỏe mạnh và chống lại bệnh tật. " +
+                           "Hãy nhớ rằng phòng bệnh hơn chữa bệnh. Việc kiểm tra sức khỏe định kỳ giúp phát hiện sớm các vấn đề tiềm ẩn và tăng cơ hội điều trị thành công.";
+
+            let content = "";
+            for (let i = 1; i <= 10; i++) {
+                content += baseText + " (Đoạn " + i + ")" + "<br><br><br><br><br>";
+            }
+            return content;
+        }
+
+        const articlesMock = [
+            { title: "Phòng ngừa Lây lan Bệnh Cúm Mùa: Điều Cần Biết", imageUrl: '/images/article-placeholder-1.jpg', content: generateLongContent("Cúm Mùa") },
+            { title: "10 Lời Khuyên Vàng để Bảo Vệ Sức Khỏe Tim Mạch", imageUrl: '/images/article-placeholder-2.jpg', content: generateLongContent("Sức Khỏe Tim Mạch") },
+            { title: "Vai trò của Dinh Dưỡng trong Việc Tăng Cường Hệ Miễn Dịch", imageUrl: '/images/article-placeholder-3.jpg', content: generateLongContent("Dinh Dưỡng & Miễn Dịch") },
+            { title: "Những Biện Pháp Đơn Giản Giúp Giảm Căng Thẳng Trong Công Việc", imageUrl: '/images/article-placeholder-4.jpg', content: generateLongContent("Giảm Căng Thẳng") },
+            { title: "Hiểu Đúng về Bệnh Tiểu Đường: Dấu hiệu và Cách Kiểm Soát", imageUrl: '/images/article-placeholder-5.jpg', content: generateLongContent("Bệnh Tiểu Đường") }
+        ];
+
+        // Nếu Controller không truyền 'articles' thì dùng mock data
+        const articles = [[${articles}]] ? [[${articles}]] : articlesMock;
+
+        // 💡 GIẢ LẬP DỮ LIỆU THÔNG TIN CÁ NHÂN (Person Mock Data)
+        const mockPrincipal = {
+            nguoi: {
+                hoTen: "Nguyễn Văn An (MOCK)",
+                cccd: "012345678901",
+                ngaySinh: new Date().getTime(), // Thời gian hiện tại để format
+                gioiTinh: "Nam",
+                diaChi: "123 Đường Sức Khỏe, Q.1, TP.HCM",
+                email: "nguyen.van.an@mock.com",
+                sdt: "0901 234 567"
+            },
+            benhNhan: {
+                nhomMau: "A+",
+                maBaoHiem: "BHX000123456",
+                tienSuBenh: "Không có"
+            }
+        };
+
+        // Nếu Controller không truyền #authentication (principal) thì dùng mock data
+        if (!window.localStorage.getItem('isMockDataLoaded')) {
+            // Lưu dữ liệu mock vào một biến toàn cục hoặc sử dụng Thymeleaf Mock Object (tùy thuộc môi trường)
+            // Trong môi trường Thymeleaf, việc này phức tạp. Tốt nhất là Controller phải cung cấp dữ liệu.
+            // Để tránh lỗi sập trang, tôi sẽ dùng cú pháp kiểm tra đơn giản và dùng text placeholder bên dưới.
+        }
+    </script>
 </head>
 <body>
 
-<!-- 🌈 Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-            <a class="navbar-brand text-white" href="/">
-                <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="logo">
-                Phòng khám Đa khoa ABC
-            </a>
-        </div>
+        <a class="navbar-brand" href="/benhnhan/">
+            <img th:src="@{/images/icon-phongkham.png}" alt="Logo Tận Tâm">
+            Phòng khám Tận Tâm
+        </a>
 
         <div class="d-flex align-items-center">
-            <!-- Nút thông báo -->
-            <button class="notif-btn me-3" type="button"
+            <a th:href="@{/benhnhan/dat-lich}" class="app-nav-link">Đặt lịch khám</a>
+            <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId})}" class="app-nav-link">Xem hồ sơ</a>
+            <a th:href="@{/benhnhan/lich-kham}" class="app-nav-link">Xem lịch khám</a>
+
+            <button class="notif-btn ms-3 me-3" type="button"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offCanvasNotif"
                     aria-controls="offCanvasNotif"
@@ -142,14 +220,8 @@
                       class="badge notif-badge rounded-circle"></span>
             </button>
 
-            <!-- Nút Trang chủ -->
-            <a href="/benhnhan/" class="btn btn-light me-2">
-                <i class="bi bi-house-door"></i> Trang chủ
-            </a>
-
-            <!-- Nút Đăng xuất -->
             <form th:action="@{/logout}" method="post" class="d-inline">
-                <button type="submit" class="btn btn-danger">
+                <button type="submit" class="btn btn-primary">
                     <i class="bi bi-box-arrow-right"></i> Đăng xuất
                 </button>
             </form>
@@ -157,20 +229,17 @@
     </div>
 </nav>
 
-<!-- 🔔 Offcanvas thông báo -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offCanvasNotif" aria-labelledby="offCanvasNotifLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offCanvasNotifLabel">🔔 Thông báo</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
     </div>
     <div class="offcanvas-body">
-        <!-- Không có thông báo -->
         <div th:if="${notifications == null or #lists.isEmpty(notifications)}" class="text-center text-muted py-4">
             <i class="bi bi-bell-slash fs-3"></i>
             <p class="mb-0 mt-2">Không có thông báo nào</p>
         </div>
 
-        <!-- Có thông báo -->
         <div th:if="${notifications != null and !#lists.isEmpty(notifications)}">
             <div class="list-group">
                 <a th:each="n : ${notifications}"
@@ -193,30 +262,156 @@
         </div>
     </div>
 </div>
+<div class="app-grid">
 
-<!-- 🏥 Nội dung chính -->
-<div class="container container-main text-center">
-    <div class="intro mb-4">
-        <h4>Chào mừng bạn đến với hệ thống quản lý bệnh nhân trực tuyến</h4>
-        <p>Tại đây, bạn có thể đặt lịch khám, xem hồ sơ bệnh án và tra cứu lịch sử khám nhanh chóng, tiện lợi.</p>
+    <div class="main-article-feed">
+        <h2 class="feed-header">Tin tức và Cảnh báo Y tế Gần đây</h2>
+
+        <div th:if="${articles != null and !#lists.isEmpty(articles)}" th:each="article, iterStat : ${articles}" class="article-item">
+            <img th:src="@{${article.imageUrl}}" th:alt="${article.title}" class="img-fluid">
+            <h5 th:text="${article.title}">Tiêu đề Bài báo</h5>
+
+            <div class="article-content" th:id="'content-' + ${iterStat.index}">
+                <div class="read-more-overlay"></div>
+                <p th:utext="${article.content}"></p>
+            </div>
+
+            <a href="javascript:void(0)" class="read-more-btn" th:data-target="'content-' + ${iterStat.index}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+        <div th:if="${articles == null or #lists.isEmpty(articles)}" id="mock-articles-container">
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-newspaper fs-3"></i>
+                <p>Đang tải dữ liệu bài báo mô phỏng...</p>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-outline-secondary">Xem tất cả bài báo</a>
+        </div>
     </div>
 
-    <div class="d-grid gap-3">
-        <a th:href="@{/benhnhan/dat-lich}" class="btn btn-success btn-main">
+    <div class="sidebar-profile text-center">
+        <label for="profile-upload" style="cursor: pointer; display: block; margin-bottom: 5px;">
+            <img th:src="@{/images/profile-placeholder.jpg}" alt="Ảnh đại diện" class="profile-pic">
+            <span class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-camera"></i> Thêm ảnh
+            </span>
+        </label>
+        <input type="file" id="profile-upload" style="display: none;">
+
+        <div th:text="${#authentication != null ? #authentication.principal.nguoi.hoTen : 'Nguyễn Văn An (MOCK DATA)'}" class="profile-name">Nguyễn Văn An</div>
+        <p th:text="'ID: ' + ${personId != null ? personId : '99'}" class="text-muted">ID: 99</p>
+
+        <hr>
+
+        <a th:href="@{/benhnhan/dat-lich}" class="btn btn-success btn-sidebar-action">
             <i class="bi bi-calendar2-check"></i> Đặt lịch khám
         </a>
-        <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId})}" class="btn btn-info btn-main text-white">
+        <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId != null ? personId : '99'})}" class="btn btn-info btn-sidebar-action text-white">
             <i class="bi bi-file-earmark-medical"></i> Xem hồ sơ bệnh án
         </a>
-        <a th:href="@{/benhnhan/lich-kham}" class="btn btn-secondary btn-main">
+        <a th:href="@{/benhnhan/lich-kham}" class="btn btn-secondary btn-sidebar-action">
             <i class="bi bi-clock-history"></i> Xem lịch khám
         </a>
-    </div>
 
-    <div class="footer mt-5">
-        <p>📍 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
+        <div class="profile-info-box">
+            <p class="mb-1"><strong>CCCD:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.cccd : '012345678901'}">[cccd]</span></p>
+            <p class="mb-1"><strong>Ngày sinh:</strong> <span th:text="${#authentication != null ? #temporals.format(#authentication.principal.nguoi.ngaySinh, 'dd/MM/yyyy') : '01/01/1990'}">[ngày sinh]</span></p>
+            <p class="mb-1"><strong>Giới tính:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.gioiTinh : 'Nam'}">[giới tính]</span></p>
+            <p class="mb-1"><strong>Địa chỉ:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.diaChi : '123 Đường Sức Khỏe, Q.1, TP.HCM'}">[địa chỉ]</span></p>
+
+            <hr>
+
+            <p class="mb-1"><strong>Email:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.email : 'nguyen.van.an@mock.com'}">[email]</span></p>
+            <p class="mb-1"><strong>SĐT:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.sdt : '0901 234 567'}">[sdt]</span></p>
+            <p class="mb-1"><strong>Nhóm máu:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.nhomMau : 'A+'}">[nhóm máu]</span></p>
+            <p class="mb-1"><strong>Mã BHYT:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.maBaoHiem : 'BHX000123456'}">[mã bhyt]</span></p>
+            <p class="mb-0"><strong>Tiền sử bệnh:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.tienSuBenh : 'Không có'}">[tiền sử bệnh]</span></p>
+        </div>
     </div>
 </div>
+
+
+<div class="footer">
+    <p>Liên hệ: 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
+    <p>&copy; 2025 Phòng khám Tận Tâm. All rights reserved.</p>
+</div>
+
+<script>
+    function initializeReadMoreLogic() {
+        document.querySelectorAll('.read-more-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    button.innerHTML = 'Đọc thêm <i class="bi bi-arrow-right"></i>';
+                } else {
+                    content.classList.add('expanded');
+                    button.innerHTML = 'Thu gọn <i class="bi bi-arrow-up"></i>';
+                }
+            });
+        });
+    }
+
+    // Hàm render mock data cho bài báo nếu Controller không truyền (chỉ dùng cho mục đích sửa lỗi/dev)
+    function renderMockArticles() {
+        if (articles.length === articlesMock.length && articles.every((item, index) => item === articlesMock[index])) {
+            const container = document.getElementById('mock-articles-container');
+            if (container) {
+                let html = '';
+                articlesMock.forEach((article, index) => {
+                    html += `
+                        <div class="article-item">
+                            <img src="${article.imageUrl}" alt="${article.title}" class="img-fluid">
+                            <h5>${article.title}</h5>
+
+                            <div class="article-content" id="content-${index}">
+                                <div class="read-more-overlay"></div>
+                                <p>${article.content}</p>
+                            </div>
+
+                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${index}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                initializeReadMoreLogic(); // Khởi tạo lại logic sau khi thêm bài báo mock
+            }
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Khởi tạo logic đọc thêm cho bài báo từ Controller (nếu có)
+        initializeReadMoreLogic();
+
+        // Chạy logic render mock articles nếu Controller không truyền data
+        // Đây là cách fix nhanh cho môi trường dev mà không có backend
+        const hasControllerArticles = document.querySelector('.main-article-feed > .article-item') !== null;
+        if (!hasControllerArticles) {
+             renderMockArticles();
+        }
+
+        // Logic xử lý upload ảnh (giữ nguyên)
+        const profileUpload = document.getElementById('profile-upload');
+        if(profileUpload) {
+            profileUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('.profile-pic').src = e.target.result;
+                        alert('Ảnh mới đã được tải lên thành công (Chỉ hiển thị trên trình duyệt).');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>
 
 </body>
 </html>

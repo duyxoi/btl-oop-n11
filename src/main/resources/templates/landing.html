@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phòng khám Tận Tâm | Dịch vụ Chăm sóc Sức khỏe Toàn diện</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
         /* CSS CHÍNH */
         body {
@@ -68,18 +69,17 @@
         /* ⛔️ NAV LINKS (FULL VERTICAL HEIGHT & KHÍT VUÔNG VẮN) ⛔️ */
         .nav-links {
             display: flex;
-            align-items: stretch;
-            height: 100%;
+            align-items: stretch; /* Kéo giãn các mục con theo chiều dọc */
+            height: 100%; /* Chiếm toàn bộ chiều cao Header */
         }
 
         .nav-links a {
             color: #0056b3;
             text-decoration: none;
             font-weight: 500;
-
-            /* ⛔️ KHẮC PHỤC LỖI BO TRÒN VÀ KHOẢNG CÁCH BAN ĐẦU ⛔️ */
-            margin-left: 25px; /* Giữ khoảng cách giữa các nút */
-            border-radius: 0; /* 💡 FIX LỖI: Xóa bo tròn cho các liên kết 💡 */
+            margin-left: 25px;
+            font-size: 16px;
+            border-radius: 0; /* KHÔNG BO GÓC */
             border: none;
             transition: background-color 0.3s ease, color 0.3s ease;
 
@@ -91,12 +91,9 @@
             justify-content: center;
         }
 
-        /* ⛔️ NÚT ĐIỀU HƯỚNG: TIỆN ÍCH, PHẢN HỒI, DỊCH VỤ (KHÍT VUÔNG) ⛔️ */
-        .nav-links .nav-link {
-            margin-left: 0; /* 💡 FIX LỖI: Xóa margin-left để dính sát vào nhau 💡 */
+        .nav-links .nav-link { /* NÚT ĐIỀU HƯỚNG: TIỆN ÍCH, PHẢN HỒI, DỊCH VỤ (KHÍT VUÔNG) */
+            margin-left: 0; /* Xóa margin-left để dính sát vào nhau */
             padding: 0 20px; /* Thêm padding ngang để tạo khoảng cách giữa chữ */
-
-            /* Đảm bảo border-radius là 0 */
         }
 
         .nav-links .nav-link:hover {
@@ -104,11 +101,11 @@
             background-color: #0056b3;
         }
 
-        .nav-links a:hover:not(.nav-link) {
+        .nav-links a:hover:not(.nav-link) { /* Hiệu ứng hover cho nút Đăng nhập */
             background-color: #e0f2f7;
         }
 
-        .nav-links .signup-btn {
+        .nav-links .signup-btn { /* Style ban đầu cho nút Đăng ký */
             background-color: #007bff;
             color: white;
             padding: 10px 20px;
@@ -121,366 +118,184 @@
         }
         /* --- END NAV LINKS --- */
 
-        /* ---- HERO SECTION WRAPPER ---- */
-        .hero-section-wrapper {
-            background-color: #c0e7ed; /* Màu nền xanh nhạt */
-            width: 100vw;
-            padding: 40px 0;
+
+        /* ------------------------------------- */
+        /* ⛔️ CSS CHO HIỆU ỨNG BLUR VÀ MODAL ⛔️ */
+        /* ------------------------------------- */
+
+        /* CSS áp dụng cho toàn bộ nội dung (ngoại trừ Modal) khi bật */
+        .blur-active {
+            filter: blur(8px);
+            pointer-events: none;
+            transition: filter 0.5s ease;
         }
 
-        /* HERO SECTION MAIN LAYOUT */
-        .hero-section-new {
+        /* Lớp phủ Modal */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 0 5%;
-            gap: 0px;
-            flex-wrap: wrap;
-            max-width: 1300px;
-            margin: 0 auto;
+            align-items: center; /* ⛔️ FIX LỖI: Căn giữa theo chiều dọc ⛔️ */
+            height: 100vh; /* 💡 FIX LỖI: Buộc Modal chiếm toàn bộ chiều cao viewport 💡 */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1050;
         }
 
-        .hero-image-container {
-            flex: 1.5;
-            min-width: 450px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        /* Nội dung Modal (Form Đăng nhập/Đăng ký) */
+        .custom-modal-content {
+            background: white;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+            /* ⛔️ FIX LỖI: GIỚI HẠN CHIỀU CAO VÀ CHO PHÉP CUỘN ⛔️ */
+            max-height: 90vh; /* Giới hạn chiều cao tối đa là 90% chiều cao màn hình */
+            overflow-y: auto; /* Cho phép cuộn dọc nội dung bên trong */
+
+            max-width: 90%;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            position: relative;
+            pointer-events: auto;
         }
 
-        .hero-main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        /* Trạng thái HIỆN (khi modal được kích hoạt) */
+        .custom-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .custom-modal-overlay.active .custom-modal-content {
+            transform: scale(1);
         }
 
-        .hero-content-card {
-            flex: 1;
-            min-width: 400px;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            max-width: 600px;
-
-            /* THIẾT LẬP OVERLAP */
-            margin-top: -50px;
-            margin-left: -70px;
+        /* Nút đóng Modal */
+        .close-modal {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            font-size: 30px;
+            text-decoration: none;
+            color: #888;
+            cursor: pointer;
+            line-height: 1;
             z-index: 10;
         }
 
-        .hero-content-card h2 {
-            font-size: 44px;
-            color: #0056b3;
-            margin-bottom: 20px;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -1px;
-        }
+        /* ------------------------------------- */
+        /* CSS FORM ĐĂNG NHẬP/ĐĂNG KÝ (Đồng bộ) */
+        /* ------------------------------------- */
 
-        .hero-content-card p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 25px;
-        }
-
-        /* Nút Bắt đầu ngay (Animated Button) */
-        .start-trial-btn {
-            display: inline-block;
-            background-color: #ff8c00;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 17px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            animation: pulse-button 1.5s infinite alternate;
-        }
-
-        .start-trial-btn:hover {
-            background-color: #e67e00;
-            transform: scale(1.05);
-            animation: none;
-        }
-
-        /* Keyframes cho hiệu ứng nhấp nháy */
-        @keyframes pulse-button {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); }
-            100% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(255, 140, 0, 0); }
-        }
-
-        /* Feature Section */
-        .section-container {
-            padding: 60px 5%;
-            background-color: #fff;
+        /* Card styles */
+        .login-card, .register-card {
+            padding: 40px;
+            border-radius: 12px;
+            /* Loại bỏ box-shadow vì đã có trên .custom-modal-content */
             text-align: center;
+            max-width: 450px;
         }
 
-        .section-container.grey-background {
-            background-color: #f8f9fa;
+        .register-card {
+             max-width: 700px;
         }
 
-        .section-title {
-            font-size: 36px;
-            color: #0056b3;
-            margin-bottom: 40px;
+        /* Titles */
+        .login-card h4, .register-card h3 {
+            font-size: 28px;
             font-weight: 700;
-        }
-
-        /* Layout Grid cho Features (Tiện ích) */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .feature-item {
-            background-color: #f7f9fc;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-            text-align: left;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-item img {
-            height: 80px;
-            margin-bottom: 20px;
-        }
-
-        .feature-item h3 {
-            font-size: 22px;
             color: #007bff;
-            margin-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* Sub-Headers */
+        .text-primary-header {
+            font-size: 1.25rem;
+            color: #007bff !important;
             font-weight: 600;
         }
 
-        .feature-item p {
-            font-size: 16px;
-            color: #666;
-        }
-
-        /* Layout Grid cho Testimonials (Phản hồi) */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .testimonial-item {
-            background: #fff;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
-        .customer-image {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-            border: 4px solid #007bff;
-        }
-
-        .customer-quote {
-            font-style: italic;
-            color: #555;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .customer-name {
-            font-weight: 700;
-            color: #333;
-            font-size: 18px;
-        }
-
-        /* Layout cho Services (Dịch vụ) */
-        .services-grid {
-            display: flex;
-            justify-content: space-between;
-            gap: 40px;
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .service-item {
-            flex: 1;
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s;
-        }
-
-        .service-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .service-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .service-content {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .service-title {
-            color: #0056b3;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .service-description {
-            color: #666;
-            font-size: 15px;
-        }
-        /* Call to Action Section */
-        .cta-section {
-            padding: 80px 5%;
-            background-color: #0056b3;
-            color: white;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 38px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .cta-section p {
-            font-size: 18px;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-section .cta-btn {
-            background-color: #ffc107;
-            color: #333;
-            padding: 18px 40px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 19px;
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-        }
-
-        .cta-section .cta-btn:hover {
-            background-color: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: #eee;
-            padding: 30px 5%;
-            text-align: center;
-            font-size: 14px;
-        }
-        /* Floating Phone Bubble */
-        .phone-bubble {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #007bff;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            cursor: pointer;
-            z-index: 1001;
-            animation: pulse 2s infinite;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .phone-bubble span {
-            display: none;
-            font-size: 16px;
-            white-space: nowrap;
-        }
-
-        .phone-bubble:hover {
-            width: 200px;
-            border-radius: 30px;
-            padding: 0 20px;
-        }
-
-        .phone-bubble:hover span {
-            display: inline;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
-        }
-
-        .phone-icon {
-            width: 28px;
-            height: 28px;
-            fill: white;
+        /* Labels */
+        .form-label {
+            font-weight: 500;
+            color: #007bff;
+            text-align: left;
             display: block;
+            margin-bottom: 8px;
         }
-        /* Responsive adjustments */
-        @media (max-width: 1024px) {
-            .hero-section-wrapper { padding: 40px 5%; width: auto; }
-            .hero-section-new { flex-direction: column; gap: 40px; margin: 0 auto; }
-            .hero-image-container, .hero-content-card { min-width: unset; width: 100%; max-width: 700px; margin-left: 0 !important; margin-top: 0 !important; z-index: 1; }
-            .services-grid { flex-direction: column; } /* Dịch vụ xếp cột */
+
+        /* Input Fields */
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 15px;
         }
-        @media (max-width: 900px) {
-            .testimonials-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } /* 2 cột trên tablet */
-        }
-        @media (max-width: 768px) {
-            .nav-links a { margin-left: 15px; padding: 6px 10px; }
-            .nav-links .signup-btn { padding: 8px 15px; }
-            .hero-content-card { padding: 30px; }
-            .hero-content-card h2 { font-size: 28px; }
-            .feature-item { padding: 20px; }
-            .cta-section h2 { font-size: 30px; }
-        }
-        @media (max-width: 600px) {
-            .testimonials-grid { grid-template-columns: 1fr; } /* 1 cột trên điện thoại */
-        }
-        @media (max-width: 480px) {
-            header { flex-direction: column; padding: 15px; }
-            .logo-section { margin-bottom: 15px; }
-            .nav-links { display: flex; flex-wrap: wrap; justify-content: center; }
-            .nav-links a { margin: 5px; }
-            .nav-links .signup-btn { margin-top: 10px; }
-            .features-section h2 { font-size: 24px; }
-        }
+
+        /* Buttons */
+        .btn-login { background-color: #007bff; color: white; padding: 12px; border-radius: 8px; }
+        .btn-register { background-color: #28a745; color: white; padding: 12px; border-radius: 8px; }
+        .btn-login:hover { background-color: #0056b3; }
+        .btn-register:hover { background-color: #1e7e34; }
+
+        .register-link { color: #007bff; text-decoration: none; font-weight: 600; margin-left: 5px; }
+
+
+        /* ------------------------------------- */
+        /* CSS GỐC CỦA LANDING PAGE (VẪN CÒN Ở DƯỚI) */
+        /* ------------------------------------- */
+
+        /* ... (Các styles khác của Landing Page) ... */
+
+        .hero-section-wrapper { background-color: #c0e7ed; width: 100vw; padding: 40px 0; }
+        .hero-section-new { display: flex; justify-content: center; align-items: flex-start; padding: 0 5%; gap: 0px; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; }
+        .hero-image-container { flex: 1.5; min-width: 450px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
+        .hero-main-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .hero-content-card { flex: 1; min-width: 400px; background-color: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); text-align: left; max-width: 600px; margin-top: -50px; margin-left: -70px; z-index: 10; }
+        .hero-content-card h2 { font-size: 44px; color: #0056b3; margin-bottom: 20px; font-weight: 900; line-height: 1.1; letter-spacing: -1px; }
+        .hero-content-card p { font-size: 16px; color: #555; margin-bottom: 25px; }
+        .start-trial-btn { display: inline-block; background-color: #ff8c00; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: 600; font-size: 17px; transition: background-color 0.3s ease, transform 0.3s ease; animation: pulse-button 1.5s infinite alternate; }
+        .start-trial-btn:hover { background-color: #e67e00; transform: scale(1.05); animation: none; }
+        @keyframes pulse-button { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); } 100% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(255, 140, 0, 0); } }
+        .section-container { padding: 60px 5%; background-color: #fff; text-align: center; }
+        .section-container.grey-background { background-color: #f8f9fa; }
+        .section-title { font-size: 36px; color: #0056b3; margin-bottom: 40px; font-weight: 700; }
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1000px; margin: 0 auto; }
+        .feature-item { background-color: #f7f9fc; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.08); text-align: left; transition: transform 0.3s ease; }
+        .feature-item:hover { transform: translateY(-5px); }
+        .feature-item img { height: 80px; margin-bottom: 20px; }
+        .feature-item h3 { font-size: 22px; color: #007bff; margin-bottom: 15px; font-weight: 600; }
+        .feature-item p { font-size: 16px; color: #666; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .testimonial-item { background: #fff; padding: 35px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); text-align: center; }
+        .customer-image { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid #007bff; }
+        .customer-quote { font-style: italic; color: #555; margin-bottom: 15px; font-size: 16px; }
+        .customer-name { font-weight: 700; color: #333; font-size: 18px; }
+        .services-grid { display: flex; justify-content: space-between; gap: 40px; max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .service-item { flex: 1; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); transition: transform 0.3s; }
+        .service-item:hover { transform: translateY(-5px); }
+        .service-image { width: 100%; height: 200px; object-fit: cover; }
+        .service-content { padding: 20px; text-align: center; }
+        .service-title { color: #0056b3; font-size: 20px; margin-bottom: 10px; }
+        .service-description { color: #666; font-size: 15px; }
+        .cta-section { padding: 80px 5%; background-color: #0056b3; color: white; text-align: center; }
+        .cta-section .cta-btn { background-color: #ffc107; color: #333; padding: 18px 40px; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 19px; transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); display: inline-block; }
+        .cta-section .cta-btn:hover { background-color: #e0a800; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
+        footer { background-color: #333; color: #eee; padding: 30px 5%; text-align: center; font-size: 14px; }
+        .phone-bubble { position: fixed; bottom: 30px; right: 30px; background-color: #007bff; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer; z-index: 1001; animation: pulse 2s infinite; text-decoration: none; transition: all 0.3s ease; }
+        .phone-bubble span { display: none; font-size: 16px; white-space: nowrap; }
+        .phone-bubble:hover { width: 200px; border-radius: 30px; padding: 0 20px; }
+        .phone-bubble:hover span { display: inline; }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); } }
+        .phone-icon { width: 28px; height: 28px; fill: white; display: block; }
+        @media (max-width: 1024px) { /* Responsive */ }
+        @media (max-width: 900px) { /* Responsive */ }
+        @media (max-width: 768px) { /* Responsive */ }
+        @media (max-width: 600px) { /* Responsive */ }
+        @media (max-width: 480px) { /* Responsive */ }
     </style>
 </head>
 <body>
@@ -494,7 +309,7 @@
         <a href="#phan-hoi" class="nav-link">Phản hồi</a>
         <a href="#dich-vu" class="nav-link">Dịch vụ</a>
 
-        <a th:href="@{/login}">Đăng nhập</a>
+        <a href="#" id="show-login" class="nav-button">Đăng nhập</a>
         <a th:href="@{/register}" class="signup-btn">Đăng ký</a>
     </nav>
 </header>
@@ -626,16 +441,132 @@
     <span>0338141241</span>
 </a>
 
+<div id="login-modal" class="custom-modal-overlay">
+    <div class="custom-modal-content">
+        <a href="#" class="close-modal">&times;</a>
+
+        <div id="login-message-area"></div>
+
+        <div class="login-card">
+            <h4 class="mb-4">Đăng nhập tài khoản</h4>
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3 text-start"><label for="username-modal" class="form-label">Tên đăng nhập</label><input type="text" class="form-control" id="username-modal" name="username" required placeholder="Nhập tên đăng nhập..."></div>
+                <div class="mb-4 text-start"><label for="password-modal" class="form-label">Mật khẩu</label><input type="password" class="form-control" id="password-modal" name="password" required placeholder="Nhập mật khẩu..."></div>
+                <button type="submit" class="btn btn-login mb-3">Đăng nhập</button>
+            </form>
+            <div class="register-link-group">
+                <span class="text-muted">Bạn chưa có tài khoản?</span>
+                <a th:href="@{/register}" class="text-decoration-none fw-bold text-primary">Đăng ký ngay</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
-    // JS cho Floating Phone Bubble animation
-    const phoneBubble = document.querySelector('.phone-bubble');
-    phoneBubble.addEventListener('mouseover', () => {
-        phoneBubble.style.animation = 'none'; // Tắt animation khi hover
-    });
-    phoneBubble.addEventListener('mouseout', () => {
-        phoneBubble.style.animation = 'pulse 2s infinite'; // Bật lại animation khi không hover
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+
+        // ⛔️ ĐỊNH NGHĨA CÁC VÙNG CẦN LÀM MỜ ⛔️
+        const blurTargets = [
+            document.querySelector('.hero-section-wrapper'), // Vùng Hero Section
+            document.getElementById('tien-ich'), // Phần Tiện ích
+            document.getElementById('phan-hoi'), // Phần Phản hồi
+            document.getElementById('dich-vu'), // Phần Dịch vụ
+            document.querySelector('.cta-section') // Phần CTA
+        ].filter(el => el != null); // Lọc các phần tử không tìm thấy
+
+        // Hàm mở modal và blur
+        const openModal = (modal) => {
+            if (!modal) { console.error("Modal element is missing! Check modal IDs."); return; }
+
+            // ⛔️ CHỈ ÁP DỤNG BLUR CHO CÁC KHỐI CONTENT ⛔️
+            blurTargets.forEach(target => {
+                target.classList.add('blur-active');
+            });
+
+            modal.classList.add('active'); // Hiển thị Modal (với z-index 1050)
+        };
+
+        // Hàm đóng modal và loại bỏ blur
+        const closeModal = (modal) => {
+            if (!modal) return;
+
+            // ⛔️ BỎ BLUR KHỎI TẤT CẢ CÁC KHỐI CONTENT ⛔️
+            blurTargets.forEach(target => {
+                target.classList.remove('blur-active');
+            });
+
+            modal.classList.remove('active');
+        };
+
+        // ----------------------------------------------------
+        // GÁN SỰ KIỆN CLICK VÀ CÁC LOGIC KHÁC (GIỮ NGUYÊN)
+        // ----------------------------------------------------
+
+        // Gán sự kiện cho các nút mở trong Header và CTA
+        const attachModalEvent = (buttonId, modal) => {
+            const btn = document.getElementById(buttonId);
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal(modal);
+                });
+            }
+        };
+
+        attachModalEvent('show-login', loginModal);
+        attachModalEvent('show-register', registerModal);
+        attachModalEvent('show-register-cta', registerModal);
+
+        // ... (Giữ nguyên logic đóng, chuyển đổi, URL Params) ...
+
+        // Gán sự kiện cho các nút đóng (X)
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const modal = button.closest('.custom-modal-overlay');
+                closeModal(modal);
+            });
+        });
+
+        // Gán sự kiện bấm ESC để đóng
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.custom-modal-overlay.active').forEach(modal => {
+                    closeModal(modal);
+                });
+            }
+        });
+
+
+
+
+        // JS cho Floating Phone Bubble animation
+        const phoneBubble = document.querySelector('.phone-bubble');
+        if (phoneBubble) {
+            phoneBubble.addEventListener('mouseover', () => {
+                phoneBubble.style.animation = 'none';
+            });
+            phoneBubble.addEventListener('mouseout', () => {
+                phoneBubble.style.animation = 'pulse 2s infinite';
+            });
+        }
+
+        // Logic xử lý URL Params (Tự động mở Modal sau khi POST)
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginError = urlParams.get('loginError');
+        const registerSuccess = urlParams.get('registerSuccess');
+
+        const loginMessageArea = document.getElementById('login-message-area');
+        const registerMessageArea = document.getElementById('register-message-area');
+        const createAlert = (type, message) => { return `<div class="alert alert-${type} mt-3" role="alert" style="margin: 0 15px;">${message}</div>`; }
+
+        if (loginError) { openModal(loginModal); if (loginMessageArea) loginMessageArea.innerHTML = createAlert('danger', 'Tên đăng nhập hoặc mật khẩu không đúng.'); }
+        if (registerSuccess) { openModal(loginModal); if (loginMessageArea) loginMessageArea.innerHTML = createAlert('success', 'Đăng ký thành công! Vui lòng sử dụng thông tin vừa đăng ký để đăng nhập.'); }
+        if (loginError || registerSuccess) { window.history.replaceState({}, document.title, window.location.pathname); }
     });
 </script>
-
 </body>
 </html>
