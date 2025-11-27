@@ -60,11 +60,6 @@
             transform: translateY(-3px);
         }
 
-        h2 {
-            font-weight: 700;
-            color: #007bff;
-        }
-
         h4 {
             font-weight: 600;
             border-left: 4px solid #007bff;
@@ -112,13 +107,29 @@
 
 <div class="container">
 
-    <!-- Thanh tiêu đề + nút đăng xuất -->
+    <!-- Thanh tiêu đề + nút Trang chủ / Đăng xuất -->
     <div class="header-bar">
         <h3><i class="fa-solid fa-file-medical"></i> Chi tiết hồ sơ bệnh án</h3>
         <div class="action-buttons">
-            <a th:href="@{/benhnhan/}" class="btn btn-light text-primary">
+            <!-- Trang chủ tùy theo role -->
+            <a th:if="${nguoi.role == 'ROLE_PATIENT'}"
+               th:href="@{/benhnhan/}"
+               class="btn btn-light text-primary">
                 <i class="fa-solid fa-house"></i> Trang chủ
             </a>
+
+            <a th:if="${nguoi.role == 'ROLE_DOCTOR'}"
+               th:href="@{/bacsi/}"
+               class="btn btn-light text-primary">
+                <i class="fa-solid fa-house"></i> Trang chủ
+            </a>
+
+            <a th:if="${nguoi.role == 'ROLE_ADMIN'}"
+               th:href="@{/admin/}"
+               class="btn btn-light text-primary">
+                <i class="fa-solid fa-house"></i> Trang chủ
+            </a>
+
             <a th:href="@{/logout}" class="btn btn-danger">
                 <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
             </a>
@@ -172,7 +183,8 @@
                         <td class="text-center text-nowrap" th:text="${#dates.format(ls.ngayKham, 'dd/MM/yyyy')}"></td>
                         <td th:text="${ls.bacSi.nguoi.hoTen}"></td>
                         <td class="text-center">
-                            <a th:href="@{/benhnhan/hoso/xem-lich-su/{id}(id=${ls.maLichSuKham})}" class="btn btn-outline-primary btn-sm px-3">
+                            <a th:href="@{/benhnhan/hoso/xem-lich-su/{id}(id=${ls.maLichSuKham})}"
+                               class="btn btn-outline-primary btn-sm px-3">
                                 <i class="fa-solid fa-eye"></i> Xem chi tiết
                             </a>
                         </td>
@@ -182,21 +194,20 @@
             </div>
         </div>
     </div>
+
+    <!-- Chỉ hiện nút chỉnh sửa nếu là DOCTOR -->
     <div th:if="${nguoi.role == 'ROLE_DOCTOR'}">
-        <a th:href="@{/bacsi/hoso/chinh-sua/{id}(id=${hoSo.getMaHoSo()})}" class="btn btn-warning">
+        <a th:href="@{/bacsi/hoso/chinh-sua/{id}(id=${hoSo.maHoSo})}" class="btn btn-warning">
             <i class="fa fa-edit"></i> Chỉnh sửa
         </a>
     </div>
 
-
-    <!-- Nút quay lại -->
+    <!-- Nút quay lại: quay về trang trước (bác sĩ thì về /bacsi/lich-kham, bệnh nhân thì về /benhnhan/lich-kham, v.v.) -->
     <div class="text-center mt-4">
-        <a th:href="@{/benhnhan/}" class="btn btn-back">
+        <a href="javascript:history.back()" class="btn btn-back">
             <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách bệnh nhân
         </a>
     </div>
-    <!-- Chỉ hiện nút chỉnh sửa nếu là DOCTOR -->
-
 
 </div>
 
