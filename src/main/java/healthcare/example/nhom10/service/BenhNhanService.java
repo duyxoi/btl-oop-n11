@@ -14,10 +14,7 @@ public interface BenhNhanService {
     BenhNhan updateBenhNhan(Integer id, BenhNhan benhNhanDetails);
     void deleteBenhNhan(Integer id);
     List<BenhNhan> findByCccd(String cccd) ;
-
     List<BenhNhan> sortByHoTen() ;
-
     List<BenhNhan> sortByNgaySinh() ;
-
-     List<BenhNhan> sortByMaBenhNhan() ;
+    List<BenhNhan> sortByMaBenhNhan() ;
 }

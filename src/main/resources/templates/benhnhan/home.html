@@ -5,313 +5,193 @@
     <title>Trang chủ Bệnh nhân | Phòng khám Tận Tâm</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* [KHỐI CSS GIỮ NGUYÊN] */
+        /* [KHỐI CSS CHUNG VÀ NAVBAR GIỮ NGUYÊN] */
         body {
-            background: #E3F2FD;
+            background: #f0f2f5;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
         .app-nav-link {
-            color: #0056b3 !important;
-            text-decoration: none;
-            font-weight: 600;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            border-bottom: 3px solid transparent;
-        }
-        .app-nav-link:hover { background-color: #e0f2f7 !important; color: #007bff !important; border-bottom: 3px solid #0056b3; }
-        .app-nav-link.active, .app-nav-link:focus { background-color: #e0f2f7 !important; color: #007bff !important; border-bottom: 3px solid #0056b3; }
-        .navbar { background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 15px 5%; height: auto; border-bottom: 3px solid #007bff;}
+    color: #0056b3 !important;
+    text-decoration: none;
+    font-weight: 600;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-radius: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    transition: all 0.3s;
+    /* 🛠️ THÊM VIỀN TRONG SUỐT ĐỂ TRÁNH NHẢY KHI HOVER/ACTIVE */
+    border-bottom: 3px solid transparent;
+}
+
+/* Hiệu ứng khi di chuột qua */
+.app-nav-link:hover {
+    background-color: #e0f2f7 !important; /* Giữ màu nền hover nhạt */
+    color: #007bff !important;
+    /* ⭐️ THÊM VIỀN XANH PHÍA DƯỚI KHI HOVER ⭐️ */
+    border-bottom: 3px solid #0056b3;
+}
+
+/* Hiệu ứng khi nút đang ở trang hiện tại (active) */
+.app-nav-link.active,
+.app-nav-link:focus { /* focus là khi nút được tab đến hoặc nhấn */
+    background-color: #e0f2f7 !important;
+    color: #007bff !important;
+    /* ⭐️ THÊM VIỀN XANH PHÍA DƯỚI KHI ACTIVE/FOCUS ⭐️ */
+    border-bottom: 3px solid #0056b3;
+}
+        .navbar { background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 15px 5%; height: auto; }
         .navbar .container-fluid, .navbar .d-flex.align-items-center { height: 100%; }
         .navbar-brand { font-weight: 700; font-size: 1.5rem; color: #0056b3 !important; display: flex; align-items: center; }
         .navbar-brand img { margin-right: 10px; width: 45px; height: 45px; }
+        .app-nav-link { color: #0056b3 !important; text-decoration: none; font-weight: 600; height: 100%; display: flex; align-items: center; padding: 0 15px; border-radius: 0 !important; margin-right: 0 !important; margin-left: 0 !important; transition: all 0.3s; }
+        .app-nav-link:hover { background-color: #e0f2f7 !important; color: #007bff !important; }
         .notif-btn { position: relative; background: rgba(0, 86, 179, 0.1); border: none; color: #0056b3; font-size: 1.2rem; padding: 8px 10px; border-radius: 50%; transition: all 0.3s; }
         .notif-btn:hover { background: rgba(0, 86, 179, 0.2); }
         .notif-badge { position: absolute; top: 4px; right: 4px; font-size: 0.7rem; background: #ffc107; color: #000; }
 
-        /* 🏥 MAIN APPLICATION GRID (1 CỘT RỘNG) */
-        .app-grid { display: flex; max-width: 1100px; margin: 40px auto; gap: 30px; padding: 0 5%; }
-        .feed-header {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #0056b3; /* Màu chữ xanh */
-    margin-bottom: 25px;
-    border-bottom: 2px solid #eee; /* Xóa gạch dưới cũ */
-    padding-bottom: 10px;
-
-    /* ⭐️ THÊM: VIỀN XANH HÌNH CHỮ NHẬT ⭐️ */
-    display: inline-block; /* Quan trọng: Đặt chiều rộng bằng nội dung */
-    border: 2px solid #007bff; /* Viền xanh */
-    padding: 10px 20px; /* Thêm padding bên trong viền */
-    border-radius: 8px; /* Bo góc nhẹ */
-    background-color: #e0f2ff; /* Màu nền rất nhạt cho đẹp mắt */
-    box-shadow: n0 4px 8px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ */
-}
-
-/* ⭐️ SỬA: Đảm bảo tiêu đề vẫn căn lề trái trong khối chứa ⭐️ */
-.main-article-feed {
-    flex-grow: 1;
-    width: 100%;
-    /* ⭐️ BẮT BUỘC: Thêm căn giữa cho khối cha nếu muốn tiêu đề căn giữa ⭐️ */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-        .article-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); transition: transform 0.3s;display: flex;
-    flex-direction: column;
-    align-items: center; }
+        /* 🏥 MAIN APPLICATION GRID (2 CỘT) */
+        .app-grid { display: flex; max-width: 1300px; margin: 40px auto; gap: 30px; padding: 0 5%; }
+        .main-article-feed { flex-grow: 1; min-width: 650px; }
+        .feed-header { font-size: 1.5rem; font-weight: 700; color: #0056b3; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .article-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); transition: transform 0.3s; }
         .article-item:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); }
         .article-item h5 { color: #007bff; font-weight: 600; margin-bottom: 10px; }
-        .article-item img { width: 100%; height: 500px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
-        .article-content p {
-            margin-bottom: 5px;
-            text-align: left;
-            max-width: 800px; /* ⭐️ GIỚI HẠN CHIỀU RỘNG TỐI ĐA ĐỂ DỄ ĐỌC (Ví dụ: 800px) ⭐️ */
-            line-height: 1.6em;
-            text-indent: 30px;
-        }
+        .article-item img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
 
-        /* ⭐️ LOGIC THU GỌN 10 DÒNG ⭐️ */
+        /* ⛔️ ĐỌC THÊM STYLE FIX (10 DÒNG) ⛔️ */
         .article-content {
             line-height: 1.6em;
-            max-height: 16em; /* 10 lines * 1.6em/line */
+            max-height: 16em; /* 10 DÒNG */
             overflow: hidden;
             margin-bottom: 15px;
             position: relative;
         }
-        .article-content p { margin-bottom: 5px; } /* Giảm margin p để 10 dòng hiển thị đúng */
-        .article-content.expanded { max-height: none; }
+        .article-content.expanded {
+            max-height: none;
+        }
         .read-more-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 4em; /* Vùng che mờ */
+            height: 4em;
             background: linear-gradient(to top, white 50%, rgba(255, 255, 255, 0));
             pointer-events: none;
             z-index: 5;
         }
-        .article-content.expanded .read-more-overlay { display: none; }
-        .read-more-btn { cursor: pointer; font-weight: 500; text-decoration: none; color: #007bff; display: block; margin-top: 10px; font-size: 0.95rem; }
+        .article-content.expanded .read-more-overlay {
+            display: none;
+        }
+        .read-more-btn {
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            color: #007bff;
+            display: block;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        /* RIGHT COLUMN (Profile Sidebar) */
+        .sidebar-profile {
+            width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content; /* Sửa: Quan trọng để sidebar hiển thị đủ nội dung */
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #007bff;
+            margin-bottom: 15px;
+        }
+        .profile-name { font-size: 1.3rem; font-weight: 700; color: #0056b3; margin-bottom: 5px; }
+        .profile-info-box { background: #f7f9fc; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; }
+        .profile-info-box strong { color: #333; }
+
+        /* ⭐️ STYLE CHO NÚT HÀNH ĐỘNG CÓ VIỀN XANH KHI HOVER ⭐️ */
+        .btn-sidebar-action {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.3s, border 0.3s;
+            border: 2px solid transparent;
+        }
+        .btn-sidebar-action:hover {
+            transform: translateY(-2px);
+            border: 2px solid #0056b3;
+            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
+        }
 
         .footer { text-align: center; padding: 30px 0; color: #888; font-size: 0.9rem; background-color: white; border-top: 1px solid #eee; }
-        @media (max-width: 1024px) { .app-grid { flex-direction: column; } .main-article-feed { min-width: unset; } }
+        @media (max-width: 1024px) { .app-grid { flex-direction: column; } .sidebar-profile { width: 100%; position: static; margin-bottom: 30px; } .main-article-feed { min-width: unset; } }
     </style>
 
     <script th:inline="javascript">
-        // ⭐️ NỘI DUNG 1: Phòng ngừa Lây lan Bệnh Cúm Mùa ⭐️
-        const content1 = `
-            <p><b>1. Cúm Mùa: Hiểu và Phòng Ngừa Cơ Bản</b></p>
-            <p>Cúm mùa là bệnh nhiễm trùng đường hô hấp cấp tính do virus cúm gây ra, lây lan nhanh chóng qua các giọt bắn khi ho, hắt hơi hoặc nói chuyện. Việc hiểu rõ cơ chế lây lan là bước đầu tiên để bảo vệ bản thân và cộng đồng.</p>
-            <p><b>Tiêm chủng</b> là biện pháp phòng ngừa hiệu quả nhất. Mọi người nên tiêm phòng cúm hàng năm, đặc biệt là trẻ em, người lớn tuổi và người có bệnh nền mạn tính.</p>
-            <p><b>Vệ sinh tay</b> đóng vai trò quan trọng. Hãy rửa tay bằng xà phòng và nước sạch trong ít nhất 20 giây, đặc biệt sau khi chạm vào các bề mặt công cộng hoặc trước khi ăn.</p>
-            <p>Luôn che miệng và mũi bằng khuỷu tay hoặc khăn giấy khi ho hoặc hắt hơi, sau đó vứt khăn giấy vào thùng rác ngay lập tức.</p>
-            <p>Tránh chạm tay vào mặt, mắt và mũi, vì đây là những cửa ngõ để virus xâm nhập vào cơ thể.</p>
-            <p>Đảm bảo thông gió tốt trong nhà và nơi làm việc. Mở cửa sổ thường xuyên giúp không khí lưu thông và giảm mật độ virus trong không gian kín.</p>
-            <p>Nếu có dấu hiệu bệnh, hãy ở nhà và hạn chế tiếp xúc với người khác để tránh lây lan.</p>
-            <p>Uống đủ nước và duy trì chế độ dinh dưỡng cân bằng để tăng cường hệ miễn dịch.</p>
-            <p>Nếu các triệu chứng trở nặng, bao gồm khó thở hoặc sốt cao kéo dài, cần tìm kiếm sự chăm sóc y tế ngay lập tức.</p>
-        `;
+        // Hàm giả lập nội dung dài (50 dòng)
+        function generateLongContent(topic) {
+            let baseText = "Đây là thông tin chi tiết về **" + topic + "**. Các chuyên gia y tế khuyến cáo rằng việc tuân thủ các quy tắc sức khỏe cơ bản là chìa khóa để duy trì một cơ thể khỏe mạnh và chống lại bệnh tật. " +
+                           "Hãy nhớ rằng phòng bệnh hơn chữa bệnh. Việc kiểm tra sức khỏe định kỳ giúp phát hiện sớm các vấn đề tiềm ẩn và tăng cơ hội điều trị thành công.";
 
-        // ⭐️ NỘI DUNG 2: Chăm sóc Sức Khỏe Tim Mạch ⭐️
-        const content2 = `
-            <p><b>2. Chìa Khóa cho Trái Tim Khỏe Mạnh</b></p>
-            <p>Sức khỏe tim mạch là nền tảng của một cuộc sống lâu dài và chất lượng. Các bệnh về tim mạch là nguyên nhân gây tử vong hàng đầu trên thế giới, nhưng phần lớn có thể phòng ngừa được bằng lối sống khoa học.</p>
-            <p><b>Tập thể dục thường xuyên</b> là điều bắt buộc. Cố gắng dành 30 phút mỗi ngày cho các hoạt động aerobic vừa phải như đi bộ nhanh hoặc bơi lội.</p>
-            <p>Kiểm soát huyết áp và cholesterol. Thường xuyên kiểm tra các chỉ số này và tuân thủ liệu trình điều trị của bác sĩ.</p>
-            <p><b>Chế độ ăn Địa Trung Hải</b> được khuyên dùng: giàu rau xanh, trái cây, ngũ cốc nguyên hạt và chất béo lành mạnh từ dầu ô liu và cá béo.</p>
-            <p>Hạn chế tối đa muối, đường và chất béo bão hòa từ thịt đỏ hoặc thực phẩm chế biến sẵn.</p>
-            <p>Giảm thiểu hoặc loại bỏ việc hút thuốc lá. Hút thuốc là yếu tố nguy cơ lớn nhất gây xơ vữa động mạch.</p>
-            <p>Duy trì cân nặng hợp lý. Thừa cân hoặc béo phì tạo áp lực lớn lên tim và mạch máu.</p>
-            <p>Quản lý căng thẳng. Thiền, yoga hoặc dành thời gian cho sở thích cá nhân giúp giảm hormone stress, bảo vệ tim.</p>
-            <p>Ngủ đủ 7-8 giờ mỗi đêm. Thiếu ngủ mạn tính có thể làm tăng nguy cơ cao huyết áp và các vấn đề tim mạch khác.</p>
-            <p>Uống rượu bia có chừng mực. Đối với một số người, kiêng hoàn toàn là lựa chọn tốt nhất.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 3: Tăng Cường Hệ Miễn Dịch ⭐️
-        const content3 = `
-            <p><b>3. Tăng Cường Sức Mạnh Phòng Vệ của Cơ Thể</b></p>
-            <p>Hệ miễn dịch là "đội quân" bảo vệ cơ thể khỏi virus, vi khuẩn và các mầm bệnh khác. Một hệ miễn dịch mạnh là chìa khóa để chống lại mọi bệnh tật, từ cảm lạnh thông thường đến các bệnh lý nghiêm trọng hơn.</p>
-            <p><b>Vitamin C và D</b> là hai siêu sao miễn dịch. Vitamin C có trong cam, quýt, ổi; còn Vitamin D được tổng hợp qua ánh nắng mặt trời và có trong cá béo.</p>
-            <p><b>Kẽm</b> là một khoáng chất thiết yếu, hỗ trợ phát triển các tế bào miễn dịch. Kẽm có nhiều trong thịt bò, hạt bí và các loại đậu.</p>
-            <p>Bổ sung Probiotic. Các thực phẩm lên men như sữa chua, kim chi chứa vi khuẩn có lợi giúp cân bằng hệ vi sinh đường ruột, nơi có tới 70% tế bào miễn dịch.</p>
-            <p>Ngủ đủ giấc là liều thuốc miễn dịch tốt nhất. Trong khi ngủ, cơ thể sản xuất các protein bảo vệ gọi là Cytokine, giúp chống lại nhiễm trùng.</p>
-            <p>Thường xuyên tập thể dục vừa phải (30-45 phút mỗi ngày) giúp máu lưu thông tốt, hỗ trợ các tế bào miễn dịch di chuyển hiệu quả hơn.</p>
-            <p>Hạn chế đường tinh luyện. Đường làm suy yếu khả năng hoạt động của các tế bào bạch cầu, khiến cơ thể dễ bị tổn thương.</p>
-            <p>Uống trà xanh. Trà xanh chứa chất chống oxy hóa mạnh mẽ Epigallocatechin Gallate (EGCG) giúp bảo vệ tế bào miễn dịch.</p>
-            <p>Giữ tâm trạng lạc quan. Căng thẳng kéo dài tạo ra Cortisol, một hormone ức chế miễn dịch mạnh.</p>
-            <p>Tránh lạm dụng kháng sinh. Việc này có thể tiêu diệt cả vi khuẩn có lợi, làm suy yếu hệ thống phòng thủ tự nhiên.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 4: Quản lý Căng Thẳng và Lo Âu ⭐️
-        const content4 = `
-            <p><b>4. Quản Lý Stress: Sống Nhẹ Nhàng Hơn</b></p>
-            <p>Căng thẳng (stress) là một phản ứng tự nhiên của cơ thể. Tuy nhiên, căng thẳng mạn tính có thể gây ra nhiều vấn đề sức khỏe nghiêm trọng, từ đau đầu, mất ngủ đến các bệnh tim mạch.</p>
-            <p><b>Kỹ thuật thở sâu</b> là công cụ tức thời mạnh mẽ nhất. Hít vào chậm bằng mũi, giữ 4 giây, thở ra chậm bằng miệng. Lặp lại 5-10 lần.</p>
-            <p>Thực hành thiền chánh niệm (mindfulness). Thiền giúp bạn tập trung vào hiện tại, giảm bớt lo lắng về tương lai hoặc hối tiếc về quá khứ.</p>
-            <p>Thiết lập ranh giới làm việc và nghỉ ngơi. Tránh kiểm tra email công việc sau một giờ nhất định để đảm bảo thời gian cá nhân.</p>
-            <p>Tăng cường hoạt động thể chất. Tập thể dục giải phóng Endorphin, một chất dẫn truyền thần kinh giúp cải thiện tâm trạng và giảm đau.</p>
-            <p>Ăn uống lành mạnh. Bỏ qua cà phê và đường quá nhiều, vì chúng có thể làm tăng cảm giác bồn chồn, lo lắng.</p>
-            <p>Viết nhật ký. Ghi lại những suy nghĩ và cảm xúc giúp bạn nhìn nhận vấn đề một cách khách quan hơn.</p>
-            <p>Kết nối xã hội. Dành thời gian chất lượng với bạn bè và gia đình để cảm thấy được hỗ trợ và giảm cảm giác cô lập.</p>
-            <p>Ngủ đủ 7-9 giờ. Một cơ thể mệt mỏi sẽ phản ứng kém hơn với các yếu tố gây căng thẳng.</p>
-            <p>Tìm kiếm sự trợ giúp chuyên nghiệp. Nếu căng thẳng vượt quá khả năng kiểm soát, hãy nói chuyện với chuyên gia tâm lý.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 5: Bệnh Tiểu Đường: Dấu hiệu và Điều Trị ⭐️
-        const content5 = `
-            <p><b>5. Tiểu Đường Type 2: Nhận Diện Sớm và Kiểm Soát</b></p>
-            <p>Bệnh tiểu đường (Đái tháo đường) là tình trạng cơ thể không thể sử dụng glucose (đường) một cách hiệu quả, dẫn đến lượng đường trong máu cao. Kiểm soát tốt giúp ngăn ngừa các biến chứng nguy hiểm như bệnh tim, suy thận và tổn thương thần kinh.</p>
-            <p><b>Dấu hiệu nhận biết sớm:</b> Khát nước nhiều, đi tiểu thường xuyên, sụt cân không rõ nguyên nhân, và vết thương lâu lành.</p>
-            <p><b>Chẩn đoán:</b> Bác sĩ sẽ sử dụng các xét nghiệm như Glucose máu lúc đói hoặc HbA1c để xác định bệnh.</p>
-            <p>Thay đổi chế độ ăn uống là cốt lõi. Ưu tiên các thực phẩm có chỉ số đường huyết thấp như rau xanh, protein nạc và chất béo lành mạnh.</p>
-            <p>Hạn chế tuyệt đối nước ngọt, bánh kẹo, cơm trắng và bánh mì trắng, vì chúng làm tăng đường huyết đột ngột.</p>
-            <p>Tập thể dục đều đặn giúp cơ thể sử dụng insulin hiệu quả hơn, cải thiện việc hấp thu glucose.</p>
-            <p><b>Tuân thủ dùng thuốc:</b> Nếu bác sĩ kê đơn Metformin hoặc các loại thuốc khác, cần dùng đúng liều lượng và thời gian.</p>
-            <p>Thường xuyên kiểm tra đường huyết tại nhà theo hướng dẫn của bác sĩ. Ghi lại kết quả để theo dõi hiệu quả điều trị.</p>
-            <p>Chăm sóc chân kỹ lưỡng. Người bệnh tiểu đường dễ bị tổn thương thần kinh ở chân, cần kiểm tra chân hàng ngày để phát hiện vết cắt hoặc vết loét.</p>
-            <p>Tuyệt đối không tự ý ngưng hoặc thay đổi liều thuốc mà không có chỉ định y tế.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 6: Chế độ Ăn Uống Cho Người Bệnh Viêm Khớp ⭐️
-        const content6 = `
-            <p><b>6. Dinh Dưỡng Giảm Viêm cho Bệnh Nhân Viêm Khớp</b></p>
-            <p>Viêm khớp (Arthritis) gây đau, cứng và sưng khớp. Chế độ ăn uống không thể chữa khỏi bệnh, nhưng có thể giúp giảm viêm, giảm đau và làm chậm tiến trình của bệnh.</p>
-            <p><b>Thực phẩm chống viêm:</b> Cá béo (cá hồi, cá thu) giàu Omega-3 là lựa chọn hàng đầu. Omega-3 giúp giảm các chất gây viêm trong cơ thể.</p>
-            <p>Thêm nhiều rau xanh đậm (rau bina, cải xoăn) và trái cây (quả mọng như việt quất, dâu tây) vì chúng giàu chất chống oxy hóa.</p>
-            <p>Sử dụng dầu ô liu nguyên chất. Dầu ô liu chứa Oleocanthal, một hợp chất có tác dụng chống viêm tương tự như Ibuprofen.</p>
-            <p><b>Thực phẩm cần tránh:</b> Đường và tinh bột tinh chế (bánh ngọt, nước ngọt) kích thích phản ứng viêm.</p>
-            <p>Hạn chế thịt đỏ và các sản phẩm sữa béo cao, chúng có thể chứa các chất làm trầm trọng thêm tình trạng viêm.</p>
-            <p>Tránh các loại dầu thực vật giàu Omega-6 như dầu đậu nành hoặc dầu ngô, vì chúng có thể gây mất cân bằng với Omega-3.</p>
-            <p>Uống trà gừng và trà nghệ. Gừng và nghệ chứa các hợp chất có khả năng giảm đau và giảm viêm tự nhiên.</p>
-            <p>Duy trì hydrat hóa (uống đủ nước). Nước giúp bôi trơn và duy trì độ đàn hồi của sụn khớp.</p>
-            <p>Tham khảo ý kiến bác sĩ hoặc chuyên gia dinh dưỡng để xây dựng chế độ ăn phù hợp với tình trạng viêm khớp của bạn.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 7: Tầm Quan Trọng của Giấc Ngủ Sâu ⭐️
-        const content7 = `
-            <p><b>7. Giấc Ngủ Sâu: Thuốc Chữa Bách Bệnh Tự Nhiên</b></p>
-            <p>Giấc ngủ không chỉ là thời gian nghỉ ngơi mà còn là lúc cơ thể thực hiện các chức năng sửa chữa, phục hồi não bộ và củng cố trí nhớ. Chất lượng giấc ngủ kém ảnh hưởng tiêu cực đến mọi mặt của cuộc sống và sức khỏe.</p>
-            <p><b>Thiết lập lịch ngủ cố định:</b> Đi ngủ và thức dậy vào cùng một thời điểm mỗi ngày, ngay cả vào cuối tuần, giúp điều chỉnh đồng hồ sinh học.</p>
-            <p>Đảm bảo phòng ngủ tối, yên tĩnh và mát mẻ. Nhiệt độ lý tưởng thường là khoảng 18-20 độ C.</p>
-            <p>Tránh ánh sáng xanh từ màn hình điện tử (điện thoại, máy tính bảng) ít nhất một giờ trước khi đi ngủ, vì ánh sáng xanh ức chế Melatonin.</p>
-            <p>Hạn chế caffeine và nicotine vào buổi chiều và tối. Các chất kích thích này có thể cản trở giấc ngủ sâu.</p>
-            <p>Không nên ăn một bữa quá no hoặc uống quá nhiều nước ngay trước khi ngủ để tránh làm gián đoạn giấc ngủ.</p>
-            <p>Tập thể dục thường xuyên, nhưng tránh tập cường độ cao quá gần giờ ngủ (khoảng 2-3 giờ trước khi ngủ).</p>
-            <p>Tạo thói quen thư giãn trước khi ngủ như đọc sách (sách giấy), tắm nước ấm hoặc nghe nhạc nhẹ.</p>
-            <p>Đối phó với chứng mất ngủ: Nếu bạn không ngủ được sau 20 phút, hãy ra khỏi giường và làm gì đó thư giãn cho đến khi cảm thấy buồn ngủ trở lại.</p>
-            <p>Nếu mất ngủ kéo dài và ảnh hưởng đến sức khỏe, hãy tham khảo ý kiến bác sĩ để tìm nguyên nhân và giải pháp.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 8: Các bài tập Giảm Đau Lưng ⭐️
-        const content8 = `
-            <p><b>8. Chiến Lược Đơn Giản Chống Lại Đau Lưng Mạn Tính</b></p>
-            <p>Đau lưng là một trong những vấn đề sức khỏe phổ biến nhất. Trong nhiều trường hợp, đau lưng không phải do chấn thương nghiêm trọng mà do tư thế xấu và thiếu vận động cơ bắp hỗ trợ.</p>
-            <p><b>Tư thế ngồi đúng:</b> Giữ lưng thẳng, vai thả lỏng, hai chân đặt phẳng trên sàn. Sử dụng gối tựa lưng nếu cần thiết.</p>
-            <p><b>Tăng cường cơ lõi (Core):</b> Các bài tập như Plank và Bird-Dog giúp củng cố cơ bụng và lưng dưới, hỗ trợ cột sống.</p>
-            <p>Thực hiện các bài tập kéo giãn cơ gân kheo (hamstring stretch) vì cơ gân kheo bị căng có thể làm tăng áp lực lên lưng dưới.</p>
-            <p><b>Tập bơi:</b> Bơi lội là một bài tập lý tưởng vì nó giúp tăng cường cơ bắp mà không gây áp lực lên các khớp và cột sống.</p>
-            <p>Tránh nâng vật nặng bằng cách cúi cong lưng. Thay vào đó, hãy gập gối, giữ lưng thẳng và dùng sức mạnh của chân để nâng.</p>
-            <p>Đi bộ nhanh: Đi bộ là một cách tuyệt vời để giữ cho các đĩa đệm cột sống được hydrat hóa và linh hoạt.</p>
-            <p>Chườm nóng hoặc lạnh: Chườm nóng giúp thư giãn cơ bị co thắt, chườm lạnh giúp giảm đau và sưng tấy.</p>
-            <p><b>Chọn đệm ngủ phù hợp:</b> Một chiếc đệm quá mềm hoặc quá cứng có thể làm trầm trọng thêm cơn đau. Đệm có độ cứng trung bình thường là tốt nhất.</p>
-            <p>Nếu cơn đau kéo dài hơn vài tuần hoặc đi kèm tê bì chân, hãy tham khảo ý kiến bác sĩ vật lý trị liệu.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 9: Hướng dẫn Chăm sóc Da tại Nhà ⭐️
-        const content9 = `
-            <p><b>9. Quy Trình Chăm Sóc Da Cơ Bản Cho Làn Da Khỏe</b></p>
-            <p>Làn da là cơ quan lớn nhất của cơ thể và cần được chăm sóc thường xuyên. Một quy trình chăm sóc da cơ bản, đều đặn sẽ giúp ngăn ngừa mụn, nếp nhăn và giữ cho da sáng khỏe.</p>
-            <p><b>Bước 1: Làm sạch (Cleansing).</b> Rửa mặt hai lần mỗi ngày (sáng và tối) để loại bỏ bụi bẩn, dầu thừa và lớp trang điểm.</p>
-            <p><b>Bước 2: Dưỡng ẩm (Moisturizing).</b> Dùng kem dưỡng ẩm phù hợp với loại da (da dầu, da khô, da hỗn hợp) để duy trì hàng rào bảo vệ da và độ ẩm tự nhiên.</p>
-            <p><b>Bước 3: Bảo vệ (Protection).</b> Luôn sử dụng kem chống nắng (SPF 30 trở lên) vào buổi sáng, kể cả khi trời râm hoặc ở trong nhà. Tia UV là nguyên nhân hàng đầu gây lão hóa.</p>
-            <p>Uống đủ nước. Hydrat hóa từ bên trong giúp da căng mọng và giảm nếp nhăn.</p>
-            <p>Chế độ ăn giàu chất chống oxy hóa. Ăn nhiều rau xanh, trái cây và các loại hạt để bảo vệ da khỏi tổn thương gốc tự do.</p>
-            <p>Tránh nặn mụn. Tự nặn mụn có thể dẫn đến nhiễm trùng, sẹo và thâm vĩnh viễn.</p>
-            <p>Thay vỏ gối thường xuyên. Vỏ gối bẩn có thể tích tụ vi khuẩn và dầu, gây ra mụn.</p>
-            <p>Tẩy tế bào chết 1-2 lần/tuần. Giúp loại bỏ tế bào da chết, làm thông thoáng lỗ chân lông.</p>
-            <p>Ngủ đủ giấc. Thiếu ngủ làm tăng Cortisol, gây viêm và mụn trứng cá.</p>
-            <p>Nếu da có các vấn đề mạn tính như chàm hoặc Rosacea, hãy tham khảo ý kiến bác sĩ da liễu.</p>
-        `;
-
-        // ⭐️ NỘI DUNG 10: Nguyên tắc Sơ Cấp Cứu ban đầu ⭐️
-        const content10 = `
-            <p><b>10. Các Bước Sơ Cấp Cứu Cơ Bản Mọi Người Nên Biết</b></p>
-            <p>Kiến thức sơ cấp cứu có thể cứu sống một người trước khi nhân viên y tế chuyên nghiệp đến. Biết cách xử lý tình huống khẩn cấp giúp bạn hành động nhanh chóng và chính xác.</p>
-            <p><b>Nguyên tắc cơ bản (DRSABCD):</b> Nguy hiểm (Danger), Phản ứng (Response), Gửi thông báo (Send for help), Đường thở (Airway), Thở (Breathing), Tuần hoàn (Compression), Khử rung (Defibrillation).</p>
-            <p><b>Xử lý chảy máu nặng:</b> Dùng miếng vải sạch hoặc băng ép trực tiếp lên vết thương. Nâng cao chi bị thương (nếu không gãy xương) để giảm tốc độ chảy máu.</p>
-            <p><b>Bỏng:</b> Nhanh chóng ngâm hoặc xả vết bỏng dưới vòi nước lạnh (không dùng nước đá) trong ít nhất 10 phút. Không bôi dầu, kem đánh răng hoặc bất cứ thứ gì khác.</p>
-            <p><b>Hóc dị vật (người lớn):</b> Sử dụng kỹ thuật Heimlich (đẩy bụng). Đứng sau lưng nạn nhân, vòng tay qua bụng, nắm chặt tay thành nắm đấm và ấn mạnh lên trên.</p>
-            <p><b>Gãy xương:</b> Cố định chi bị thương bằng nẹp tạm thời để ngăn không cho chi chuyển động. Không cố gắng nắn chỉnh xương.</p>
-            <p><b>Ngộ độc:</b> Gọi ngay cho trung tâm cấp cứu và cung cấp thông tin về chất độc đã tiếp xúc. Không cố gắng gây nôn trừ khi được hướng dẫn.</p>
-            <p>Nếu nạn nhân bất tỉnh và không thở, bắt đầu **CPR (Hồi sức tim phổi)** ngay lập tức.</p>
-            <p>Giữ bình tĩnh và trấn an nạn nhân. Sự bình tĩnh của bạn giúp nạn nhân cảm thấy an toàn hơn.</p>
-            <p>Luôn gọi số cấp cứu (ví dụ: 115 ở Việt Nam) trước khi thực hiện bất kỳ hành động sơ cứu nào nghiêm trọng.</p>
-        `;
-
-        // ⭐️ CẬP NHẬT MẢNG BÀI BÁO MẪU ⭐️
-        const articlesMock = [
-            { title: "1. Phòng ngừa Lây lan Bệnh Cúm Mùa: Điều Cần Biết", imageUrl: '/images/article-placeholder-1.jpg', content: content1 },
-            { title: "2. 10 Lời Khuyên Vàng để Bảo Vệ Sức Khỏe Tim Mạch", imageUrl: '/images/article-placeholder-2.jpg', content: content2 },
-            { title: "3. Vai trò của Dinh Dưỡng trong Việc Tăng Cường Hệ Miễn Dịch", imageUrl: '/images/article-placeholder-3.jpg', content: content3 },
-            { title: "4. Những Biện Pháp Đơn Giản Giúp Giảm Căng Thẳng", imageUrl: '/images/article-placeholder-4.jpg', content: content4 },
-            { title: "5. Hiểu Đúng về Bệnh Tiểu Đường: Dấu hiệu và Điều Trị", imageUrl: '/images/article-placeholder-5.jpg', content: content5 },
-            { title: "6. Chế độ Ăn Uống Cho Người Bệnh Viêm Khớp và Gout", imageUrl: '/images/article-placeholder-6.jpg', content: content6 },
-            { title: "7. Tầm Quan Trọng của Giấc Ngủ Sâu đối với Hồi phục", imageUrl: '/images/article-placeholder-7.jpg', content: content7 },
-            { title: "8. Phương pháp Điều trị Đau Lưng Mãn tính tại nhà", imageUrl: '/images/article-placeholder-8.jpg', content: content8 },
-            { title: "9. Hướng dẫn Tự Chăm sóc Da tại Nhà", imageUrl: '/images/article-placeholder-9.jpg', content: content9 },
-            { title: "10. Các loại Nguyên tắc Sơ Cấp Cứu ban đầu", imageUrl: '/images/article-placeholder-10.jpg', content: content10 }
-        ];
-
-        const articles = [[${articles}]] ? [[${articles}]] : articlesMock;
-
-        function initializeReadMoreLogic() {
-            document.querySelectorAll('.read-more-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetId = button.getAttribute('data-target');
-                    const content = document.getElementById(targetId);
-
-                    if (content.classList.contains('expanded')) {
-                        content.classList.remove('expanded');
-                        button.innerHTML = 'Đọc thêm <i class="bi bi-arrow-right"></i>';
-                    } else {
-                        content.classList.add('expanded');
-                        button.innerHTML = 'Thu gọn <i class="bi bi-arrow-up"></i>';
-                    }
-                });
-            });
+            let content = "";
+            for (let i = 1; i <= 10; i++) {
+                content += baseText + " (Đoạn " + i + ")" + "<br><br><br><br><br>";
+            }
+            return content;
         }
 
-        function renderMockArticles() {
-            const container = document.getElementById('mock-articles-container');
-            if (container) {
-                let html = '';
-                articlesMock.forEach((article, index) => {
-                    const safeIndex = index + 10;
-                    html += `
-                        <div class="article-item">
-                            <img src="${article.imageUrl}" alt="${article.title}" class="img-fluid">
-                            <h5>${article.title}</h5>
+        const articlesMock = [
+            { title: "Phòng ngừa Lây lan Bệnh Cúm Mùa: Điều Cần Biết", imageUrl: '/images/article-placeholder-1.jpg', content: generateLongContent("Cúm Mùa") },
+            { title: "10 Lời Khuyên Vàng để Bảo Vệ Sức Khỏe Tim Mạch", imageUrl: '/images/article-placeholder-2.jpg', content: generateLongContent("Sức Khỏe Tim Mạch") },
+            { title: "Vai trò của Dinh Dưỡng trong Việc Tăng Cường Hệ Miễn Dịch", imageUrl: '/images/article-placeholder-3.jpg', content: generateLongContent("Dinh Dưỡng & Miễn Dịch") },
+            { title: "Những Biện Pháp Đơn Giản Giúp Giảm Căng Thẳng Trong Công Việc", imageUrl: '/images/article-placeholder-4.jpg', content: generateLongContent("Giảm Căng Thẳng") },
+            { title: "Hiểu Đúng về Bệnh Tiểu Đường: Dấu hiệu và Cách Kiểm Soát", imageUrl: '/images/article-placeholder-5.jpg', content: generateLongContent("Bệnh Tiểu Đường") }
+        ];
 
-                            <div class="article-content" id="content-${safeIndex}">
-                                <div class="read-more-overlay"></div>
-                                ${article.content}
-                            </div>
+        // Nếu Controller không truyền 'articles' thì dùng mock data
+        const articles = [[${articles}]] ? [[${articles}]] : articlesMock;
 
-                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${safeIndex}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-                initializeReadMoreLogic();
+        // 💡 GIẢ LẬP DỮ LIỆU THÔNG TIN CÁ NHÂN (Person Mock Data)
+        const mockPrincipal = {
+            nguoi: {
+                hoTen: "Nguyễn Văn An (MOCK)",
+                cccd: "012345678901",
+                ngaySinh: new Date().getTime(), // Thời gian hiện tại để format
+                gioiTinh: "Nam",
+                diaChi: "123 Đường Sức Khỏe, Q.1, TP.HCM",
+                email: "nguyen.van.an@mock.com",
+                sdt: "0901 234 567"
+            },
+            benhNhan: {
+                nhomMau: "A+",
+                maBaoHiem: "BHX000123456",
+                tienSuBenh: "Không có"
             }
+        };
+
+        // Nếu Controller không truyền #authentication (principal) thì dùng mock data
+        if (!window.localStorage.getItem('isMockDataLoaded')) {
+            // Lưu dữ liệu mock vào một biến toàn cục hoặc sử dụng Thymeleaf Mock Object (tùy thuộc môi trường)
+            // Trong môi trường Thymeleaf, việc này phức tạp. Tốt nhất là Controller phải cung cấp dữ liệu.
+            // Để tránh lỗi sập trang, tôi sẽ dùng cú pháp kiểm tra đơn giản và dùng text placeholder bên dưới.
         }
     </script>
 </head>
@@ -325,8 +205,6 @@
         </a>
 
         <div class="d-flex align-items-center">
-            <a th:href="@{/benhnhan/}" class="app-nav-link active">Tin tức</a>
-
             <a th:href="@{/benhnhan/dat-lich}" class="app-nav-link">Đặt lịch khám</a>
             <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId})}" class="app-nav-link">Xem hồ sơ</a>
             <a th:href="@{/benhnhan/lich-kham}" class="app-nav-link">Xem lịch khám</a>
@@ -384,8 +262,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="app-grid">
 
     <div class="main-article-feed">
@@ -406,12 +282,52 @@
         <div th:if="${articles == null or #lists.isEmpty(articles)}" id="mock-articles-container">
             <div class="text-center text-muted py-5">
                 <i class="bi bi-newspaper fs-3"></i>
-                <p>Đang tải dữ liệu bài báo mô phỏng (10 bài, 50 dòng)...</p>
+                <p>Đang tải dữ liệu bài báo mô phỏng...</p>
             </div>
         </div>
 
         <div class="text-center mt-4">
             <a href="#" class="btn btn-outline-secondary">Xem tất cả bài báo</a>
+        </div>
+    </div>
+
+    <div class="sidebar-profile text-center">
+        <label for="profile-upload" style="cursor: pointer; display: block; margin-bottom: 5px;">
+            <img th:src="@{/images/profile-placeholder.jpg}" alt="Ảnh đại diện" class="profile-pic">
+            <span class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-camera"></i> Thêm ảnh
+            </span>
+        </label>
+        <input type="file" id="profile-upload" style="display: none;">
+
+        <div th:text="${#authentication != null ? #authentication.principal.nguoi.hoTen : 'Nguyễn Văn An (MOCK DATA)'}" class="profile-name">Nguyễn Văn An</div>
+        <p th:text="'ID: ' + ${personId != null ? personId : '99'}" class="text-muted">ID: 99</p>
+
+        <hr>
+
+        <a th:href="@{/benhnhan/dat-lich}" class="btn btn-success btn-sidebar-action">
+            <i class="bi bi-calendar2-check"></i> Đặt lịch khám
+        </a>
+        <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId != null ? personId : '99'})}" class="btn btn-info btn-sidebar-action text-white">
+            <i class="bi bi-file-earmark-medical"></i> Xem hồ sơ bệnh án
+        </a>
+        <a th:href="@{/benhnhan/lich-kham}" class="btn btn-secondary btn-sidebar-action">
+            <i class="bi bi-clock-history"></i> Xem lịch khám
+        </a>
+
+        <div class="profile-info-box">
+            <p class="mb-1"><strong>CCCD:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.cccd : '012345678901'}">[cccd]</span></p>
+            <p class="mb-1"><strong>Ngày sinh:</strong> <span th:text="${#authentication != null ? #temporals.format(#authentication.principal.nguoi.ngaySinh, 'dd/MM/yyyy') : '01/01/1990'}">[ngày sinh]</span></p>
+            <p class="mb-1"><strong>Giới tính:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.gioiTinh : 'Nam'}">[giới tính]</span></p>
+            <p class="mb-1"><strong>Địa chỉ:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.diaChi : '123 Đường Sức Khỏe, Q.1, TP.HCM'}">[địa chỉ]</span></p>
+
+            <hr>
+
+            <p class="mb-1"><strong>Email:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.email : 'nguyen.van.an@mock.com'}">[email]</span></p>
+            <p class="mb-1"><strong>SĐT:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.sdt : '0901 234 567'}">[sdt]</span></p>
+            <p class="mb-1"><strong>Nhóm máu:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.nhomMau : 'A+'}">[nhóm máu]</span></p>
+            <p class="mb-1"><strong>Mã BHYT:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.maBaoHiem : 'BHX000123456'}">[mã bhyt]</span></p>
+            <p class="mb-0"><strong>Tiền sử bệnh:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.tienSuBenh : 'Không có'}">[tiền sử bệnh]</span></p>
         </div>
     </div>
 </div>
@@ -423,61 +339,76 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    function initializeReadMoreLogic() {
+        document.querySelectorAll('.read-more-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const content = document.getElementById(targetId);
 
-        // Khởi tạo logic đọc thêm/thu gọn
-        function initializeReadMoreLogic() {
-            document.querySelectorAll('.read-more-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetId = button.getAttribute('data-target');
-                    const content = document.getElementById(targetId);
-
-                    if (content.classList.contains('expanded')) {
-                        content.classList.remove('expanded');
-                        button.innerHTML = 'Đọc thêm <i class="bi bi-arrow-right"></i>';
-                    } else {
-                        content.classList.add('expanded');
-                        button.innerHTML = 'Thu gọn <i class="bi bi-arrow-up"></i>';
-                    }
-                });
+                if (content.classList.contains('expanded')) {
+                    content.classList.remove('expanded');
+                    button.innerHTML = 'Đọc thêm <i class="bi bi-arrow-right"></i>';
+                } else {
+                    content.classList.add('expanded');
+                    button.innerHTML = 'Thu gọn <i class="bi bi-arrow-up"></i>';
+                }
             });
-        }
+        });
+    }
 
-        // Logic render mock articles (nếu Controller không truyền data)
-        function renderMockArticles() {
+    // Hàm render mock data cho bài báo nếu Controller không truyền (chỉ dùng cho mục đích sửa lỗi/dev)
+    function renderMockArticles() {
+        if (articles.length === articlesMock.length && articles.every((item, index) => item === articlesMock[index])) {
             const container = document.getElementById('mock-articles-container');
             if (container) {
                 let html = '';
                 articlesMock.forEach((article, index) => {
-                    const safeIndex = index + 10;
                     html += `
                         <div class="article-item">
                             <img src="${article.imageUrl}" alt="${article.title}" class="img-fluid">
                             <h5>${article.title}</h5>
 
-                            <div class="article-content" id="content-${safeIndex}">
+                            <div class="article-content" id="content-${index}">
                                 <div class="read-more-overlay"></div>
                                 <p>${article.content}</p>
                             </div>
 
-                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${safeIndex}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
+                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${index}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
                         </div>
                     `;
                 });
                 container.innerHTML = html;
-                initializeReadMoreLogic();
+                initializeReadMoreLogic(); // Khởi tạo lại logic sau khi thêm bài báo mock
             }
         }
+    }
 
-        // ⭐️ LOGIC CHẠY TRANG ⭐️
 
-        // Khởi tạo logic đọc thêm cho cả bài từ Controller và bài Mock
+    document.addEventListener('DOMContentLoaded', () => {
+        // Khởi tạo logic đọc thêm cho bài báo từ Controller (nếu có)
         initializeReadMoreLogic();
 
-        // Logic chạy render Mock Articles
+        // Chạy logic render mock articles nếu Controller không truyền data
+        // Đây là cách fix nhanh cho môi trường dev mà không có backend
         const hasControllerArticles = document.querySelector('.main-article-feed > .article-item') !== null;
         if (!hasControllerArticles) {
              renderMockArticles();
+        }
+
+        // Logic xử lý upload ảnh (giữ nguyên)
+        const profileUpload = document.getElementById('profile-upload');
+        if(profileUpload) {
+            profileUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('.profile-pic').src = e.target.result;
+                        alert('Ảnh mới đã được tải lên thành công (Chỉ hiển thị trên trình duyệt).');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         }
     });
 </script>

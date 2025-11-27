@@ -1,7 +1,7 @@
 package healthcare.example.nhom10.Controller;
 
-import healthcare.example.nhom10.Entity.*;
 import healthcare.example.nhom10.common.CustomUserDetails;
+import healthcare.example.nhom10.Entity.*;
 import healthcare.example.nhom10.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/bacsi")
 public class BacSiController {
+
     @Autowired
     private BenhNhanService benhNhanService;
 
@@ -47,12 +48,13 @@ public class BacSiController {
     private HoSoBeNhanService hoSoBeNhanService;
 
     @Autowired
-    PhieuDichVuService phieuDichVuService;
+    private PhieuDichVuService phieuDichVuService;
 
-
+    // Trang home bác sĩ
     @GetMapping("/")
     public String home(Model model) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
         int personId = userDetails.getPersonId();
         Nguoi nguoi = userDetails.getNguoi();
         model.addAttribute("personId", personId);
@@ -60,53 +62,75 @@ public class BacSiController {
         return "bacsi/home";
     }
 
+    // Xem thông tin bác sĩ đang đăng nhập
     @GetMapping("/thong-tin/{id}")
     public String xemThongTin(@PathVariable int id, Model model) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
 
-        int personId = userDetails.getPersonId();
         Nguoi nguoi = userDetails.getNguoi();
 
         BacSi bs = bacSiService.getBacSiByNguoi(nguoi)
-                .orElseThrow(()-> new RuntimeException("Benh nhan id "+ id+" not found"));
-
-//        if(nguoi.getRole().equals("ROLE_PATIENT") && hoSo.getBenhNhan().getNguoi().getPersonId() != personId){
-//            return "error/403";
-//        }
+                .orElseThrow(() -> new RuntimeException("Benh nhan id " + id + " not found"));
 
         model.addAttribute("nguoi", nguoi);
         model.addAttribute("bacsi", bs);
         return "bacsi/thong-tin";
     }
 
+    /**
+     * BÁC SĨ đang đăng nhập xem lịch của CHÍNH MÌNH
+     * /bacsi/lich-kham?mode=table|calendar
+     */
+    @GetMapping("/lich-kham")
+    public String lichKhamCuaToi(
+            @RequestParam(name = "mode", defaultValue = "table") String mode,
+            Model model) {
 
-    @GetMapping("/lich-kham/{id}")
-    public String xemLichKham(Model model,@PathVariable int id) {
-        // Lấy thông tin user hiện tại
-        CustomUserDetails userDetails =
-                (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
         Nguoi nguoi = userDetails.getNguoi();
 
-        // Lấy bệnh nhân tương ứng
-//        BacSi bacSi = bacSiService.getBacSiByNguoi(nguoi)
-//                .orElseThrow(() -> new RuntimeException("Không tìm thấy bác sĩ."));
+        BacSi bacSi = bacSiService.getBacSiByNguoi(nguoi)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin bác sĩ."));
 
-        Nguoi nguoiCanTim = nguoiService.getNguoiById(id).orElseThrow(()-> new RuntimeException("Nguoi id "+ id+" not found"));
+        List<DatLichKham> lichKhams = datLichKhamService.getByBacSi(bacSi);
 
-        BacSi bacSiCanTim = bacSiService.getBacSiByNguoi(nguoiCanTim).orElseThrow(()-> new RuntimeException("Bac si id "+ id+" not found"));
-
-
-
-        // Lấy danh sách lịch khám của bệnh nhân
-        List<DatLichKham> lichKhams = datLichKhamService.getByBacSi(bacSiCanTim);
-
-        model.addAttribute("nguoiDung", nguoi);
+        model.addAttribute("bacsi", bacSi);
         model.addAttribute("lichKhams", lichKhams);
-        return "bacsi/lich-kham"; // Giao diện hiển thị danh sách lịch khám
+        model.addAttribute("mode", mode); // table / calendar
+
+        return "bacsi/lich-kham";
     }
 
+    /**
+     * ADMIN (hoặc người khác) xem lịch của một bác sĩ bất kỳ theo personId
+     * /bacsi/lich-kham/{id}?mode=table|calendar
+     */
+    @GetMapping("/lich-kham/{id}")
+    public String xemLichKham(
+            Model model,
+            @PathVariable int id,
+            @RequestParam(name = "mode", defaultValue = "table") String mode) {
 
-    // Hiển thị form cập nhật
+        // Tìm bác sĩ cần xem lịch từ personId
+        Nguoi nguoiCanTim = nguoiService.getNguoiById(id)
+                .orElseThrow(() -> new RuntimeException("Nguoi id " + id + " not found"));
+
+        BacSi bacSiCanTim = bacSiService.getBacSiByNguoi(nguoiCanTim)
+                .orElseThrow(() -> new RuntimeException("Bac si id " + id + " not found"));
+
+        // Lấy danh sách lịch khám của bác sĩ đó
+        List<DatLichKham> lichKhams = datLichKhamService.getByBacSi(bacSiCanTim);
+
+        model.addAttribute("bacsi", bacSiCanTim);
+        model.addAttribute("lichKhams", lichKhams);
+        model.addAttribute("mode", mode);
+
+        return "bacsi/lich-kham";
+    }
+
+    // Hiển thị form cập nhật kết quả khám
     @GetMapping("/lich-kham/cap-nhat/{id}")
     public String hienThiFormCapNhat(@PathVariable int id, Model model) {
         DatLichKham lichKham = datLichKhamService.getById(id).orElse(null);
@@ -134,7 +158,6 @@ public class BacSiController {
             @RequestParam("maDichVuYTe") int maDichVuYTe,
             @ModelAttribute("lichSuKham") LichSuKham lichSuKham,
 
-            // Chỉ nhận ID thuốc, Liều lượng, Hướng dẫn (ĐÃ BỎ SO_LUONGS)
             @RequestParam(value = "thuocIds", required = false) List<Integer> thuocIds,
             @RequestParam(value = "lieuLuongs", required = false) List<String> lieuLuongs,
             @RequestParam(value = "huongDans", required = false) List<String> huongDans,
@@ -143,7 +166,8 @@ public class BacSiController {
             RedirectAttributes redirectAttributes) {
 
         DatLichKham dlKham = datLichKhamService.getById(id).orElseThrow();
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
         BacSi bacSi = bacSiService.getBacSiByNguoi(userDetails.getNguoi()).orElseThrow();
 
         // 1. TÍNH TIỀN DỊCH VỤ
@@ -156,7 +180,7 @@ public class BacSiController {
         double giaDichVu = (dichVuYTe.getChiPhi() != null) ? dichVuYTe.getChiPhi() : 0.0;
         long tongChiPhiTinhToan = (long) giaDichVu;
 
-        // 2. TÍNH TIỀN THUỐC (Không nhân số lượng)
+        // 2. TÍNH TIỀN THUỐC
         DonThuoc donThuoc = new DonThuoc();
         List<KeDon> chiTietList = new ArrayList<>();
 
@@ -166,22 +190,17 @@ public class BacSiController {
                 LoaiThuoc thuoc = loaiThuocService.getLoaiThuocById(thuocIds.get(i)).orElseThrow();
 
                 ct.setLoaiThuoc(thuoc);
-
-                // Nếu Entity KeDon bắt buộc phải có số lượng, ta set cứng là 1
-                // ct.setSoLuong(1);
-
                 ct.setLieuLuong(lieuLuongs.get(i));
                 ct.setHuongDanSuDung(huongDans.get(i));
                 ct.setDonThuoc(donThuoc);
 
                 chiTietList.add(ct);
-
-                // CỘNG TIỀN: Chỉ cộng đơn giá thuốc
                 tongChiPhiTinhToan += (long) thuoc.getGiaThuoc();
             }
         }
 
-        donThuoc.setNgayKeDon(Date.from(dlKham.getNgayKham().atZone(ZoneId.systemDefault()).toInstant()));
+        donThuoc.setNgayKeDon(Date.from(dlKham.getNgayKham()
+                .atZone(ZoneId.systemDefault()).toInstant()));
         donThuoc.setKeDon(chiTietList);
         donThuocService.createDonThuoc(donThuoc);
 
@@ -189,31 +208,66 @@ public class BacSiController {
         lichSuKham.setDonThuoc(donThuoc);
         lichSuKham.setBacSi(bacSi);
         lichSuKham.setPhongKham(dlKham.getKhoa().getViTri());
-        lichSuKham.setNgayKham(Date.from(dlKham.getNgayKham().atZone(ZoneId.systemDefault()).toInstant()));
-        lichSuKham.setHoSoBeNhan(hoSoBeNhanService.getHoSoBeNhanByBenhNhan(dlKham.getBenhNhan()).get());
+        lichSuKham.setNgayKham(Date.from(dlKham.getNgayKham()
+                .atZone(ZoneId.systemDefault()).toInstant()));
+        lichSuKham.setHoSoBeNhan(hoSoBeNhanService
+                .getHoSoBeNhanByBenhNhan(dlKham.getBenhNhan()).get());
         lichSuKham.setChuanDoan(chuanDoan);
         lichSuKham.setPhieuDichVu(phieu);
         lichSuKham.setGhiChu(ghiChuThem);
-
-        // Lưu tổng tiền
-        lichSuKham.setChiPhi((long) tongChiPhiTinhToan);
+        lichSuKham.setChiPhi(tongChiPhiTinhToan);
 
         lichSuKhamService.createLichSuKham(lichSuKham);
         datLichKhamService.delete(id);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Lưu thành công! Tổng chi phí: " + tongChiPhiTinhToan + " VNĐ");
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "Lưu thành công! Tổng chi phí: " + tongChiPhiTinhToan + " VNĐ"
+        );
+        // vẫn redirect về /bacsi/lich-kham/{personId}
         return "redirect:/bacsi/lich-kham/" + bacSi.getNguoi().getPersonId();
     }
+
+    // 🔵 ĐÁNH DẤU LỊCH KHÁM ĐÃ HOÀN THÀNH (chỉ đổi trạng thái, không xóa)
+    @PostMapping("/lich-kham/{id}/hoan-thanh")
+    public String danhDauHoanThanh(
+            @PathVariable int id,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            DatLichKham lich = datLichKhamService.getById(id)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch khám id = " + id));
+
+            lich.setTrangThai("HOAN_THANH");
+
+            // TODO: nếu service của bạn không có hàm save thì đổi lại tên hàm cho đúng
+            datLichKhamService.save(lich);
+
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Đã đánh dấu lịch khám của bệnh nhân "
+                            + lich.getBenhNhan().getNguoi().getHoTen()
+                            + " là HOÀN THÀNH."
+            );
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Không thể cập nhật trạng thái: " + e.getMessage()
+            );
+        }
+
+        return "redirect:/bacsi/lich-kham?mode=table";
+    }
+
     @GetMapping("/hoso/chinh-sua/{id}")
     public String hienThiFormChinhSua(@PathVariable int id, Model model) {
         HoSoBeNhan hoSo = hoSoBeNhanService.getHoSoBeNhanById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy hồ sơ có id: " + id));
 
         model.addAttribute("hoSo", hoSo);
-        return "bacsi/chinhsuahoso"; // Tên file HTML: chinhsuahoso.html
+        return "bacsi/chinhsuahoso";
     }
 
-    // 🩺 Cập nhật hồ sơ bệnh án
     @PostMapping("/hoso/chinh-sua/{id}")
     public String capNhatHoSo(
             @PathVariable int id,
@@ -225,27 +279,26 @@ public class BacSiController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            // 🔍 Lấy hồ sơ hiện tại từ DB
             HoSoBeNhan hoSo = hoSoBeNhanService.getHoSoBeNhanById(id)
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy hồ sơ có id: " + id));
 
-            // ✏️ Cập nhật thông tin
             hoSo.setNgayNhapVien(ngayNhapVien);
             hoSo.setNgayXuatVien(ngayXuatVien);
             hoSo.setChuanDoan(chuanDoan);
             hoSo.setPhuongAnDieuTri(phuongAnDieuTri);
             hoSo.setKetQua(ketQua);
 
-            // 💾 Lưu lại vào DB
             hoSoBeNhanService.updateHoSoBeNhan(id, hoSo);
 
-            redirectAttributes.addFlashAttribute("successMessage", "✅ Cập nhật hồ sơ bệnh án thành công!");
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "✅ Cập nhật hồ sơ bệnh án thành công!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "❌ Lỗi khi cập nhật hồ sơ: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "❌ Lỗi khi cập nhật hồ sơ: " + e.getMessage());
         }
 
-        // 👉 Sau khi lưu, quay lại chính trang chỉnh sửa (hiển thị thông báo)
-        return "redirect:/benhnhan/hoso/" + hoSoBeNhanService.getHoSoBeNhanById(id).get().getBenhNhan().getNguoi().getPersonId();
+        return "redirect:/benhnhan/hoso/" +
+                hoSoBeNhanService.getHoSoBeNhanById(id).get()
+                        .getBenhNhan().getNguoi().getPersonId();
     }
-
 }

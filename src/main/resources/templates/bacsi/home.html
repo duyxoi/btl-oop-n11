@@ -77,6 +77,19 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
+        /* Nút Xem lịch khám – nền xanh dương đậm, chữ trắng */
+        .btn-view-calendar {
+            background: #0d6efd;      /* xanh dương đậm */
+            color: #ffffff;           /* chữ trắng */
+            border: 2px solid #0d6efd;
+        }
+
+        .btn-view-calendar:hover {
+            background: #084298;      /* xanh đậm hơn khi hover */
+            border-color: #084298;
+            color: #ffffff;
+        }
+
         .footer {
             margin-top: 60px;
             text-align: center;
@@ -103,7 +116,7 @@
                     data-bs-target="#offCanvasNotif"
                     aria-controls="offCanvasNotif">
                 <i class="bi bi-bell"></i>
-                <span th:if="${notifications != null and #lists.size(notifications) > 0}"
+                <span th:if="${notifications != null && #lists.size(notifications) > 0}"
                       th:text="${#lists.size(notifications)}"
                       class="badge notif-badge rounded-circle"></span>
             </button>
@@ -137,7 +150,8 @@
                    class="list-group-item list-group-item-action">
                     <div class="d-flex justify-content-between">
                         <h6 th:text="${n.title}" class="fw-bold text-primary">Tiêu đề</h6>
-                        <small class="text-muted" th:text="${#temporals.format(n.createdAt, 'dd/MM/yyyy HH:mm')}"></small>
+                        <small class="text-muted"
+                               th:text="${#temporals.format(n.createdAt, 'dd/MM/yyyy HH:mm')}"></small>
                     </div>
                     <p th:text="${n.message}" class="mb-1"></p>
                 </a>
@@ -150,20 +164,26 @@
 <div class="container container-main text-center">
     <div class="intro mb-4">
         <h4>Xin chào, Bác sĩ <span th:text="${doctor.hoTen}">Nguyễn Văn A</span> 👨‍⚕️</h4>
-        <p>Chào mừng bạn đến với trang quản lý bác sĩ. Tại đây bạn có thể xem thông tin cá nhân, lịch khám và danh sách bệnh nhân.</p>
+        <p>Chào mừng bạn đến với trang quản lý bác sĩ. Tại đây bạn có thể xem thông tin cá nhân và lịch khám.</p>
     </div>
 
     <div class="d-grid gap-3">
-        <a th:href="@{/bacsi/thong-tin/{id}(id=${doctor.getPersonId()})}" class="btn btn-info btn-main text-white">
+        <!-- Thông tin bác sĩ -->
+        <a th:href="@{/bacsi/thong-tin/{id}(id=${doctor.getPersonId()})}"
+           class="btn btn-info btn-main text-white">
             <i class="bi bi-person-badge"></i> Xem thông tin bác sĩ
         </a>
 
-        <a th:href="@{/bacsi/lich-kham/{id}(id=${doctor.getPersonId()})}" class="btn btn-success btn-main">
-            <i class="bi bi-calendar-week"></i> Xem lịch khám
+        <!-- Khám cho bệnh nhân: dạng DANH SÁCH -->
+        <a th:href="@{/bacsi/lich-kham(mode='table')}"
+           class="btn btn-success btn-main">
+            <i class="bi bi-list-ul"></i> Khám cho bệnh nhân
         </a>
 
-        <a th:href="@{/bacsi/benh-nhan-hom-nay}" class="btn btn-secondary btn-main">
-            <i class="bi bi-people-fill"></i> Danh sách bệnh nhân hôm nay
+        <!-- Xem lịch khám: dạng CALENDAR, nền xanh dương đậm -->
+        <a th:href="@{/bacsi/lich-kham(mode='calendar')}"
+           class="btn btn-main btn-view-calendar">
+            <i class="bi bi-calendar-week"></i> Xem lịch khám
         </a>
     </div>
 
