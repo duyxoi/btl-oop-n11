@@ -2,52 +2,75 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Chi tiết hồ sơ bệnh án</title>
+    <title>Chi tiết hồ sơ bệnh án | Phòng khám Tận Tâm</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
+        /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
         body {
-            background: linear-gradient(to bottom right, #e3f2fd, #f8f9fa);
-            font-family: "Segoe UI", sans-serif;
+            background: #E3F2FD; /* Màu nền xanh nhạt, đồng bộ với dat_lich */
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
         }
 
-        .header-bar {
-            background: linear-gradient(90deg, #0d6efd, #4dabf7);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        .container {
+            max-width: 950px;
         }
 
-        .header-bar h3 {
-            margin: 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        /* 🌈 Navbar đồng bộ */
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid #007bff; /* Đường kẻ xanh đồng bộ */
+            padding: 15px 5%;
         }
 
-        .header-bar h3 i {
+        .navbar-brand {
+            font-weight: 700;
             font-size: 1.5rem;
+            color: #0056b3 !important;
+            display: flex;
+            align-items: center;
         }
 
-        .action-buttons a {
-            margin-left: 10px;
-            transition: 0.3s;
+        .navbar-brand img {
+            width: 45px;
+            margin-right: 10px;
         }
 
-        .action-buttons a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        /* ⭐️ ĐỒNG BỘ NÚT ACTIONS ⭐️ */
+        .navbar .btn { border-radius: 8px; font-weight: 600; padding: 8px 15px; transition: all 0.2s; }
+
+        .navbar .btn-light {
+            color: #0056b3;
+            background-color: transparent;
+            border: 2px solid #0056b3;
+        }
+        .navbar .btn-light:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+            transform: translateY(-1px);
         }
 
+        .navbar .btn-danger {
+            background-color: #007bff; /* Đổi màu Đăng xuất thành Xanh đậm */
+            border-color: #007bff;
+        }
+        .navbar .btn-danger:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        /* 🌟 Card chính */
         .card {
             border: none;
             border-radius: 16px;
@@ -57,96 +80,121 @@
         }
 
         .card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-1px); /* Giảm hiệu ứng hover để đồng bộ */
         }
 
-        h2 {
+        /* ⭐️ TIÊU ĐỀ TRANG MỚI ⭐️ */
+        .page-main-title {
             font-weight: 700;
-            color: #007bff;
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
         }
 
         h4 {
-            font-weight: 600;
-            border-left: 4px solid #007bff;
-            padding-left: 10px;
+            font-weight: 700;
+            color: #0056b3;
+            border-left: 5px solid #007bff;
+            padding-left: 15px;
         }
 
+        /* Bảng */
         th {
             background-color: #007bff !important;
             color: white !important;
+            font-weight: 600;
         }
 
         .table-hover tbody tr:hover {
-            background-color: #f1f9ff;
-        }
-
-        .btn-back {
-            background-color: #6c757d;
-            color: white;
-            border-radius: 30px;
-            padding: 10px 20px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-back:hover {
-            background-color: #5a6268;
-            transform: scale(1.05);
+            background-color: #e0f2ff;
         }
 
         .info-item {
             margin-bottom: 8px;
+            font-size: 1rem;
         }
 
         .info-item strong {
             color: #333;
+            font-weight: 600;
         }
 
-        .container {
-            max-width: 950px;
+        /* Nút quay lại dưới cùng */
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
+        .btn-back:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            border: none;
+        }
+
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
         }
     </style>
 </head>
 
-<body class="p-4">
+<body class="p-0">
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" th:href="@{/benhnhan/}">
+            <img th:src="@{/images/icon-phongkham.png}" alt="Logo Tận Tâm">
+            Phòng khám Tận Tâm
+        </a>
+        <div class="action-buttons">
+            <a th:href="@{/benhnhan/}" class="btn btn-light me-2">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại
+            </a>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
 
 <div class="container">
 
-    <!-- Thanh tiêu đề + nút đăng xuất -->
-    <div class="header-bar">
-        <h3><i class="fa-solid fa-file-medical"></i> Chi tiết hồ sơ bệnh án</h3>
-        <div class="action-buttons">
-            <a th:href="@{/benhnhan/}" class="btn btn-light text-primary">
-                <i class="fa-solid fa-house"></i> Trang chủ
-            </a>
-            <a th:href="@{/logout}" class="btn btn-danger">
-                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-            </a>
-        </div>
-    </div>
+    <h3 class="page-main-title">
+        <i class="fa-solid fa-file-medical"></i> Chi tiết hồ sơ bệnh án
+    </h3>
 
-    <!-- Thông tin bệnh nhân -->
     <div class="card p-4 mb-4">
-        <h4 class="mb-3 text-primary"><i class="fa-solid fa-user"></i> Thông tin bệnh nhân</h4>
+        <h4 class="mb-3"><i class="fa-solid fa-user"></i> Thông tin bệnh nhân</h4>
         <div class="row">
             <div class="col-md-6">
                 <p class="info-item"><strong>Mã hồ sơ:</strong> <span th:text="${hoSo.maHoSo}"></span></p>
                 <p class="info-item"><strong>Tên bệnh nhân:</strong> <span th:text="${hoSo.benhNhan.nguoi.hoTen}"></span></p>
-                <p class="info-item"><strong>Ngày nhập viện:</strong> <span th:text="${#dates.format(hoSo.ngayNhapVien, 'dd/MM/yyyy')}"></span></p>
-                <p class="info-item"><strong>Ngày xuất viện:</strong> <span th:text="${#dates.format(hoSo.ngayXuatVien, 'dd/MM/yyyy')}"></span></p>
+
+                <p class="info-item"><strong>Ngày nhập viện:</strong> <span th:text="${hoSo.ngayNhapVien != null ? #dates.format(hoSo.ngayNhapVien, 'dd/MM/yyyy') : '---'}"></span></p>
+                <p class="info-item"><strong>Ngày xuất viện:</strong> <span th:text="${hoSo.ngayXuatVien != null ? #dates.format(hoSo.ngayXuatVien, 'dd/MM/yyyy') : 'Chưa xuất viện'}"></span></p>
             </div>
 
             <div class="col-md-6">
-                <p class="info-item"><strong>Chẩn đoán:</strong> <span th:text="${hoSo.chuanDoan}"></span></p>
-                <p class="info-item"><strong>Phương án điều trị:</strong> <span th:text="${hoSo.phuongAnDieuTri}"></span></p>
-                <p class="info-item"><strong>Kết quả:</strong> <span th:text="${hoSo.ketQua}"></span></p>
+                <p class="info-item"><strong>Chẩn đoán:</strong> <span th:text="${hoSo.chuanDoan ?: '---'}"></span></p>
+                <p class="info-item"><strong>Phương án điều trị:</strong> <span th:text="${hoSo.phuongAnDieuTri ?: '---'}"></span></p>
+                <p class="info-item"><strong>Kết quả:</strong> <span th:text="${hoSo.ketQua ?: 'Đang điều trị'}"></span></p>
             </div>
         </div>
     </div>
 
-    <!-- Lịch sử khám -->
     <div class="card p-4 mb-4">
-        <h4 class="mb-3 text-primary"><i class="fa-solid fa-stethoscope"></i> Lịch sử khám</h4>
+        <h4 class="mb-3"><i class="fa-solid fa-stethoscope"></i> Lịch sử khám</h4>
 
         <div th:if="${#lists.isEmpty(hoSo.lichSuKham)}" class="text-center text-muted fst-italic py-3">
             <i class="fa-regular fa-folder-open fa-2x mb-2"></i>
@@ -182,23 +230,23 @@
             </div>
         </div>
     </div>
-    <div th:if="${nguoi.role == 'ROLE_DOCTOR'}">
-        <a th:href="@{/bacsi/hoso/chinh-sua/{id}(id=${hoSo.getMaHoSo()})}" class="btn btn-warning">
-            <i class="fa fa-edit"></i> Chỉnh sửa
+
+    <div class="d-flex justify-content-between mt-4 mb-5">
+        <div th:if="${nguoi.role == 'ROLE_DOCTOR'}">
+            <a th:href="@{/bacsi/hoso/chinh-sua/{id}(id=${hoSo.maHoSo})}" class="btn btn-warning">
+                <i class="fa fa-edit"></i> Chỉnh sửa hồ sơ
+            </a>
+        </div>
+
+        <a th:href="@{/benhnhan/}" class="btn btn-back ms-auto">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại
         </a>
     </div>
-
-
-    <!-- Nút quay lại -->
-    <div class="text-center mt-4">
-        <a th:href="@{/benhnhan/}" class="btn btn-back">
-            <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách bệnh nhân
-        </a>
-    </div>
-    <!-- Chỉ hiện nút chỉnh sửa nếu là DOCTOR -->
-
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 
 </body>
 </html>
