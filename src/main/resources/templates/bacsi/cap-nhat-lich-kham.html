@@ -2,22 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Cập nhật kết quả khám bệnh</title>
+    <title>Cập nhật kết quả khám bệnh | Phòng khám Tận Tâm</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
         body {
-            background: linear-gradient(135deg, #f0f6ff, #ffffff);
-            font-family: "Segoe UI", sans-serif;
+            background: #f0f2f5; /* Màu nền đồng bộ */
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
         }
-        .card {
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+        /* 🌈 Navbar đồng bộ */
+        .navbar {
+            background: #ffffff; /* Màu trắng đồng bộ */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid #007bff; /* Đường kẻ xanh phân chia */
+            padding: 15px 5%; /* Padding đồng bộ */
         }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem; /* Kích thước đồng bộ */
+            color: #0056b3 !important; /* Màu xanh đậm đồng bộ */
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand img {
+            margin-right: 10px;
+            width: 45px; /* Kích thước logo đồng bộ */
+        }
+
+        /* ⭐️ Header Bar Mới (Đã đồng bộ) ⭐️ */
         .header-bar {
-            background: linear-gradient(90deg, #0d6efd, #4dabf7);
+            background: #007bff; /* Xanh dương chủ đạo */
             color: white;
             padding: 20px 25px;
             border-radius: 12px;
@@ -29,31 +49,87 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 700;
         }
+
+        /* ⭐️ NÚT ACTIONS ĐỒNG BỘ ⭐️ */
+        .btn-light {
+            color: #0056b3 !important;
+            background-color: transparent;
+            border: 2px solid #0056b3;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .btn-light:hover {
+            color: #fff !important;
+            background-color: #007bff;
+            border-color: #007bff;
+            transform: translateY(-1px);
+        }
+        .btn-danger {
+            background-color: #007bff; /* Đổi màu Đăng xuất thành Xanh đậm */
+            border-color: #007bff;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .btn-danger:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+
+        /* 🩺 Nội dung chính */
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
         .form-label {
             font-weight: 600;
+            color: #0056b3; /* Nhãn màu xanh đậm đồng bộ */
         }
+
+        /* ⭐️ Style cho Kê đơn Thuốc ⭐️ */
         .thuoc-item {
-            background: #f8f9fa;
+            background: #f7f9fc; /* Nền nhạt hơn cho mỗi dòng thuốc */
             border-radius: 10px;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #dee2e6;
+            border: 1px solid #e0f2ff;
         }
         .btn-add {
-            background-color: #e7f1ff;
-            color: #0d6efd;
-            border: 1px dashed #0d6efd;
+            background-color: #e0f2ff; /* Xanh nhạt */
+            color: #007bff;
+            border: 1px dashed #007bff;
+            font-weight: 600;
+            border-radius: 8px;
         }
         .btn-add:hover {
-            background-color: #0d6efd;
+            background-color: #007bff;
             color: white;
         }
+
+        /* ⭐️ NÚT SUBMIT ĐỒNG BỘ ⭐️ */
         .btn-submit {
             border-radius: 8px;
             font-weight: 600;
+            background-color: #28a745;
+            border-color: #28a745;
         }
-        /* --- THÊM STYLE HIỂN THỊ TỔNG TIỀN --- */
+        .btn-submit:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+
+        /* --- STYLE HIỂN THỊ TỔNG TIỀN (Giữ nguyên) --- */
         .total-box {
             background-color: #fff8e1; /* Màu vàng nhạt */
             border: 2px dashed #ffc107;
@@ -70,12 +146,14 @@
     <div class="header-bar d-flex justify-content-between align-items-center">
         <h3><i class="bi bi-clipboard2-pulse"></i> Cập nhật kết quả khám bệnh</h3>
         <div>
-            <a th:href="@{/bacsi/lich-kham}" class="btn btn-light text-primary me-2">
+            <a th:href="@{/bacsi/lich-kham}" class="btn btn-danger me-2">
                 <i class="bi bi-arrow-left"></i> Quay lại
             </a>
-            <a th:href="@{/logout}" class="btn btn-danger">
-                <i class="bi bi-box-arrow-right"></i> Đăng xuất
-            </a>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                </button>
+            </form>
         </div>
     </div>
 
@@ -134,27 +212,25 @@
 
                 <div class="mb-3">
                     <label class="form-label">Kê đơn thuốc</label>
-                    <div id="thuocList">
-                        <div class="thuoc-item">
-                            <div class="row g-2">
+                    <div id="thuocContainer">
+                        <div id="thuocTemplate" class="thuoc-item">
+                            <div class="row g-2 align-items-center">
                                 <div class="col-md-4">
                                     <select name="thuocIds" class="form-select select-thuoc" onchange="tinhTien()" required>
                                         <option value="" data-price="0">-- Chọn thuốc --</option>
-                                        <option th:each="t : ${dsLoaiThuoc}"
-                                                th:value="${t.maThuoc}"
-                                                th:text="${t.tenThuoc + ' (' + #numbers.formatDecimal(t.giaThuoc, 0, 'POINT', 0, 'COMMA') + 'đ)'}"
-                                                th:data-price="${t.giaThuoc}">
-                                        </option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <input type="text" name="lieuLuongs" class="form-control" placeholder="Liều lượng (ví dụ: 2 viên/ngày)" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <input type="text" name="huongDans" class="form-control" placeholder="Hướng dẫn sử dụng (sáng, tối)" required>
+                                </div>
+                                <div class="col-md-1 text-center">
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <button type="button" class="btn btn-add mt-2" onclick="themThuoc()">
                         <i class="bi bi-plus-circle"></i> Thêm thuốc
@@ -184,11 +260,14 @@
     </form>
 </div>
 
-<script>
+<script th:inline="javascript">
     // Hàm format tiền Việt
     const formatVND = (number) => {
         return new Intl.NumberFormat('vi-VN').format(number);
     }
+
+    // ⭐️ DỮ LIỆU THUỐC TỪ THYMELEAF (BẮT BUỘC) ⭐️
+    const dsLoaiThuoc = [[${dsLoaiThuoc}]];
 
     // Hàm tính tiền (Dịch vụ + Thuốc)
     function tinhTien() {
@@ -203,7 +282,7 @@
         }
 
         // 2. Tính Thuốc (Cộng dồn giá thuốc)
-        const cacDongThuoc = document.querySelectorAll(".thuoc-item");
+        const cacDongThuoc = document.querySelectorAll("#thuocContainer .thuoc-item");
         cacDongThuoc.forEach(dong => {
             const selectThuoc = dong.querySelector(".select-thuoc");
             if (selectThuoc && selectThuoc.selectedIndex >= 0) {
@@ -218,16 +297,73 @@
         document.getElementById("hiddenTongChiPhi").value = tongTien;
     }
 
-    // Hàm thêm dòng thuốc (Giữ nguyên của bạn + thêm lệnh tính tiền)
-    function themThuoc() {
-        const list = document.getElementById("thuocList");
-        const item = list.querySelector(".thuoc-item").cloneNode(true);
-        item.querySelectorAll("input").forEach(i => i.value = "");
-        item.querySelector("select").selectedIndex = 0;
-        list.appendChild(item);
+    // Hàm tạo HTML cho một dòng thuốc mới (đã bao gồm nút xóa)
+    function getThuocHtml(isRemovable = true) {
+        let optionsHtml = dsLoaiThuoc.map(t => {
+            const giaText = new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(t.giaThuoc);
+            return `<option value="${t.maThuoc}" data-price="${t.giaThuoc}">${t.tenThuoc} (${giaText} đ)</option>`;
+        }).join('');
 
-        tinhTien(); // Gọi lại hàm tính tiền sau khi thêm dòng mới
+        return `
+            <div class="thuoc-item" onchange="tinhTien()">
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-4">
+                        <select name="thuocIds" class="form-select select-thuoc" required onchange="tinhTien()">
+                            <option value="" data-price="0">-- Chọn thuốc --</option>
+                            ${optionsHtml}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="lieuLuongs" class="form-control" placeholder="Liều lượng" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="huongDans" class="form-control" placeholder="Hướng dẫn sử dụng" required>
+                    </div>
+                    <div class="col-md-1 text-center">
+                        ${isRemovable ?
+                            `<button type="button" class="btn btn-outline-danger btn-sm" onclick="xoaThuoc(this)">
+                                <i class="bi bi-x-circle"></i>
+                             </button>`
+                            : ''
+                        }
+                    </div>
+                </div>
+            </div>
+        `;
     }
+
+    // Hàm thêm dòng thuốc
+    function themThuoc() {
+        const container = document.getElementById("thuocContainer");
+        // Chỉ thêm nút xóa nếu đã có dòng thuốc khác
+        container.insertAdjacentHTML('beforeend', getThuocHtml(true));
+        tinhTien();
+    }
+
+    // Hàm xóa dòng thuốc
+    function xoaThuoc(buttonElement) {
+        const itemToRemove = buttonElement.closest('.thuoc-item');
+        if (itemToRemove) {
+            itemToRemove.remove();
+            tinhTien();
+        }
+    }
+
+    // ⭐️ LOGIC KHỞI TẠO BAN ĐẦU ⭐️
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById("thuocContainer");
+
+        // Xóa dòng mẫu cũ
+        container.innerHTML = '';
+
+        if (container) {
+            // Thêm dòng thuốc khởi tạo (KHÔNG có nút xóa)
+            container.insertAdjacentHTML('beforeend', getThuocHtml(false));
+        }
+
+        // Khởi tạo tính tiền ban đầu (ví dụ: giá dịch vụ)
+        tinhTien();
+    });
 </script>
 
 </body>

@@ -2,39 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Trang bác sĩ - Phòng khám Đa khoa ABC</title>
+    <title>Trang bác sĩ | Phòng khám Tận Tâm</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
+        /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
         body {
-            background: linear-gradient(135deg, #e3f2fd, #ffffff);
-            font-family: "Poppins", "Segoe UI", sans-serif;
+            background: #E3F2FD; /* Màu nền đồng bộ */
+            font-family: 'Roboto', sans-serif;
         }
 
+        /* 🌈 Navbar đồng bộ */
         .navbar {
-            background: linear-gradient(90deg, #007bff, #00b4d8);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 12px 20px;
+            background: #ffffff; /* Màu trắng đồng bộ */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid #007bff; /* Đường kẻ xanh phân chia */
+            padding: 15px 5%; /* Padding đồng bộ */
         }
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.5rem; /* Kích thước đồng bộ */
+            color: #0056b3 !important; /* Màu xanh đậm đồng bộ */
             display: flex;
             align-items: center;
         }
 
         .navbar-brand img {
             margin-right: 10px;
-            width: 38px;
+            width: 45px; /* Kích thước logo đồng bộ */
         }
 
         .notif-btn {
             position: relative;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 86, 179, 0.1); /* Màu nền nhạt khi không hover */
             border: none;
-            color: white;
+            color: #0056b3; /* Màu xanh đậm */
             font-size: 1.2rem;
             padding: 8px 10px;
             border-radius: 50%;
@@ -42,7 +49,7 @@
         }
 
         .notif-btn:hover {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(0, 86, 179, 0.2);
         }
 
         .notif-badge {
@@ -54,15 +61,36 @@
             color: #000;
         }
 
+        /* ⭐️ NÚT ĐĂNG XUẤT ĐỒNG BỘ ⭐️ */
+        .navbar .btn-danger {
+            background-color: #007bff; /* Màu xanh dương đậm */
+            border-color: #007bff;
+            font-weight: 600;
+            transition: all 0.2s;
+            padding: 8px 15px;
+        }
+        .navbar .btn-danger:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+
+        /* ⭐️ CONTAINER CHÍNH ĐỒNG BỘ ⭐️ */
         .container-main {
             max-width: 850px;
-            margin-top: 130px;
+            margin-top: 60px; /* Giảm margin top để cân đối */
             background: white;
             padding: 50px;
             border-radius: 18px;
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
         }
 
+        .container-main h4 {
+            color: #0056b3;
+            font-weight: 700;
+        }
+
+        /* ⭐️ BUTTON MAIN ĐỒNG BỘ ⭐️ */
         .btn-main {
             width: 100%;
             padding: 14px;
@@ -77,18 +105,31 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        /* Nút Xem lịch khám – nền xanh dương đậm, chữ trắng */
-        .btn-view-calendar {
-            background: #0d6efd;      /* xanh dương đậm */
-            color: #ffffff;           /* chữ trắng */
-            border: 2px solid #0d6efd;
+        /* ⭐️ ĐỒNG BỘ MÀU CÁC NÚT MAIN ⭐️ */
+        .btn-info {
+            background-color: #17a2b8; /* Màu info chuẩn */
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #117a8b;
         }
 
-        .btn-view-calendar:hover {
-            background: #084298;      /* xanh đậm hơn khi hover */
-            border-color: #084298;
-            color: #ffffff;
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
         }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
 
         .footer {
             margin-top: 60px;
@@ -100,13 +141,12 @@
 </head>
 <body>
 
-<!-- 🌈 Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <a class="navbar-brand text-white" href="/bacsi/">
-                <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="logo">
-                Trang bác sĩ - ABC Clinic
+            <a class="navbar-brand" href="/bacsi/">
+                <img th:src="@{/images/icon-phongkham.png}" alt="Logo Tận Tâm">
+                Phòng khám Tận Tâm
             </a>
         </div>
 
@@ -116,7 +156,7 @@
                     data-bs-target="#offCanvasNotif"
                     aria-controls="offCanvasNotif">
                 <i class="bi bi-bell"></i>
-                <span th:if="${notifications != null && #lists.size(notifications) > 0}"
+                <span th:if="${notifications != null and #lists.size(notifications) > 0}"
                       th:text="${#lists.size(notifications)}"
                       class="badge notif-badge rounded-circle"></span>
             </button>
@@ -130,7 +170,6 @@
     </div>
 </nav>
 
-<!-- 🔔 Offcanvas thông báo -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offCanvasNotif" aria-labelledby="offCanvasNotifLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offCanvasNotifLabel">🔔 Thông báo</h5>
@@ -150,8 +189,7 @@
                    class="list-group-item list-group-item-action">
                     <div class="d-flex justify-content-between">
                         <h6 th:text="${n.title}" class="fw-bold text-primary">Tiêu đề</h6>
-                        <small class="text-muted"
-                               th:text="${#temporals.format(n.createdAt, 'dd/MM/yyyy HH:mm')}"></small>
+                        <small class="text-muted" th:text="${#temporals.format(n.createdAt, 'dd/MM/yyyy HH:mm')}"></small>
                     </div>
                     <p th:text="${n.message}" class="mb-1"></p>
                 </a>
@@ -160,30 +198,23 @@
     </div>
 </div>
 
-<!-- 🩺 Nội dung chính -->
 <div class="container container-main text-center">
     <div class="intro mb-4">
         <h4>Xin chào, Bác sĩ <span th:text="${doctor.hoTen}">Nguyễn Văn A</span> 👨‍⚕️</h4>
-        <p>Chào mừng bạn đến với trang quản lý bác sĩ. Tại đây bạn có thể xem thông tin cá nhân và lịch khám.</p>
+        <p>Chào mừng bạn đến với trang quản lý bác sĩ. Tại đây bạn có thể xem thông tin cá nhân, lịch khám và danh sách bệnh nhân.</p>
     </div>
 
     <div class="d-grid gap-3">
-        <!-- Thông tin bác sĩ -->
-        <a th:href="@{/bacsi/thong-tin/{id}(id=${doctor.getPersonId()})}"
-           class="btn btn-info btn-main text-white">
+        <a th:href="@{/bacsi/thong-tin/{id}(id=${doctor.getPersonId()})}" class="btn btn-info btn-main text-white">
             <i class="bi bi-person-badge"></i> Xem thông tin bác sĩ
         </a>
 
-        <!-- Khám cho bệnh nhân: dạng DANH SÁCH -->
-        <a th:href="@{/bacsi/lich-kham(mode='table')}"
-           class="btn btn-success btn-main">
-            <i class="bi bi-list-ul"></i> Khám cho bệnh nhân
+        <a th:href="@{/bacsi/lich-kham/{id}(id=${doctor.getPersonId()})}" class="btn btn-success btn-main">
+            <i class="bi bi-calendar-week"></i> Xem lịch khám
         </a>
 
-        <!-- Xem lịch khám: dạng CALENDAR, nền xanh dương đậm -->
-        <a th:href="@{/bacsi/lich-kham(mode='calendar')}"
-           class="btn btn-main btn-view-calendar">
-            <i class="bi bi-calendar-week"></i> Xem lịch khám
+        <a th:href="@{/bacsi/benh-nhan-hom-nay}" class="btn btn-secondary btn-main">
+            <i class="bi bi-people-fill"></i> Danh sách bệnh nhân hôm nay
         </a>
     </div>
 
