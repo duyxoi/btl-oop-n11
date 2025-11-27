@@ -11,74 +11,153 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* [KHỐI CSS CHUNG VÀ NAVBAR GIỮ NGUYÊN] */
         body {
             background: #f0f2f5;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
+
         .app-nav-link {
-    color: #0056b3 !important;
-    text-decoration: none;
-    font-weight: 600;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    border-radius: 0 !important;
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    transition: all 0.3s;
-    /* 🛠️ THÊM VIỀN TRONG SUỐT ĐỂ TRÁNH NHẢY KHI HOVER/ACTIVE */
-    border-bottom: 3px solid transparent;
-}
+            color: #0056b3 !important;
+            text-decoration: none;
+            font-weight: 600;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-radius: 0 !important;
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
 
-/* Hiệu ứng khi di chuột qua */
-.app-nav-link:hover {
-    background-color: #e0f2f7 !important; /* Giữ màu nền hover nhạt */
-    color: #007bff !important;
-    /* ⭐️ THÊM VIỀN XANH PHÍA DƯỚI KHI HOVER ⭐️ */
-    border-bottom: 3px solid #0056b3;
-}
+        .app-nav-link:hover {
+            background-color: #e0f2f7 !important;
+            color: #007bff !important;
+            border-bottom: 3px solid #0056b3;
+        }
 
-/* Hiệu ứng khi nút đang ở trang hiện tại (active) */
-.app-nav-link.active,
-.app-nav-link:focus { /* focus là khi nút được tab đến hoặc nhấn */
-    background-color: #e0f2f7 !important;
-    color: #007bff !important;
-    /* ⭐️ THÊM VIỀN XANH PHÍA DƯỚI KHI ACTIVE/FOCUS ⭐️ */
-    border-bottom: 3px solid #0056b3;
-}
-        .navbar { background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 15px 5%; height: auto; }
-        .navbar .container-fluid, .navbar .d-flex.align-items-center { height: 100%; }
-        .navbar-brand { font-weight: 700; font-size: 1.5rem; color: #0056b3 !important; display: flex; align-items: center; }
-        .navbar-brand img { margin-right: 10px; width: 45px; height: 45px; }
-        .app-nav-link { color: #0056b3 !important; text-decoration: none; font-weight: 600; height: 100%; display: flex; align-items: center; padding: 0 15px; border-radius: 0 !important; margin-right: 0 !important; margin-left: 0 !important; transition: all 0.3s; }
-        .app-nav-link:hover { background-color: #e0f2f7 !important; color: #007bff !important; }
-        .notif-btn { position: relative; background: rgba(0, 86, 179, 0.1); border: none; color: #0056b3; font-size: 1.2rem; padding: 8px 10px; border-radius: 50%; transition: all 0.3s; }
-        .notif-btn:hover { background: rgba(0, 86, 179, 0.2); }
-        .notif-badge { position: absolute; top: 4px; right: 4px; font-size: 0.7rem; background: #ffc107; color: #000; }
+        .app-nav-link.active,
+        .app-nav-link:focus {
+            background-color: #e0f2f7 !important;
+            color: #007bff !important;
+            border-bottom: 3px solid #0056b3;
+        }
 
-        /* 🏥 MAIN APPLICATION GRID (2 CỘT) */
-        .app-grid { display: flex; max-width: 1300px; margin: 40px auto; gap: 30px; padding: 0 5%; }
-        .main-article-feed { flex-grow: 1; min-width: 650px; }
-        .feed-header { font-size: 1.5rem; font-weight: 700; color: #0056b3; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .article-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); transition: transform 0.3s; }
-        .article-item:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); }
-        .article-item h5 { color: #007bff; font-weight: 600; margin-bottom: 10px; }
-        .article-item img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px 5%;
+            height: auto;
+        }
 
-        /* ⛔️ ĐỌC THÊM STYLE FIX (10 DÒNG) ⛔️ */
+        .navbar .container-fluid,
+        .navbar .d-flex.align-items-center {
+            height: 100%;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #0056b3 !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+            width: 45px;
+            height: 45px;
+        }
+
+        .notif-btn {
+            position: relative;
+            background: rgba(0, 86, 179, 0.1);
+            border: none;
+            color: #0056b3;
+            font-size: 1.2rem;
+            padding: 8px 10px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .notif-btn:hover {
+            background: rgba(0, 86, 179, 0.2);
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.7rem;
+            background: #ffc107;
+            color: #000;
+        }
+
+        /* MAIN GRID */
+        .app-grid {
+            display: flex;
+            max-width: 1300px;
+            margin: 40px auto;
+            gap: 30px;
+            padding: 0 5%;
+        }
+
+        .main-article-feed {
+            flex-grow: 1;
+            min-width: 650px;
+        }
+
+        .feed-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0056b3;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .article-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .article-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-item h5 {
+            color: #007bff;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .article-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
         .article-content {
             line-height: 1.6em;
-            max-height: 16em; /* 10 DÒNG */
+            max-height: 16em;
             overflow: hidden;
             margin-bottom: 15px;
             position: relative;
         }
+
         .article-content.expanded {
             max-height: none;
         }
+
         .read-more-overlay {
             position: absolute;
             bottom: 0;
@@ -89,9 +168,11 @@
             pointer-events: none;
             z-index: 5;
         }
+
         .article-content.expanded .read-more-overlay {
             display: none;
         }
+
         .read-more-btn {
             cursor: pointer;
             font-weight: 500;
@@ -102,7 +183,7 @@
             font-size: 0.95rem;
         }
 
-        /* RIGHT COLUMN (Profile Sidebar) */
+        /* Profile sidebar */
         .sidebar-profile {
             width: 400px;
             background: white;
@@ -111,8 +192,9 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 20px;
-            height: fit-content; /* Sửa: Quan trọng để sidebar hiển thị đủ nội dung */
+            height: fit-content;
         }
+
         .profile-pic {
             width: 100px;
             height: 100px;
@@ -121,11 +203,26 @@
             border: 4px solid #007bff;
             margin-bottom: 15px;
         }
-        .profile-name { font-size: 1.3rem; font-weight: 700; color: #0056b3; margin-bottom: 5px; }
-        .profile-info-box { background: #f7f9fc; padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; }
-        .profile-info-box strong { color: #333; }
 
-        /* ⭐️ STYLE CHO NÚT HÀNH ĐỘNG CÓ VIỀN XANH KHI HOVER ⭐️ */
+        .profile-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0056b3;
+            margin-bottom: 5px;
+        }
+
+        .profile-info-box {
+            background: #f7f9fc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .profile-info-box strong {
+            color: #333;
+        }
+
         .btn-sidebar-action {
             width: 100%;
             padding: 10px;
@@ -135,21 +232,214 @@
             transition: transform 0.2s, box-shadow 0.3s, border 0.3s;
             border: 2px solid transparent;
         }
+
         .btn-sidebar-action:hover {
             transform: translateY(-2px);
             border: 2px solid #0056b3;
             box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
         }
 
-        .footer { text-align: center; padding: 30px 0; color: #888; font-size: 0.9rem; background-color: white; border-top: 1px solid #eee; }
-        @media (max-width: 1024px) { .app-grid { flex-direction: column; } .sidebar-profile { width: 100%; position: static; margin-bottom: 30px; } .main-article-feed { min-width: unset; } }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #888;
+            font-size: 0.9rem;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 1024px) {
+            .app-grid {
+                flex-direction: column;
+            }
+
+            .sidebar-profile {
+                width: 100%;
+                position: static;
+                margin-bottom: 30px;
+            }
+
+            .main-article-feed {
+                min-width: unset;
+            }
+        }
+
+        /* ====== NÚT VÀ KHUNG CHATBOT (BẢN ĐẸP HƠN) ====== */
+        .chatbot-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 32px;
+            width: 58px;
+            height: 58px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e5e7eb;
+            outline: none;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.35);
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #ffffff;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .chatbot-fab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 40px rgba(15, 23, 42, 0.45);
+            background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+        }
+
+        .chatbot-fab i {
+            font-size: 1.5rem;
+        }
+
+        .chatbot-widget {
+            position: fixed;
+            bottom: 96px;
+            right: 32px;
+            width: 420px;
+            max-height: 80vh;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.40);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1049;
+            border: 1px solid #e5e7eb;
+        }
+
+        .chatbot-widget.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .chatbot-widget {
+                right: 16px;
+                bottom: 88px;
+                width: min(100% - 32px, 380px);
+                border-radius: 16px;
+            }
+
+            .chatbot-fab {
+                right: 16px;
+            }
+        }
+
+        .chatbot-header {
+            padding: 10px 16px;
+            border-bottom: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #f9fafb;
+        }
+
+        .chatbot-header-title {
+            font-weight: 600;
+            font-size: 0.96rem;
+        }
+
+        .chatbot-header-sub {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .chatbot-close-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #e5e7eb;
+            font-size: 0.9rem;
+        }
+
+        .chatbot-close-btn:hover {
+            color: #ffffff;
+        }
+
+        .chatbot-body {
+            padding: 12px 14px;
+            flex: 1;
+            overflow-y: auto;
+            background: #f3f4f6;
+        }
+
+        .chatbot-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chatbot-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chatbot-body::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.9);
+            border-radius: 999px;
+        }
+
+        .chatbot-footer {
+            padding: 10px 10px 12px;
+            border-top: 1px solid #e5e7eb;
+            background: #ffffff;
+        }
+
+        #cbMessageInput {
+            border-radius: 999px;
+            font-size: 0.9rem;
+        }
+
+        #cbMessageInput:focus {
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+            border-color: #2563eb;
+        }
+
+        .chatbot-footer .btn {
+            border-radius: 999px;
+            padding-inline: 18px;
+        }
+
+        .cb-message {
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .cb-message.user {
+            justify-content: flex-end;
+        }
+
+        .cb-message.bot {
+            justify-content: flex-start;
+        }
+
+        .cb-bubble {
+            max-width: 78%;
+            padding: 9px 12px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .cb-message.user .cb-bubble {
+            background: #2563eb;
+            color: #ffffff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .cb-message.bot .cb-bubble {
+            background: #ffffff;
+            color: #111827;
+            border: 1px solid #e5e7eb;
+            border-bottom-left-radius: 4px;
+        }
     </style>
 
     <script th:inline="javascript">
-        // Hàm giả lập nội dung dài (50 dòng)
         function generateLongContent(topic) {
             let baseText = "Đây là thông tin chi tiết về **" + topic + "**. Các chuyên gia y tế khuyến cáo rằng việc tuân thủ các quy tắc sức khỏe cơ bản là chìa khóa để duy trì một cơ thể khỏe mạnh và chống lại bệnh tật. " +
-                           "Hãy nhớ rằng phòng bệnh hơn chữa bệnh. Việc kiểm tra sức khỏe định kỳ giúp phát hiện sớm các vấn đề tiềm ẩn và tăng cơ hội điều trị thành công.";
+                "Hãy nhớ rằng phòng bệnh hơn chữa bệnh. Việc kiểm tra sức khỏe định kỳ giúp phát hiện sớm các vấn đề tiềm ẩn và tăng cơ hội điều trị thành công.";
 
             let content = "";
             for (let i = 1; i <= 10; i++) {
@@ -166,33 +456,7 @@
             { title: "Hiểu Đúng về Bệnh Tiểu Đường: Dấu hiệu và Cách Kiểm Soát", imageUrl: '/images/article-placeholder-5.jpg', content: generateLongContent("Bệnh Tiểu Đường") }
         ];
 
-        // Nếu Controller không truyền 'articles' thì dùng mock data
         const articles = [[${articles}]] ? [[${articles}]] : articlesMock;
-
-        // 💡 GIẢ LẬP DỮ LIỆU THÔNG TIN CÁ NHÂN (Person Mock Data)
-        const mockPrincipal = {
-            nguoi: {
-                hoTen: "Nguyễn Văn An (MOCK)",
-                cccd: "012345678901",
-                ngaySinh: new Date().getTime(), // Thời gian hiện tại để format
-                gioiTinh: "Nam",
-                diaChi: "123 Đường Sức Khỏe, Q.1, TP.HCM",
-                email: "nguyen.van.an@mock.com",
-                sdt: "0901 234 567"
-            },
-            benhNhan: {
-                nhomMau: "A+",
-                maBaoHiem: "BHX000123456",
-                tienSuBenh: "Không có"
-            }
-        };
-
-        // Nếu Controller không truyền #authentication (principal) thì dùng mock data
-        if (!window.localStorage.getItem('isMockDataLoaded')) {
-            // Lưu dữ liệu mock vào một biến toàn cục hoặc sử dụng Thymeleaf Mock Object (tùy thuộc môi trường)
-            // Trong môi trường Thymeleaf, việc này phức tạp. Tốt nhất là Controller phải cung cấp dữ liệu.
-            // Để tránh lỗi sập trang, tôi sẽ dùng cú pháp kiểm tra đơn giản và dùng text placeholder bên dưới.
-        }
     </script>
 </head>
 <body>
@@ -235,12 +499,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
     </div>
     <div class="offcanvas-body">
-        <div th:if="${notifications == null or #lists.isEmpty(notifications)}" class="text-center text-muted py-4">
+        <div th:if="${notifications == null || #lists.isEmpty(notifications)}" class="text-center text-muted py-4">
             <i class="bi bi-bell-slash fs-3"></i>
             <p class="mb-0 mt-2">Không có thông báo nào</p>
         </div>
 
-        <div th:if="${notifications != null and !#lists.isEmpty(notifications)}">
+        <div th:if="${notifications != null && !#lists.isEmpty(notifications)}">
             <div class="list-group">
                 <a th:each="n : ${notifications}"
                    href="#"
@@ -262,12 +526,14 @@
         </div>
     </div>
 </div>
+
 <div class="app-grid">
 
     <div class="main-article-feed">
         <h2 class="feed-header">Tin tức và Cảnh báo Y tế Gần đây</h2>
 
-        <div th:if="${articles != null and !#lists.isEmpty(articles)}" th:each="article, iterStat : ${articles}" class="article-item">
+        <div th:if="${articles != null && !#lists.isEmpty(articles)}"
+             th:each="article, iterStat : ${articles}" class="article-item">
             <img th:src="@{${article.imageUrl}}" th:alt="${article.title}" class="img-fluid">
             <h5 th:text="${article.title}">Tiêu đề Bài báo</h5>
 
@@ -276,10 +542,13 @@
                 <p th:utext="${article.content}"></p>
             </div>
 
-            <a href="javascript:void(0)" class="read-more-btn" th:data-target="'content-' + ${iterStat.index}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
+            <a href="javascript:void(0)" class="read-more-btn"
+               th:data-target="'content-' + ${iterStat.index}">
+                Đọc thêm <i class="bi bi-arrow-right"></i>
+            </a>
         </div>
 
-        <div th:if="${articles == null or #lists.isEmpty(articles)}" id="mock-articles-container">
+        <div th:if="${articles == null || #lists.isEmpty(articles)}" id="mock-articles-container">
             <div class="text-center text-muted py-5">
                 <i class="bi bi-newspaper fs-3"></i>
                 <p>Đang tải dữ liệu bài báo mô phỏng...</p>
@@ -300,7 +569,8 @@
         </label>
         <input type="file" id="profile-upload" style="display: none;">
 
-        <div th:text="${#authentication != null ? #authentication.principal.nguoi.hoTen : 'Nguyễn Văn An (MOCK DATA)'}" class="profile-name">Nguyễn Văn An</div>
+        <div th:text="${#authentication != null ? #authentication.principal.nguoi.hoTen : 'Nguyễn Văn An (MOCK DATA)'}"
+             class="profile-name">Nguyễn Văn An</div>
         <p th:text="'ID: ' + ${personId != null ? personId : '99'}" class="text-muted">ID: 99</p>
 
         <hr>
@@ -308,7 +578,8 @@
         <a th:href="@{/benhnhan/dat-lich}" class="btn btn-success btn-sidebar-action">
             <i class="bi bi-calendar2-check"></i> Đặt lịch khám
         </a>
-        <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId != null ? personId : '99'})}" class="btn btn-info btn-sidebar-action text-white">
+        <a th:href="@{/benhnhan/hoso/{personId}(personId=${personId != null ? personId : '99'})}"
+           class="btn btn-info btn-sidebar-action text-white">
             <i class="bi bi-file-earmark-medical"></i> Xem hồ sơ bệnh án
         </a>
         <a th:href="@{/benhnhan/lich-kham}" class="btn btn-secondary btn-sidebar-action">
@@ -316,26 +587,83 @@
         </a>
 
         <div class="profile-info-box">
-            <p class="mb-1"><strong>CCCD:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.cccd : '012345678901'}">[cccd]</span></p>
-            <p class="mb-1"><strong>Ngày sinh:</strong> <span th:text="${#authentication != null ? #temporals.format(#authentication.principal.nguoi.ngaySinh, 'dd/MM/yyyy') : '01/01/1990'}">[ngày sinh]</span></p>
-            <p class="mb-1"><strong>Giới tính:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.gioiTinh : 'Nam'}">[giới tính]</span></p>
-            <p class="mb-1"><strong>Địa chỉ:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.diaChi : '123 Đường Sức Khỏe, Q.1, TP.HCM'}">[địa chỉ]</span></p>
+            <p class="mb-1"><strong>CCCD:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.nguoi.cccd : '012345678901'}">[cccd]</span></p>
+            <p class="mb-1"><strong>Ngày sinh:</strong> <span
+                    th:text="${#authentication != null ? #temporals.format(#authentication.principal.nguoi.ngaySinh, 'dd/MM/yyyy') : '01/01/1990'}">[ngày sinh]</span></p>
+            <p class="mb-1"><strong>Giới tính:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.nguoi.gioiTinh : 'Nam'}">[giới tính]</span></p>
+            <p class="mb-1"><strong>Địa chỉ:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.nguoi.diaChi : '123 Đường Sức Khỏe, Q.1, TP.HCM'}">[địa chỉ]</span></p>
 
             <hr>
 
-            <p class="mb-1"><strong>Email:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.email : 'nguyen.van.an@mock.com'}">[email]</span></p>
-            <p class="mb-1"><strong>SĐT:</strong> <span th:text="${#authentication != null ? #authentication.principal.nguoi.sdt : '0901 234 567'}">[sdt]</span></p>
-            <p class="mb-1"><strong>Nhóm máu:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.nhomMau : 'A+'}">[nhóm máu]</span></p>
-            <p class="mb-1"><strong>Mã BHYT:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.maBaoHiem : 'BHX000123456'}">[mã bhyt]</span></p>
-            <p class="mb-0"><strong>Tiền sử bệnh:</strong> <span th:text="${#authentication != null ? #authentication.principal.benhNhan.tienSuBenh : 'Không có'}">[tiền sử bệnh]</span></p>
+            <p class="mb-1"><strong>Email:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.nguoi.email : 'nguyen.van.an@mock.com'}">[email]</span></p>
+            <p class="mb-1"><strong>SĐT:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.nguoi.sdt : '0901 234 567'}">[sdt]</span></p>
+            <p class="mb-1"><strong>Nhóm máu:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.benhNhan.nhomMau : 'A+'}">[nhóm máu]</span></p>
+            <p class="mb-0"><strong>Mã BHYT:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.benhNhan.maBaoHiem : 'BHX000123456'}">[mã bhyt]</span></p>
+            <p class="mb-0"><strong>Tiền sử bệnh:</strong> <span
+                    th:text="${#authentication != null ? #authentication.principal.benhNhan.tienSuBenh : 'Không có'}">[tiền sử bệnh]</span></p>
         </div>
     </div>
 </div>
 
-
 <div class="footer">
     <p>Liên hệ: 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
     <p>&copy; 2025 Phòng khám Tận Tâm. All rights reserved.</p>
+</div>
+
+<!-- NÚT CHATBOT TRÒN -->
+<button type="button"
+        id="chatbotToggleBtn"
+        class="chatbot-fab">
+    <i class="bi bi-chat-dots"></i>
+</button>
+
+<!-- KHUNG CHATBOT POPUP -->
+<div id="chatbotWidget" class="chatbot-widget hidden">
+    <div class="chatbot-header">
+        <div>
+            <div class="chatbot-header-title">Chatbot hỗ trợ</div>
+            <div class="chatbot-header-sub">
+                Hỏi về lịch khám, cách dùng hệ thống,...
+            </div>
+        </div>
+        <button type="button" id="chatbotCloseBtn" class="chatbot-close-btn">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <div id="cbChatBody" class="chatbot-body">
+        <div class="cb-message bot">
+            <div class="cb-bubble">
+                <p class="mb-1">Chào bạn! 👋</p>
+                <p class="mb-1">Mình là <b>Trợ lý ảo Y tế</b>. Mình có thể hỗ trợ bạn:</p>
+                <ul class="mb-0">
+                    <li>Xem / Đặt / Hủy lịch khám</li>
+                    <li>Tra cứu hồ sơ bệnh án</li>
+                    <li>Giải thích thuật ngữ y khoa</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="chatbot-footer">
+        <form id="cbChatForm" class="d-flex gap-2">
+            <input id="cbMessageInput"
+                   type="text"
+                   class="form-control form-control-sm"
+                   placeholder="Nhập câu hỏi của bạn..."
+                   autocomplete="off">
+            <button class="btn btn-primary btn-sm" type="submit">
+                Gửi
+            </button>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -356,7 +684,6 @@
         });
     }
 
-    // Hàm render mock data cho bài báo nếu Controller không truyền (chỉ dùng cho mục đích sửa lỗi/dev)
     function renderMockArticles() {
         if (articles.length === articlesMock.length && articles.every((item, index) => item === articlesMock[index])) {
             const container = document.getElementById('mock-articles-container');
@@ -373,40 +700,136 @@
                                 <p>${article.content}</p>
                             </div>
 
-                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${index}">Đọc thêm <i class="bi bi-arrow-right"></i></a>
+                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${index}">
+                                Đọc thêm <i class="bi bi-arrow-right"></i>
+                            </a>
                         </div>
                     `;
                 });
                 container.innerHTML = html;
-                initializeReadMoreLogic(); // Khởi tạo lại logic sau khi thêm bài báo mock
+                initializeReadMoreLogic();
             }
         }
     }
 
-
     document.addEventListener('DOMContentLoaded', () => {
-        // Khởi tạo logic đọc thêm cho bài báo từ Controller (nếu có)
         initializeReadMoreLogic();
 
-        // Chạy logic render mock articles nếu Controller không truyền data
-        // Đây là cách fix nhanh cho môi trường dev mà không có backend
         const hasControllerArticles = document.querySelector('.main-article-feed > .article-item') !== null;
         if (!hasControllerArticles) {
-             renderMockArticles();
+            renderMockArticles();
         }
 
-        // Logic xử lý upload ảnh (giữ nguyên)
         const profileUpload = document.getElementById('profile-upload');
-        if(profileUpload) {
-            profileUpload.addEventListener('change', function(event) {
+        if (profileUpload) {
+            profileUpload.addEventListener('change', function (event) {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         document.querySelector('.profile-pic').src = e.target.result;
                         alert('Ảnh mới đã được tải lên thành công (Chỉ hiển thị trên trình duyệt).');
                     };
                     reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // ==== LOGIC CHATBOT WIDGET ====
+        const toggleBtn = document.getElementById('chatbotToggleBtn');
+        const widget = document.getElementById('chatbotWidget');
+        const closeBtn = document.getElementById('chatbotCloseBtn');
+        const chatBody = document.getElementById('cbChatBody');
+        const chatForm = document.getElementById('cbChatForm');
+        const messageInput = document.getElementById('cbMessageInput');
+
+        // ⭐ HÀM MỚI: chuyển **từ khóa** → <strong>"từ khóa"</strong> và giữ xuống dòng
+        function formatBotText(text) {
+            if (!text) return '';
+
+            // Escape HTML để tránh XSS
+            let escaped = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // Chuyển markdown **keyword** thành in đậm + có ngoặc kép
+            // Ví dụ: **Lịch khám** -> <strong>"Lịch khám"</strong>
+            escaped = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong>"$1"</strong>');
+
+            // Giữ xuống dòng
+            return escaped.replace(/\n/g, '<br>');
+        }
+
+        function appendMessage(text, type) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'cb-message ' + type;
+
+            const bubble = document.createElement('div');
+            bubble.className = 'cb-bubble';
+
+            if (type === 'bot') {
+                bubble.innerHTML = formatBotText(text);
+            } else {
+                bubble.textContent = text;
+            }
+
+            wrapper.appendChild(bubble);
+            chatBody.appendChild(wrapper);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        if (toggleBtn && widget) {
+            toggleBtn.addEventListener('click', () => {
+                widget.classList.toggle('hidden');
+                if (!widget.classList.contains('hidden')) {
+                    messageInput.focus();
+                }
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                widget.classList.add('hidden');
+            });
+        }
+
+        if (chatForm) {
+            chatForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const text = messageInput.value.trim();
+                if (!text) return;
+
+                appendMessage(text, 'user');
+                messageInput.value = '';
+                messageInput.focus();
+
+                try {
+                    const res = await fetch('/benhnhan/api/chatbot', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message: text })
+                    });
+
+                    if (!res.ok) {
+                        appendMessage('Xin lỗi, hiện mình không trả lời được. Bạn thử lại sau nhé.', 'bot');
+                        return;
+                    }
+
+                    const data = await res.json();
+                    appendMessage(data.answer, 'bot');
+                } catch (err) {
+                    console.error(err);
+                    appendMessage('Có lỗi mạng khi gọi chatbot. Bạn kiểm tra lại kết nối nhé.', 'bot');
+                }
+            });
+
+            messageInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    chatForm.dispatchEvent(new Event('submit'));
                 }
             });
         }
