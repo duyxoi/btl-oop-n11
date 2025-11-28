@@ -1,8 +1,8 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.BacSi;
-import healthcare.example.nhom10.Entity.DatLichKham;
-import healthcare.example.nhom10.Entity.BenhNhan;
+import healthcare.example.nhom10.entity.BacSi;
+import healthcare.example.nhom10.entity.DatLichKham;
+import healthcare.example.nhom10.entity.BenhNhan;
 import healthcare.example.nhom10.dto.LichKhamDTO;
 import healthcare.example.nhom10.repository.DatLichKhamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

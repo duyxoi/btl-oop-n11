@@ -1,7 +1,7 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.BacSi;
-import healthcare.example.nhom10.Entity.Nguoi;
+import healthcare.example.nhom10.entity.BacSi;
+import healthcare.example.nhom10.entity.Nguoi;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.BacSiRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package healthcare.example.nhom10.repository;
 
-import healthcare.example.nhom10.Entity.DonThuoc;
-import healthcare.example.nhom10.Entity.Khoa;
+import healthcare.example.nhom10.entity.Khoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

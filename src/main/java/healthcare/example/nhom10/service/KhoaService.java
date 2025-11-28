@@ -1,7 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.BacSi;
-import healthcare.example.nhom10.Entity.Khoa;
+import healthcare.example.nhom10.entity.Khoa;
 
 import java.util.List;
 import java.util.Optional;

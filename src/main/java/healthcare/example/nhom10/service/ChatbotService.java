@@ -1,8 +1,8 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.BenhNhan;
-import healthcare.example.nhom10.Entity.DatLichKham;
-import healthcare.example.nhom10.Entity.Nguoi;
+import healthcare.example.nhom10.entity.BenhNhan;
+import healthcare.example.nhom10.entity.DatLichKham;
+import healthcare.example.nhom10.entity.Nguoi;
 import healthcare.example.nhom10.common.CustomUserDetails;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.security.core.Authentication;

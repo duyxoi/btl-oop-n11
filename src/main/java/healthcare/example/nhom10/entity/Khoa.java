@@ -1,8 +1,7 @@
-package healthcare.example.nhom10.Entity;
+package healthcare.example.nhom10.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.engine.internal.Cascade;
 
 import java.util.List;
 

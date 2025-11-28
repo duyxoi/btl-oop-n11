@@ -1,7 +1,7 @@
-package healthcare.example.nhom10.Controller;
+package healthcare.example.nhom10.controller;
 
 import healthcare.example.nhom10.common.CustomUserDetails;
-import healthcare.example.nhom10.Entity.*;
+import healthcare.example.nhom10.entity.*;
 import healthcare.example.nhom10.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -114,6 +114,11 @@ public class BacSiController {
             @RequestParam(name = "mode", defaultValue = "table") String mode) {
 
         // Tìm bác sĩ cần xem lịch từ personId
+
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        Nguoi nguoi = userDetails.getNguoi();
+
         Nguoi nguoiCanTim = nguoiService.getNguoiById(id)
                 .orElseThrow(() -> new RuntimeException("Nguoi id " + id + " not found"));
 
@@ -126,6 +131,7 @@ public class BacSiController {
         model.addAttribute("bacsi", bacSiCanTim);
         model.addAttribute("lichKhams", lichKhams);
         model.addAttribute("mode", mode);
+        model.addAttribute("nguoi", nguoi);
 
         return "bacsi/lich-kham";
     }

@@ -1,6 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.LoaiThuoc;
+import healthcare.example.nhom10.entity.LoaiThuoc;
 
 import java.util.List;
 import java.util.Optional;

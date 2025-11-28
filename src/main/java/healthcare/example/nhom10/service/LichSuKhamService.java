@@ -1,6 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.LichSuKham;
+import healthcare.example.nhom10.entity.LichSuKham;
 
 import java.util.List;
 import java.util.Optional;
