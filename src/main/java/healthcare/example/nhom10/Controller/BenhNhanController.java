@@ -47,29 +47,32 @@ public class BenhNhanController {
         this.datLichKhamService = datLichKhamService;
     }
 
-    // Trong BenhNhanController.java
     @GetMapping("/")
     public String home(Model model){
-
-        // ⭐️ LOGIC BẢO VỆ AN TOÀN CHO PRINCIPAL ⭐️
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int personId = 0; // Giá trị mặc định
+        int personId = 0;
 
-        if (principal.getClass().getName().equals("java.lang.String")) {
-            // Chưa đăng nhập (AnonymousUser)
-            model.addAttribute("personId", 0);
-        } else {
-            // Đã đăng nhập (CustomUserDetails)
-            CustomUserDetails userDetails = (CustomUserDetails) principal;
-            personId = userDetails.getPersonId();
-            model.addAttribute("personId", personId);
+        if (!(principal instanceof CustomUserDetails)) {
+            model.addAttribute("nguoi", null);
+            model.addAttribute("benhNhan", null);
+            return "benhnhan/home";
         }
 
-        // Thêm các biến bắt buộc khác để tránh lỗi Thymeleaf
-        model.addAttribute("notifications", null);
-        model.addAttribute("articles", null); // Hoặc List<Article> thật
+        // Lấy người hiện tại
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        Nguoi nguoi = userDetails.getNguoi();
+        personId = nguoi.getPersonId();
 
-        return "benhnhan/home"; // Tên template của bạn
+        // Lấy bệnh nhân tương ứng
+        BenhNhan benhNhan = benhNhanService.getBenhNhanByNguoi(nguoi)
+                .orElse(null);
+
+        // Đẩy xuống view
+        model.addAttribute("nguoi", nguoi);
+        model.addAttribute("benhNhan", benhNhan);
+        model.addAttribute("personId", personId);
+
+        return "benhnhan/home";
     }
 
     @GetMapping("/hoso/{id}")
