@@ -155,8 +155,10 @@
             Phòng khám Tận Tâm
         </a>
         <div class="action-buttons">
-            <a th:href="@{/benhnhan/}" class="btn btn-light me-2">
-                <i class="fa-solid fa-arrow-left"></i> Quay lại
+            <a th:href="${nguoi.role == 'ROLE_DOCTOR' ? '/bacsi/' :
+             (nguoi.role == 'ROLE_ADMIN' ? '/admin/' : '/benhnhan/')}"
+               class="btn btn-light me-2">
+                <i class="fa-solid fa-arrow-left"></i> Trang chủ
             </a>
             <form th:action="@{/logout}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-danger">
@@ -238,9 +240,27 @@
             </a>
         </div>
 
-        <a th:href="@{/benhnhan/}" class="btn btn-back ms-auto">
+        <!-- ROLE_DOCTOR -->
+        <a th:if="${nguoi.role == 'ROLE_DOCTOR'}"
+           th:href="@{'/bacsi/lich-kham/' + ${bacSi}}"
+           class="btn btn-back ms-auto">
             <i class="fa-solid fa-arrow-left"></i> Quay lại
         </a>
+
+        <!-- ROLE_ADMIN -->
+        <a th:if="${nguoi.role == 'ROLE_ADMIN'}"
+           th:href="@{/admin/list/benhnhan}"
+           class="btn btn-back ms-auto">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại
+        </a>
+
+        <!-- BENHNHAN hoặc các role khác -->
+        <a th:if="${nguoi.role != 'ROLE_DOCTOR' and nguoi.role != 'ROLE_ADMIN'}"
+           th:href="@{/benhnhan/}"
+           class="btn btn-back ms-auto">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại
+        </a>
+
     </div>
 
 </div>

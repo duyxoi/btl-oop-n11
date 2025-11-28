@@ -77,8 +77,8 @@ public class BenhNhanController {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         int personId = userDetails.getPersonId();
-        Nguoi nguoi = userDetails.getNguoi();
-        System.out.println(nguoi);
+        Nguoi nguoiTruyCap = userDetails.getNguoi();
+        System.out.println(nguoiTruyCap);
 
 //        BenhNhan bn = benhNhanService.getBenhNhanByNguoi(nguoi)
 //                .orElseThrow(()-> new RuntimeException("Benh nhan id "+ id+" not found"));
@@ -91,11 +91,17 @@ public class BenhNhanController {
         HoSoBeNhan hoSo = hoSoBeNhanService.getHoSoBeNhanByBenhNhan(bn)
                 .orElseThrow(() -> new RuntimeException("HoSoBeNhan id " + id + " not found"));
 
-        if(nguoi.getRole().equals("ROLE_PATIENT") && hoSo.getBenhNhan().getNguoi().getPersonId() != personId){
+        if(nguoiTruyCap.getRole().equals("ROLE_PATIENT") && hoSo.getBenhNhan().getNguoi().getPersonId() != personId){
             return "error/403";
         }
 
-        model.addAttribute("nguoi", nguoi);
+        if(nguoiTruyCap.getRole().equals("ROLE_DOCTOR")) {
+            BacSi basSiTruyCap = bacSiService.getBacSiByNguoi(nguoiTruyCap).orElseThrow(()-> new RuntimeException("BacSi id "+ id + " not found."));
+            System.out.println(basSiTruyCap.getMaBacSi());
+            model.addAttribute("bacSi", basSiTruyCap.getMaBacSi());
+        }
+
+        model.addAttribute("nguoi", nguoiTruyCap);
         model.addAttribute("hoSo", hoSo);
         return "benhnhan/hoso";
     }
@@ -111,6 +117,11 @@ public class BenhNhanController {
             return "error/403";
         }
         model.addAttribute("lichSuKham", lichSuKham);
+        if(nguoiTruyCap.getRole().equals("ROLE_DOCTOR")) {
+            BacSi basSiTruyCap = bacSiService.getBacSiByNguoi(nguoiTruyCap).orElseThrow(()-> new RuntimeException("BacSi id "+ id + " not found."));
+            System.out.println(basSiTruyCap.getMaBacSi());
+            model.addAttribute("bacSi", basSiTruyCap.getMaBacSi());
+        }
         return "benhnhan/lichsukham";
     }
 
