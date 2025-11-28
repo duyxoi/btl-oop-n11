@@ -1,7 +1,7 @@
 package healthcare.example.nhom10.common;
 
-import healthcare.example.nhom10.Entity.BenhNhan;
-import healthcare.example.nhom10.Entity.Nguoi;
+import healthcare.example.nhom10.entity.BenhNhan;
+import healthcare.example.nhom10.entity.Nguoi;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

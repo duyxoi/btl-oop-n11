@@ -5,17 +5,14 @@
     <title>Lịch khám của bác sĩ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
 
     <style>
-        /* Nền & font chung */
         body {
             background: #E3F2FD;
             font-family: 'Poppins', 'Roboto', sans-serif;
             min-height: 100vh;
         }
 
-        /* Navbar trên cùng */
         .navbar {
             background: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -36,7 +33,6 @@
             margin-right: 10px;
         }
 
-        /* Nút Trang chủ / Đăng xuất trên navbar */
         .action-buttons a,
         .action-buttons button {
             border-radius: 8px;
@@ -69,7 +65,6 @@
             transform: translateY(-1px);
         }
 
-        /* Thanh tiêu đề “Lịch khám của bác sĩ” */
         .header-bar {
             background: #ffffff;
             border-bottom: 2px solid #e0f2f7;
@@ -85,191 +80,10 @@
             font-weight: 700;
         }
 
-        /* Toolbar của FullCalendar */
-        .fc-toolbar-chunk:nth-child(2) {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+        .patient-row:hover {
+            background-color: rgba(13, 110, 253, 0.05);
         }
 
-        .fc-toolbar-title {
-            font-family: 'Poppins', 'Roboto', sans-serif;
-            font-weight: 700 !important;
-            font-size: 1.8rem !important;
-            color: #1f2933;
-            text-transform: capitalize;
-        }
-
-        .fc-toolbar-chunk .fc-button {
-            border-radius: 8px !important;
-            text-transform: none !important;
-            font-weight: 600 !important;
-            box-shadow: none !important;
-            padding: 5px 10px !important;
-            font-size: 0.9rem !important;
-            margin: 0 2px !important;
-            border: 1px solid #4b5563 !important;
-            background-color: transparent !important;
-            color: #374151 !important;
-        }
-
-        .fc-button-group {
-            display: inline-flex !important;
-            gap: 0;
-        }
-
-        .fc-button-group .fc-button:first-child {
-            border-top-left-radius: 8px !important;
-            border-bottom-left-radius: 8px !important;
-        }
-
-        .fc-button-group .fc-button:last-child {
-            border-top-right-radius: 8px !important;
-            border-bottom-right-radius: 8px !important;
-        }
-
-        .fc-button-primary {
-            background-color: #0d6efd !important;
-            border-color: #0d6efd !important;
-            color: #ffffff !important;
-        }
-
-        .fc-button-primary:hover:not(:disabled) {
-            background-color: #0b5ed7 !important;
-            border-color: #0b5ed7 !important;
-        }
-
-        .fc-today-button:not(:disabled) {
-            background-color: transparent !important;
-            border: 1px solid #4b5563 !important;
-            color: #374151 !important;
-        }
-
-        .fc-today-button:hover:not(:disabled) {
-            background-color: #e5e7eb !important;
-        }
-
-        /* Lưới calendar & header ngày */
-        .fc-theme-standard td,
-        .fc-theme-standard th,
-        .fc-theme-standard .fc-scrollgrid {
-            border: none !important;
-        }
-
-        .fc-daygrid-body table,
-        .fc-col-header table {
-            border-collapse: separate;
-            border-spacing: 5px;
-        }
-
-        .fc-col-header-cell {
-            background-color: transparent !important;
-            color: #374151;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .fc-col-header-cell a,
-        .fc-col-header-cell-cushion {
-            text-decoration: none !important;
-        }
-
-        /* Ô ngày trong month view */
-        .fc-daygrid-day-frame {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
-            border-radius: 12px;
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            height: 10rem;
-            width: 10rem;
-            margin: 0.25rem;
-            padding: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-        }
-
-        .fc-daygrid-day-frame:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
-            border-color: #0d6efd;
-        }
-
-        .fc-daygrid-day-number {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin: 0 0 1rem 0;
-            padding: 0;
-            color: #111827;
-            text-align: left;
-            text-decoration: none !important;
-        }
-
-        /* Ô hôm nay – dùng xanh dương, bỏ nền xanh lá */
-        .fc-day-today .fc-daygrid-day-frame {
-            background: #e0edff;
-            border: 2px solid #0d6efd;
-        }
-
-        /* Sự kiện trong calendar (màu xanh dương đồng bộ) */
-        .fc-event-main,
-        .fc-event {
-            background-color: #0d6efd !important;
-            border-color: #0d6efd !important;
-            border-radius: 8px;
-            padding: 3px 6px;
-            color: #ffffff !important;
-        }
-
-        .patient-event {
-            color: #ffffff !important;
-            font-weight: 500;
-        }
-
-        .fc-daygrid-event-harness {
-            margin-top: 5px;
-        }
-
-        .bb-event-body--month {
-            font-size: 0.75rem;
-            line-height: 1.2;
-        }
-
-        .bb-event-doctor {
-            white-space: normal;
-        }
-
-        /* TimeGrid view (nếu dùng sau này) */
-        .fc-timegrid-col.fc-day-today {
-            background-color: #f7f9fc !important;
-        }
-
-        .fc-timegrid-slot {
-            border-bottom: 1px dashed #e0e0e0;
-        }
-
-        .fc-timegrid-slots table {
-            border-collapse: collapse;
-        }
-
-        .fc-timegrid-slot-label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #666;
-            padding-right: 5px;
-        }
-
-        .fc-timegrid-event.patient-event {
-            background-color: #0d6efd !important;
-            border-color: #0d6efd !important;
-            border-radius: 6px;
-        }
-
-        .fc-timegrid-now-indicator-line {
-            border-color: #dc3545;
-        }
-
-        /* Hàng “không có lịch” trong bảng */
         .empty-state {
             text-align: center;
             padding: 30px 0;
@@ -277,7 +91,6 @@
         }
     </style>
 </head>
-
 <body>
 <div class="container mt-4">
 
@@ -291,8 +104,18 @@
             </small>
         </div>
         <div class="action-buttons">
-            <a th:href="@{/bacsi/}" class="btn btn-light text-primary me-2">
+            <a
+                    th:if="${nguoi.role == 'ROLE_DOCTOR'}"
+                    th:href="@{/bacsi/}"
+                    class="btn btn-light text-primary me-2">
                 <i class="bi bi-house-door"></i> Trang chủ
+            </a>
+
+            <a
+                    th:if="${nguoi.role == 'ROLE_ADMIN'}"
+                    th:href="@{/admin/list/bacsi}"
+                    class="btn btn-light text-primary me-2">
+                <i class="bi bi-house-door"></i> Quay Lại
             </a>
             <a th:href="@{/logout}" class="btn btn-danger">
                 <i class="bi bi-box-arrow-right"></i> Đăng xuất
@@ -317,34 +140,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <!-- Nút chuyển giữa dạng bảng / calendar -->
-    <div class="d-flex justify-content-end mb-3">
-        <div class="btn-group">
-            <a th:href="@{/bacsi/lich-kham(mode='table')}"
-               th:class="'btn btn-sm ' + (${mode} == 'table' ? 'btn-primary' : 'btn-outline-primary')">
-                <i class="bi bi-list-ul"></i> Dạng danh sách
-            </a>
-            <a th:href="@{/bacsi/lich-kham(mode='calendar')}"
-               th:class="'btn btn-sm ' + (${mode} == 'calendar' ? 'btn-primary' : 'btn-outline-primary')">
-                <i class="bi bi-calendar3"></i> Dạng Calendar
-            </a>
+    <!-- Tìm kiếm bệnh nhân -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">
+            <i class="bi bi-search"></i> Tìm kiếm bệnh nhân
+        </h5>
+        <div class="ms-3 flex-grow-1" style="max-width: 320px;">
+            <input type="text"
+                   id="searchPatient"
+                   class="form-control"
+                   placeholder="Nhập tên bệnh nhân...">
         </div>
     </div>
 
     <!-- DẠNG BẢNG -->
-    <div th:if="${mode} == 'table'">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0">
-                <i class="bi bi-search"></i> Tìm kiếm bệnh nhân
-            </h5>
-            <div class="ms-3 flex-grow-1" style="max-width: 320px;">
-                <input type="text"
-                       id="searchPatient"
-                       class="form-control"
-                       placeholder="Nhập tên bệnh nhân...">
-            </div>
-        </div>
-
+    <div>
         <div class="card shadow-sm border-0">
             <div class="card-body p-0">
                 <table class="table table-hover align-middle mb-0">
@@ -361,13 +171,14 @@
                     <tr th:each="lich, iterStat : ${lichKhams}"
                         class="patient-row"
                         th:attr="data-patient=${lich.benhNhan.nguoi.hoTen}">
+
                         <td class="text-center fw-semibold" th:text="${iterStat.index + 1}"></td>
                         <td th:text="${lich.benhNhan.nguoi.hoTen}"></td>
                         <td class="text-center text-nowrap"
                             th:text="${#temporals.format(lich.ngayKham, 'dd/MM/yyyy HH:mm')}"></td>
 
                         <td class="text-center">
-                            <span class="badge px-3 py-2 fs-6"
+                            <span class="badge px-3 py-2"
                                   th:classappend="${lich.trangThai == 'DA_HUY'} ? 'bg-danger' :
                                                   (${lich.trangThai == 'HOAN_THANH'} ? 'bg-success' : 'bg-warning text-dark')"
                                   th:text="${lich.trangThai == 'DA_HUY' ? 'ĐÃ HỦY' :
@@ -378,7 +189,7 @@
                         <td class="text-center">
                             <a th:href="@{'/benhnhan/hoso/' + ${lich.benhNhan.nguoi.personId}}"
                                class="btn btn-outline-info btn-sm me-1">
-                                <i class="bi bi-eye"></i> Xem hồ sơ bệnh nhân
+                                <i class="bi bi-eye"></i> Xem hồ sơ
                             </a>
 
                             <a th:href="@{'/bacsi/lich-kham/cap-nhat/' + ${lich.maLichKham}}"
@@ -398,12 +209,14 @@
                                 </button>
                             </form>
                         </td>
+
                     </tr>
 
+                    <!-- Hàng khi list rỗng -->
                     <tr th:if="${#lists.isEmpty(lichKhams)}">
-                        <td colspan="5" class="empty-state">
-                            <i class="bi bi-calendar-x display-6 d-block mb-3"></i>
-                            <span>Hiện chưa có lịch khám nào được sắp xếp</span>
+                        <td colspan="5" class="empty-state text-center">
+                            <i class="bi bi-calendar-x d-block fs-2 mb-2"></i>
+                            <span>Hiện chưa có lịch khám nào</span>
                         </td>
                     </tr>
                     </tbody>
@@ -411,40 +224,6 @@
             </div>
         </div>
     </div>
-
-    <!-- DẠNG CALENDAR -->
-    <div th:if="${mode} == 'calendar'">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <span><i class="bi bi-calendar3-week me-2"></i>Lịch khám (dạng Calendar)</span>
-                <span class="badge bg-light text-primary">
-                    <span th:text="${#lists.size(lichKhams)}"></span> lịch hẹn khám
-                </span>
-            </div>
-            <div class="card-body">
-                <div th:if="${#lists.isEmpty(lichKhams)}" class="empty-state">
-                    <i class="bi bi-calendar-x display-6 d-block mb-3"></i>
-                    <span>Hiện chưa có lịch khám nào được sắp xếp</span>
-                </div>
-
-                <div id="calendar-data" class="d-none" th:if="${!#lists.isEmpty(lichKhams)}">
-                    <div class="lich-item"
-                         th:each="lich : ${lichKhams}"
-                         th:data-id="${lich.maLichKham}"
-                         th:data-patient="${lich.benhNhan.nguoi.hoTen}"
-                         th:data-start="${#temporals.format(lich.ngayKham, 'yyyy-MM-dd''T''HH:mm:ss')}"
-                         th:data-dept="${lich.khoa.tenKhoa}"
-                         th:data-date-label="${#temporals.format(lich.ngayKham, 'dd/MM/yyyy')}"
-                         th:data-time-label="${#temporals.format(lich.ngayKham, 'HH:mm')}"
-                         th:data-status="${lich.trangThai}">
-                    </div>
-                </div>
-
-                <div id="calendar" th:if="${!#lists.isEmpty(lichKhams)}"></div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <!-- Modal chi tiết lịch khám -->
@@ -469,112 +248,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
 <script>
-    // Khởi tạo FullCalendar từ dữ liệu ẩn
-    document.addEventListener("DOMContentLoaded", () => {
-        const calendarEl = document.getElementById("calendar");
-        const dataContainer = document.getElementById("calendar-data");
-        if (!calendarEl || !dataContainer) return;
-
-        const events = Array.from(dataContainer.querySelectorAll(".lich-item")).map(el => ({
-            id: el.dataset.id,
-            title: "Lịch khám",
-            start: el.dataset.start,
-            classNames: ["doctor-event"],
-            extendedProps: {
-                patient: el.dataset.patient,
-                dept: el.dataset.dept,
-                dateLabel: el.dataset.dateLabel,
-                timeLabel: el.dataset.timeLabel,
-                status: el.dataset.status
-            }
-        }));
-
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: "dayGridMonth",
-            locale: "vi",
-            height: "auto",
-            headerToolbar: {
-                left: "prev,next today",
-                center: "title",
-                right: ""
-            },
-            buttonText: {
-                today: "Hôm nay",
-                month: "Tháng",
-                week: "Tuần",
-                day: "Ngày",
-                list: "Danh sách"
-            },
-            events: events,
-            eventTimeFormat: {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false
-            },
-            eventContent: function(arg) {
-                const patient  = arg.event.extendedProps.patient;
-                const dept     = arg.event.extendedProps.dept;
-                const timeText = arg.timeText;
-                const viewType = arg.view.type;
-                let html = "";
-
-                if (viewType === "dayGridMonth") {
-                    html =
-                        '<div class="bb-event-body--month">' +
-                        '<div class="bb-event-time">' + timeText + '</div>' +
-                        '<div class="bb-event-patient">BN: ' + patient + '</div>' +
-                        '<div class="bb-event-dept">' + dept + '</div>' +
-                        '</div>';
-                } else if (viewType === "timeGridWeek" || viewType === "timeGridDay") {
-                    html =
-                        '<div class="bb-event-body--timegrid">' +
-                        '<div class="bb-event-patient">BN: ' + patient + '</div>' +
-                        '<div class="bb-event-dept">' + dept + '</div>' +
-                        '</div>';
-                } else {
-                    html =
-                        '<div class="bb-event-body--timegrid">' +
-                        '<div class="bb-event-patient">BN: ' + patient + ' - ' + dept + '</div>' +
-                        '</div>';
-                }
-                return { html: html };
-            },
-            eventClick: function(info) {
-                const ev = info.event;
-                const patient   = ev.extendedProps.patient;
-                const dept      = ev.extendedProps.dept;
-                const dateLabel = ev.extendedProps.dateLabel;
-                const timeLabel = ev.extendedProps.timeLabel;
-                const status    = ev.extendedProps.status || "CHO_KHAM";
-
-                document.getElementById("modalPatient").textContent = patient;
-                document.getElementById("modalDept").textContent = dept;
-                document.getElementById("modalTime").textContent = timeLabel + " " + dateLabel;
-
-                const statusEl = document.getElementById("modalStatus");
-                let text, cls;
-                if (status === "DA_HUY") {
-                    text = "ĐÃ HỦY"; cls = "badge bg-danger";
-                } else if (status === "DA_XAC_NHAN" || status === "HOAN_THANH") {
-                    text = (status === "HOAN_THANH") ? "HOÀN THÀNH" : "ĐÃ XÁC NHẬN";
-                    cls = "badge bg-success";
-                } else {
-                    text = "CHỜ KHÁM"; cls = "badge bg-warning text-dark";
-                }
-                statusEl.textContent = text;
-                statusEl.className = cls;
-
-                const modal = new bootstrap.Modal(document.getElementById("eventModal"));
-                modal.show();
-            }
-        });
-
-        calendar.render();
-    });
-
     // Lọc tên bệnh nhân trong dạng bảng
     document.addEventListener("DOMContentLoaded", () => {
         const searchInput = document.getElementById("searchPatient");

@@ -1,6 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.PhieuDichVu;
+import healthcare.example.nhom10.entity.PhieuDichVu;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.DichVuYTeRepository;
 import healthcare.example.nhom10.repository.PhieuDichVuRepository;

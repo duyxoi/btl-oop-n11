@@ -1,7 +1,7 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.Nguoi;
-import healthcare.example.nhom10.Entity.BenhNhan; // ⭐️ Cần import Entity BenhNhan ⭐️
+import healthcare.example.nhom10.entity.Nguoi;
+import healthcare.example.nhom10.entity.BenhNhan; // ⭐️ Cần import entity BenhNhan ⭐️
 import healthcare.example.nhom10.common.CustomUserDetails;
 import healthcare.example.nhom10.repository.NguoiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1. Tải Entity Nguoi
+        // 1. Tải entity Nguoi
         Nguoi nguoi = nguoiRepository.findByUsername(username)
                 .orElseThrow();
 
-        // 2. Tải Entity BenhNhan tương ứng
+        // 2. Tải entity BenhNhan tương ứng
         BenhNhan benhNhan = null;
 
         // Chỉ tải thông tin bệnh nhân nếu người dùng là PATIENT
@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             benhNhan = benhNhanService.getBenhNhanByNguoi(nguoi).orElse(null);
         }
 
-        // 3. Trả về CustomUserDetails với cả hai Entity
+        // 3. Trả về CustomUserDetails với cả hai entity
         // ⭐️ Đảm bảo CustomUserDetails của bạn có constructor nhận (Nguoi, BenhNhan) ⭐️
         return new CustomUserDetails(nguoi, benhNhan);
     }

@@ -1,7 +1,7 @@
 package healthcare.example.nhom10.repository;
 
-import healthcare.example.nhom10.Entity.BacSi;
-import healthcare.example.nhom10.Entity.Nguoi;
+import healthcare.example.nhom10.entity.BacSi;
+import healthcare.example.nhom10.entity.Nguoi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable; // Cần import Pageable
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +18,7 @@ public interface BacSiRepository extends JpaRepository<BacSi, Integer> {
 
     // ⭐️ KHẮC PHỤC LỖI SẮP XẾP LỒNG NHAU (nguoi.hoTen) ⭐️
     // Ghi đè phương thức findAll(Pageable) để buộc LEFT JOIN FETCH
-    // Điều này đảm bảo Entity Nguoi được tải và cho phép sắp xếp trên các trường của Nguoi
+    // Điều này đảm bảo entity Nguoi được tải và cho phép sắp xếp trên các trường của Nguoi
     @Override
     @Query("SELECT bs FROM BacSi bs LEFT JOIN FETCH bs.nguoi")
     Page<BacSi> findAll(Pageable pageable);

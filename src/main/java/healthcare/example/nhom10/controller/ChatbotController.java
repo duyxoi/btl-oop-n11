@@ -1,4 +1,4 @@
-package healthcare.example.nhom10.Controller;
+package healthcare.example.nhom10.controller;
 
 import healthcare.example.nhom10.dto.chat.ChatRequest;
 import healthcare.example.nhom10.dto.chat.ChatResponse;

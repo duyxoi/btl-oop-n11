@@ -1,6 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.KeDon;
+import healthcare.example.nhom10.entity.KeDon;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.DonThuocRepository;
 import healthcare.example.nhom10.repository.KeDonRepository;

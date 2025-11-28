@@ -1,8 +1,8 @@
 package healthcare.example.nhom10.repository;
 
-import healthcare.example.nhom10.Entity.BacSi;
-import healthcare.example.nhom10.Entity.DatLichKham;
-import healthcare.example.nhom10.Entity.BenhNhan;
+import healthcare.example.nhom10.entity.BacSi;
+import healthcare.example.nhom10.entity.DatLichKham;
+import healthcare.example.nhom10.entity.BenhNhan;
 import healthcare.example.nhom10.dto.LichKhamDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,7 +13,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository

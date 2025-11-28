@@ -1,6 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.LichSuKham;
+import healthcare.example.nhom10.entity.LichSuKham;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;

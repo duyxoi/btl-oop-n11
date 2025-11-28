@@ -1,6 +1,6 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.DichVuYTe;
+import healthcare.example.nhom10.entity.DichVuYTe;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.DichVuYTeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

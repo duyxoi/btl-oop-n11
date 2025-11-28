@@ -1,6 +1,6 @@
-package healthcare.example.nhom10.Controller;
+package healthcare.example.nhom10.controller;
 
-import healthcare.example.nhom10.Entity.*;
+import healthcare.example.nhom10.entity.*;
 import healthcare.example.nhom10.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

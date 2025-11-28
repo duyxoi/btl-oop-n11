@@ -1,7 +1,7 @@
 package healthcare.example.nhom10.service;
 
-import healthcare.example.nhom10.Entity.BacSi;
-import healthcare.example.nhom10.Entity.Khoa;
+import healthcare.example.nhom10.entity.BacSi;
+import healthcare.example.nhom10.entity.Khoa;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.KhoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class KhoaServiceImpl implements KhoaService {
         khoa.setTenKhoa(khoaDetails.getTenKhoa());
         khoa.setViTri(khoaDetails.getViTri());
 
-        // Cập nhật danh sách Bác Sĩ (giả sử cần `orphanRemoval = true` trong Entity)
+        // Cập nhật danh sách Bác Sĩ (giả sử cần `orphanRemoval = true` trong entity)
         // 1. Xóa các Bác Sĩ cũ
         khoa.getBacSi().clear();
 

@@ -1,8 +1,7 @@
-package healthcare.example.nhom10.Entity;
+package healthcare.example.nhom10.entity;
 
 import jakarta.persistence.*;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 @Entity
