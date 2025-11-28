@@ -5,6 +5,8 @@ import healthcare.example.nhom10.Entity.Nguoi;
 import healthcare.example.nhom10.exception.ResourceNotFoundException;
 import healthcare.example.nhom10.repository.BacSiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,20 +14,28 @@ import java.util.Optional;
 
 @Service
 public class BacSiServiceImpl implements BacSiService {
+
+    // ⭐️ KHAI BÁO REPOSITORY ĐÚNG CÁCH ⭐️
     @Autowired
     private BacSiRepository bacSiRepository;
 
-    // Giả sử bạn cũng đã tiêm NguoiRepository và KhoaRepository nếu cần
-    // để xác thực hoặc thiết lập các mối quan hệ phức tạp khi create/update.
-    // @Autowired
-    // private NguoiRepository nguoiRepository;
-    // @Autowired
-    // private KhoaRepository khoaRepository;
+    // ... (Các Repository khác giữ nguyên nếu có) ...
 
     @Override
     public List<BacSi> getAllBacSi() {
+        // Lưu ý: Phương thức này không nhận Pageable/Sort.
+        // Đây chỉ nên dùng cho các list nhỏ không cần sắp xếp.
         return bacSiRepository.findAll();
     }
+
+    // ⭐️ PHƯƠNG THỨC MỚI ĐỂ KHẮC PHỤC LỖI SẮP XẾP LỒNG NHAU ⭐️
+    @Override
+    public Page<BacSi> findAll(Pageable pageable) {
+        // Phương thức này gọi findAll(Pageable) đã được override bằng @Query
+        // trong BacSiRepository, giúp hỗ trợ sắp xếp lồng nhau (nguoi.hoTen).
+        return bacSiRepository.findAll(pageable);
+    }
+    // ⭐️ KẾT THÚC FIX LỖI SẮP XẾP ⭐️
 
     @Override
     public Optional<BacSi> getBacSiById(Integer id) {
@@ -34,17 +44,6 @@ public class BacSiServiceImpl implements BacSiService {
 
     @Override
     public BacSi createBacSi(BacSi bacSi) {
-        // Ví dụ logic kiểm tra phức tạp hơn:
-        // 1. Kiểm tra xem Nguoi có tồn tại không
-        // Nguoi nguoi = nguoiRepository.findById(bacSi.getNguoi().getPersonId())
-        //    .orElseThrow(() -> new ResourceNotFoundException("Nguoi not found"));
-        // 2. Kiểm tra xem Khoa có tồn tại không
-        // Khoa khoa = khoaRepository.findById(bacSi.getKhoa().getMaKhoa())
-        //    .orElseThrow(() -> new ResourceNotFoundException("Khoa not found"));
-        //
-        // bacSi.setNguoi(nguoi);
-        // bacSi.setKhoa(khoa);
-
         return bacSiRepository.save(bacSi);
     }
 
@@ -53,9 +52,6 @@ public class BacSiServiceImpl implements BacSiService {
         // Tìm BacSi hiện có
         BacSi bacSi = bacSiRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("BacSi not found with id: " + id));
-
-        // Tương tự, bạn có thể cần xác thực Nguoi và Khoa từ bacSiDetails
-        // trước khi thiết lập chúng
 
         // Cập nhật các trường
         bacSi.setNguoi(bacSiDetails.getNguoi());

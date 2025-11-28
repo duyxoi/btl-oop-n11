@@ -3,6 +3,10 @@ package healthcare.example.nhom10.Controller;
 import healthcare.example.nhom10.Entity.*;
 import healthcare.example.nhom10.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -79,10 +83,19 @@ public class AdminController {
         return "admin/home";
     }
 
+
     @GetMapping("/list/bacsi")
-    public String listBacsi(Model model) {
-        List<BacSi> ds = bacSiService.getAllBacSi();
-        model.addAttribute("dsBacSi", ds);
+    public String listBacsi(
+            // ⭐️ BẮT BUỘC: Nhận Pageable từ URL ⭐️
+            @PageableDefault(sort = "maBacSi", direction = Sort.Direction.ASC) Pageable pageable,
+            Model model
+    ) {
+        // ⭐️ FIX: Gọi Service và truyền Pageable ⭐️
+        Page<BacSi> bacSiPage = bacSiService.findAll(pageable);
+
+        // Truyền nội dung (content) của Page xuống Thymeleaf
+        model.addAttribute("dsBacSi", bacSiPage.getContent());
+
         return "admin/bacsi_list";
     }
 
