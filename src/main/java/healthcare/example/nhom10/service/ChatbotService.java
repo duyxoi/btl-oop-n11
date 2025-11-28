@@ -8,6 +8,9 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -15,6 +18,8 @@ import java.util.List;
 
 @Service
 public class ChatbotService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ChatbotService.class);
 
     private final ChatClient chatClient;
     private final BenhNhanService benhNhanService;
@@ -48,10 +53,11 @@ public class ChatbotService {
      * Xử lý một câu hỏi từ bệnh nhân
      */
     public String handlePatientMessage(String userMessage) {
-        // Lấy user đang login
+        logger.info("Chatbot nhận câu hỏi: {}", userMessage);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails userDetails)) {
-            // Không lấy được thông tin người dùng -> trả lời chung chung
+            logger.warn("Không lấy được thông tin Authentication hoặc principal không phải CustomUserDetails.");
             return callModelSafely("""
                     Bệnh nhân (không xác định danh tính trong hệ thống) hỏi: "%s".
                     Hãy trả lời theo đúng vai trò trợ lý ảo của phòng khám.
@@ -59,7 +65,6 @@ public class ChatbotService {
         }
 
         Nguoi nguoi = userDetails.getNguoi();
-
         String lower = userMessage.toLowerCase();
 
         // 1. Nếu liên quan tới lịch khám -> kèm context lịch khám
@@ -102,36 +107,58 @@ public class ChatbotService {
     }
 
     /**
-     * Gọi model qua Spring AI
+     * Gọi model qua Spring AI, có log chi tiết khi lỗi
      */
     private String callModelSafely(String prompt) {
         try {
-            return chatClient
+            // Log phần đầu prompt để debug
+            String promptPreview = prompt.length() > 600
+                    ? prompt.substring(0, 600) + "...(cắt bớt)"
+                    : prompt;
+            logger.info("Gửi prompt tới Gemini (preview): {}", promptPreview);
+
+            String content = chatClient
                     .prompt()
                     .user(prompt)
                     .call()
                     .content();
+
+            if (content == null || content.isBlank()) {
+                logger.warn("Gemini trả về nội dung rỗng hoặc chỉ toàn khoảng trắng.");
+                return "Hiện chatbot chưa nhận được câu trả lời phù hợp từ mô hình. " +
+                        "Bạn thử hỏi lại cách khác hoặc liên hệ trực tiếp phòng khám giúp mình nhé.";
+            }
+
+            return content;
+
         } catch (Exception e) {
-            e.printStackTrace();
+            // Nếu là lỗi HTTP khi gọi API log thêm status + body
+            if (e instanceof RestClientResponseException rcre) {
+                logger.error("Gemini HTTP error. status={}, body={}",
+                        rcre.getRawStatusCode(), rcre.getResponseBodyAsString());
+            } else if (e.getCause() instanceof RestClientResponseException rcreCause) {
+                logger.error("Gemini HTTP error (cause). status={}, body={}",
+                        rcreCause.getRawStatusCode(), rcreCause.getResponseBodyAsString());
+            }
+
+            logger.error("Lỗi khi gọi Gemini: {}", e.getMessage(), e);
+
             return "Hiện chatbot đang gặp sự cố kỹ thuật khi kết nối tới Gemini, " +
                     "nên chưa trả lời được. Bạn thử lại sau hoặc liên hệ trực tiếp phòng khám giúp mình nhé.";
         }
     }
 
     /**
-     * Lấy một số lịch khám gần đây của bệnh nhân và format thành text
-     * để gửi kèm vào prompt cho Gemini.
+     * Lấy một số lịch khám gần đây của bệnh nhân để đưa vào prompt
      */
     private String buildLichKhamContextForPatient(Nguoi nguoi) {
-        // getBenhNhanByNguoi() trả về Optional<BenhNhan> nên phải orElse(null)
         BenhNhan benhNhan = benhNhanService.getBenhNhanByNguoi(nguoi).orElse(null);
         if (benhNhan == null) {
+            logger.warn("Không tìm thấy BenhNhan tương ứng với Nguoi hiện tại.");
             return "Không tìm thấy thông tin bệnh nhân tương ứng với tài khoản hiện tại.";
         }
 
-        // Dùng đúng method bạn đang có trong DatLichKhamService
         List<DatLichKham> lichKhams = datLichKhamService.getByBenhNhan(benhNhan);
-
         if (lichKhams == null || lichKhams.isEmpty()) {
             return "Bệnh nhân hiện chưa có lịch khám nào.";
         }
