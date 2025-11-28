@@ -113,6 +113,9 @@ public class BacSiController {
             @PathVariable int id,
             @RequestParam(name = "mode", defaultValue = "table") String mode) {
 
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        Nguoi nguoiTruyCap = userDetails.getNguoi();
         // Tìm bác sĩ cần xem lịch từ personId
         Nguoi nguoiCanTim = nguoiService.getNguoiById(id)
                 .orElseThrow(() -> new RuntimeException("Nguoi id " + id + " not found"));
@@ -126,7 +129,7 @@ public class BacSiController {
         model.addAttribute("bacsi", bacSiCanTim);
         model.addAttribute("lichKhams", lichKhams);
         model.addAttribute("mode", mode);
-
+        model.addAttribute("nguoi", nguoiTruyCap);
         return "bacsi/lich-kham";
     }
 
