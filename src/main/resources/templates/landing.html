@@ -445,67 +445,69 @@
     <div class="custom-modal-content">
         <a href="#" class="close-modal">&times;</a>
 
+        <!-- ⭐ Chỉ giữ 1 cái này để hiển thị lỗi -->
         <div id="login-message-area"></div>
 
         <div class="login-card">
             <h4 class="mb-4">Đăng nhập tài khoản</h4>
+
             <form th:action="@{/login}" method="post">
-                <div class="mb-3 text-start"><label for="username-modal" class="form-label">Tên đăng nhập</label><input type="text" class="form-control" id="username-modal" name="username" required placeholder="Nhập tên đăng nhập..."></div>
-                <div class="mb-4 text-start"><label for="password-modal" class="form-label">Mật khẩu</label><input type="password" class="form-control" id="password-modal" name="password" required placeholder="Nhập mật khẩu..."></div>
+                <div class="mb-3 text-start">
+                    <label for="username-modal" class="form-label">Tên đăng nhập</label>
+                    <input type="text" class="form-control" id="username-modal"
+                           name="username" required placeholder="Nhập tên đăng nhập...">
+                </div>
+
+                <div class="mb-4 text-start">
+                    <label for="password-modal" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password-modal"
+                           name="password" required placeholder="Nhập mật khẩu...">
+                </div>
+
                 <button type="submit" class="btn btn-login mb-3">Đăng nhập</button>
             </form>
+
             <div class="register-link-group">
                 <span class="text-muted">Bạn chưa có tài khoản?</span>
-                <a th:href="@{/register}" class="text-decoration-none fw-bold text-primary">Đăng ký ngay</a>
+                <a th:href="@{/register}" class="text-decoration-none fw-bold text-primary">
+                    Đăng ký ngay
+                </a>
             </div>
         </div>
+
     </div>
 </div>
 
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+
         const loginModal = document.getElementById('login-modal');
         const registerModal = document.getElementById('register-modal');
 
-        // ⛔️ ĐỊNH NGHĨA CÁC VÙNG CẦN LÀM MỜ ⛔️
+        const loginMessageArea = document.getElementById('login-message-area');
+        const registerMessageArea = document.getElementById('register-message-area');
+
         const blurTargets = [
-            document.querySelector('.hero-section-wrapper'), // Vùng Hero Section
-            document.getElementById('tien-ich'), // Phần Tiện ích
-            document.getElementById('phan-hoi'), // Phần Phản hồi
-            document.getElementById('dich-vu'), // Phần Dịch vụ
-            document.querySelector('.cta-section') // Phần CTA
-        ].filter(el => el != null); // Lọc các phần tử không tìm thấy
+            document.querySelector('.hero-section-wrapper'),
+            document.getElementById('tien-ich'),
+            document.getElementById('phan-hoi'),
+            document.getElementById('dich-vu'),
+            document.querySelector('.cta-section')
+        ].filter(el => el != null);
 
-        // Hàm mở modal và blur
         const openModal = (modal) => {
-            if (!modal) { console.error("Modal element is missing! Check modal IDs."); return; }
-
-            // ⛔️ CHỈ ÁP DỤNG BLUR CHO CÁC KHỐI CONTENT ⛔️
-            blurTargets.forEach(target => {
-                target.classList.add('blur-active');
-            });
-
-            modal.classList.add('active'); // Hiển thị Modal (với z-index 1050)
+            if (!modal) return;
+            blurTargets.forEach(target => target.classList.add('blur-active'));
+            modal.classList.add('active');
         };
 
-        // Hàm đóng modal và loại bỏ blur
         const closeModal = (modal) => {
             if (!modal) return;
-
-            // ⛔️ BỎ BLUR KHỎI TẤT CẢ CÁC KHỐI CONTENT ⛔️
-            blurTargets.forEach(target => {
-                target.classList.remove('blur-active');
-            });
-
+            blurTargets.forEach(target => target.classList.remove('blur-active'));
             modal.classList.remove('active');
         };
 
-        // ----------------------------------------------------
-        // GÁN SỰ KIỆN CLICK VÀ CÁC LOGIC KHÁC (GIỮ NGUYÊN)
-        // ----------------------------------------------------
-
-        // Gán sự kiện cho các nút mở trong Header và CTA
         const attachModalEvent = (buttonId, modal) => {
             const btn = document.getElementById(buttonId);
             if (btn) {
@@ -520,53 +522,49 @@
         attachModalEvent('show-register', registerModal);
         attachModalEvent('show-register-cta', registerModal);
 
-        // ... (Giữ nguyên logic đóng, chuyển đổi, URL Params) ...
-
-        // Gán sự kiện cho các nút đóng (X)
         document.querySelectorAll('.close-modal').forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                const modal = button.closest('.custom-modal-overlay');
-                closeModal(modal);
+                closeModal(button.closest('.custom-modal-overlay'));
             });
         });
 
-        // Gán sự kiện bấm ESC để đóng
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                document.querySelectorAll('.custom-modal-overlay.active').forEach(modal => {
-                    closeModal(modal);
-                });
+                document.querySelectorAll('.custom-modal-overlay.active')
+                    .forEach(modal => closeModal(modal));
             }
         });
 
+        // ---------------------------
+        // Xử lý URL Params CHỈ 1 LẦN — DI CHUYỂN XUỐNG DƯỚI
+        // ---------------------------
 
-
-
-        // JS cho Floating Phone Bubble animation
-        const phoneBubble = document.querySelector('.phone-bubble');
-        if (phoneBubble) {
-            phoneBubble.addEventListener('mouseover', () => {
-                phoneBubble.style.animation = 'none';
-            });
-            phoneBubble.addEventListener('mouseout', () => {
-                phoneBubble.style.animation = 'pulse 2s infinite';
-            });
-        }
-
-        // Logic xử lý URL Params (Tự động mở Modal sau khi POST)
         const urlParams = new URLSearchParams(window.location.search);
         const loginError = urlParams.get('loginError');
         const registerSuccess = urlParams.get('registerSuccess');
 
-        const loginMessageArea = document.getElementById('login-message-area');
-        const registerMessageArea = document.getElementById('register-message-area');
-        const createAlert = (type, message) => { return `<div class="alert alert-${type} mt-3" role="alert" style="margin: 0 15px;">${message}</div>`; }
+        const createAlert = (type, message) =>
+            `<div class="alert alert-${type} mt-3" role="alert" style="margin: 0 15px;">${message}</div>`;
 
-        if (loginError) { openModal(loginModal); if (loginMessageArea) loginMessageArea.innerHTML = createAlert('danger', 'Tên đăng nhập hoặc mật khẩu không đúng.'); }
-        if (registerSuccess) { openModal(loginModal); if (loginMessageArea) loginMessageArea.innerHTML = createAlert('success', 'Đăng ký thành công! Vui lòng sử dụng thông tin vừa đăng ký để đăng nhập.'); }
-        if (loginError || registerSuccess) { window.history.replaceState({}, document.title, window.location.pathname); }
+        if (loginError) {
+            openModal(loginModal);
+            if (loginMessageArea)
+                loginMessageArea.innerHTML = createAlert('danger', 'Tên đăng nhập hoặc mật khẩu không đúng.');
+        }
+
+        if (registerSuccess) {
+            openModal(loginModal);
+            if (loginMessageArea)
+                loginMessageArea.innerHTML = createAlert('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
+        }
+
+        if (loginError || registerSuccess)
+            window.history.replaceState({}, document.title, window.location.pathname);
+
     });
 </script>
+
+
 </body>
 </html>

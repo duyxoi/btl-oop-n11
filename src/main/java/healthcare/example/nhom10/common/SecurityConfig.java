@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .successHandler(new CustomAuthenticationSuccessHandler())  // 👈 dùng handler tùy chỉnh
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/?loginError=true")  // ⬅️ CHỈ CẦN SỬA TẠI ĐÂY
                         .permitAll()
                 )
                 .logout(logout -> logout
