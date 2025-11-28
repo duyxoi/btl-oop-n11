@@ -7,10 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
-        /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
+        /* Layout & font chung */
         body {
-            background-color: #f0f2f5; /* Màu nền đồng bộ */
+            background-color: #f0f2f5;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
@@ -19,15 +20,14 @@
             max-width: 1000px;
         }
 
-        /* 🌈 Navbar đồng bộ */
+        /* Navbar admin */
         .navbar {
-            background: #ffffff !important; /* Màu trắng đồng bộ */
+            background: #ffffff !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-bottom: 4px solid #007bff; /* Đường kẻ xanh phân chia */
+            border-bottom: 4px solid #007bff;
             padding: 15px 5%;
         }
 
-        /* ⭐️ Logo/Brand đồng bộ ⭐️ */
         .navbar-brand {
             color: #0056b3 !important;
             font-weight: 700;
@@ -35,15 +35,16 @@
             display: flex;
             align-items: center;
         }
+
         .navbar-brand img {
             margin-right: 10px;
-            width: 45px; /* Kích thước logo đồng bộ */
+            width: 45px;
         }
 
-        /* ⭐️ NÚT ĐĂNG XUẤT ĐỒNG BỘ ⭐️ */
+        /* Nút đăng xuất */
         .logout-btn {
             border: none;
-            background-color: #007bff; /* Xanh dương đậm */
+            background-color: #007bff;
             color: white;
             font-size: 0.95rem;
             padding: 8px 15px;
@@ -51,85 +52,144 @@
             font-weight: 600;
             transition: background-color 0.2s;
         }
+
         .logout-btn:hover {
-            background-color: #dc3545; /* Chuyển sang đỏ khi hover */
+            background-color: #dc3545;
         }
 
-        /* ⭐️ TIÊU ĐỀ CHÍNH ⭐️ */
+        /* Tiêu đề trang */
         h2 {
             color: #0056b3 !important;
             font-weight: 700;
         }
 
-        /* ⭐️ FORM VÀ INPUT ⭐️ */
+        /* Form thêm loại thuốc */
         #formAddThuoc {
-             border: none !important; /* Xóa border mặc định */
-             border-radius: 12px !important;
-             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-             padding: 20px !important;
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 20px !important;
         }
-        .form-control, .form-select {
-             border-radius: 8px;
-             transition: all 0.2s;
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            transition: all 0.2s;
         }
-        .form-control:focus, .form-select:focus {
+
+        .form-control:focus,
+        .form-select:focus {
             border-color: #007bff;
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
+
         .form-label {
             font-weight: 600;
-            color: #0056b3; /* Nhãn màu xanh đậm */
+            color: #0056b3;
         }
 
-        /* ⭐️ NÚT CHUNG ⭐️ */
+        /* Nút chung */
         .btn {
-             border-radius: 8px;
-             font-weight: 600;
-             transition: all 0.2s;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
         }
 
-        /* Nút Toggle (Thêm loại thuốc) */
         .btn-success {
             background-color: #28a745;
             border-color: #28a745;
         }
+
         .btn-success:hover {
             background-color: #218838;
         }
 
-        /* Nút Lưu */
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
         }
+
         .btn-primary:hover {
             background-color: #0056b3;
             border-color: #0056b3;
         }
 
-
-        /* ⭐️ BẢNG (TABLE) ĐỒNG BỘ ⭐️ */
+        /* Bảng danh sách thuốc */
         table {
             background: white;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
+
+        /* Header bảng – làm nổi bật */
         th {
-            background-color: #f7f9fa !important; /* Nền xám nhạt */
-            color: #0056b3 !important; /* Màu chữ xanh đậm */
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            color: #ffffff !important;
             font-weight: 700;
-            border-bottom: 2px solid #007bff; /* Đường viền xanh đậm dưới header */
-        }
-        .table-hover tbody tr:hover {
-            background-color: #e0f2ff; /* Highlight xanh nhạt */
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
         }
 
-        /* Footer (Giữ nguyên style) */
+        thead tr th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        thead tr th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #e0f2ff;
+        }
+
+        /* Thanh công cụ: tìm kiếm + nút thêm */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-box {
+            flex: 1 1 260px;
+            max-width: 360px;
+        }
+
+        .toolbar .input-group-text {
+            background: linear-gradient(135deg, #0d6efd, #2563eb);
+            color: #ffffff;
+            border-color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .toolbar .input-group-text i {
+            font-size: 1rem;
+        }
+
+        #searchThuoc {
+            border: 1.5px solid #0d6efd;
+            background-color: #f8fafc;
+        }
+
+        #searchThuoc:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+            background-color: #ffffff;
+        }
     </style>
 </head>
 
 <body>
+<!-- Navbar admin -->
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bold" th:href="@{/admin/}">
@@ -151,14 +211,29 @@
 </nav>
 
 <div class="container mt-5 pt-5">
+    <!-- Tiêu đề trang -->
     <h2 class="text-center mb-4">💊 Danh sách Loại thuốc</h2>
 
-    <div class="text-end mb-3">
+    <!-- Thanh công cụ: tìm kiếm tên thuốc + nút mở form thêm -->
+    <div class="toolbar">
+        <div class="search-box">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input id="searchThuoc"
+                       type="text"
+                       class="form-control"
+                       placeholder="Nhập tên thuốc cần tìm...">
+            </div>
+        </div>
+
         <button class="btn btn-success" id="btnToggleForm">
             <i class="bi bi-plus-circle"></i> Thêm loại thuốc
         </button>
     </div>
 
+    <!-- Form thêm loại thuốc -->
     <form id="formAddThuoc" th:action="@{/admin/list/loaithuoc/add}" method="post"
           class="row g-3 mb-4 rounded bg-white shadow-sm" style="display:none;">
 
@@ -184,8 +259,9 @@
         </div>
     </form>
 
+    <!-- Bảng danh sách loại thuốc -->
     <div class="table-responsive">
-        <table class="table table-hover text-center shadow-sm">
+        <table class="table table-hover text-center shadow-sm" id="thuocTable">
             <thead>
             <tr>
                 <th>ID</th>
@@ -207,14 +283,51 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.getElementById('btnToggleForm').addEventListener('click', function () {
-        const form = document.getElementById('formAddThuoc');
-        form.style.display = form.style.display === 'none' ? 'flex' : 'none';
 
-        // Tinh chỉnh padding cho form khi hiển thị
-        if (form.style.display === 'flex') {
-            form.style.padding = '20px';
+<script>
+    // Toggle hiển thị / ẩn form thêm loại thuốc + lọc danh sách theo tên
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnToggleForm = document.getElementById('btnToggleForm');
+        const formAddThuoc = document.getElementById('formAddThuoc');
+
+        if (btnToggleForm && formAddThuoc) {
+            btnToggleForm.addEventListener('click', function () {
+                const isHidden = formAddThuoc.style.display === 'none' || formAddThuoc.style.display === '';
+                formAddThuoc.style.display = isHidden ? 'flex' : 'none';
+            });
+        }
+
+        const inputSearch = document.getElementById('searchThuoc');
+        const table = document.getElementById('thuocTable');
+
+        if (inputSearch && table) {
+            const rows = table.querySelectorAll('tbody tr');
+
+            function normalize(str) {
+                return str
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/đ/g, 'd')
+                    .trim();
+            }
+
+            inputSearch.addEventListener('input', function () {
+                const keyword = normalize(inputSearch.value);
+
+                rows.forEach(function (row) {
+                    const nameCell = row.cells[1];
+                    if (!nameCell) return;
+
+                    const nameText = normalize(nameCell.textContent || '');
+
+                    if (keyword === '' || nameText.includes(keyword)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
         }
     });
 </script>

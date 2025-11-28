@@ -10,35 +10,34 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
+        /* Nền & font chung */
         body {
-            background: #E3F2FD; /* Màu nền đồng bộ */
+            background: #E3F2FD;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
 
-        /* 🔷 Navbar đồng bộ */
+        /* Navbar trên cùng */
         .navbar {
-            background: #ffffff; /* Màu trắng đồng bộ */
+            background: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-bottom: 4px solid #007bff; /* Đường kẻ xanh phân chia */
-            padding: 15px 5%; /* Padding đồng bộ */
+            border-bottom: 4px solid #007bff;
+            padding: 15px 5%;
         }
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem; /* Kích thước đồng bộ */
-            color: #0056b3 !important; /* Màu xanh đậm đồng bộ */
+            font-size: 1.5rem;
+            color: #0056b3 !important;
             display: flex;
             align-items: center;
         }
 
         .navbar-brand img {
             margin-right: 10px;
-            width: 45px; /* Kích thước logo đồng bộ */
+            width: 45px;
         }
 
-        /* ⭐️ NÚT ACTIONS ĐỒNG BỘ ⭐️ */
         .btn-light {
             color: #0056b3 !important;
             background-color: transparent;
@@ -48,6 +47,7 @@
             border-radius: 8px;
             transition: all 0.2s;
         }
+
         .btn-light:hover {
             color: #fff !important;
             background-color: #007bff;
@@ -56,80 +56,111 @@
         }
 
         .btn-danger {
-            background-color: #007bff; /* Đổi màu Đăng xuất thành Xanh đậm */
+            background-color: #007bff;
             border-color: #007bff;
             font-weight: 600;
             padding: 8px 15px;
             border-radius: 8px;
             transition: all 0.2s;
         }
+
         .btn-danger:hover {
             background-color: #0056b3;
             border-color: #0056b3;
             transform: translateY(-1px);
         }
 
-
-        /* 🩺 Nội dung chính (Card) */
+        /* Card thông tin bác sĩ ở giữa trang */
         .container-main {
-            max-width: 750px;
+            max-width: 780px;
             margin-top: 60px;
             background: white;
             padding: 40px 50px;
-            border-radius: 16px; /* Đồng bộ bo góc */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Đồng bộ đổ bóng */
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
+
         .container-main:hover {
-             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         h3 {
-            color: #0056b3; /* Xanh đậm đồng bộ */
+            color: #0056b3;
             font-weight: 700;
             text-align: center;
         }
 
-        /* Divider đồng bộ */
         .divider {
             border-bottom: 3px solid #007bff;
             width: 80px;
             margin: 10px auto 25px;
         }
 
-        .table th {
-            width: 35%;
-            color: #0056b3;
-            font-weight: 700;
-            border-top: none !important;
+        /* Bảng hiển thị thông tin chi tiết */
+        .info-table {
+            margin-bottom: 0;
         }
-        .table td {
+
+        .info-table .section-row th {
+            background: #e3f2fd;
+            color: #0056b3;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid #cde0ff;
+            padding-top: 10px;
+            padding-bottom: 6px;
+        }
+
+        .info-table .info-label {
+            width: 38%;
+            background: #f8fafc;
+            color: #0d47a1;
+            font-weight: 600;
+            border-top: none !important;
+            border-right: 1px dashed #d0e3ff;
+            vertical-align: middle;
+        }
+
+        .info-table .info-value {
+            background: #ffffff;
             color: #555;
             font-weight: 400;
             border-top: none !important;
         }
-        .table td i.bi {
+
+        .info-table .info-value i.bi {
             color: #007bff;
         }
-        .table tbody tr:not(:last-child) td, .table tbody tr:not(:last-child) th {
-            border-bottom: 1px dashed #eee; /* Viền mờ giữa các dòng */
+
+        .info-table tbody tr:not(.section-row) th,
+        .info-table tbody tr:not(.section-row) td {
+            border-bottom: 1px dashed #e0e7ff;
         }
 
-        /* ⭐️ Nút Quay lại (Đồng bộ) ⭐️ */
+        .info-table tbody tr:last-child th,
+        .info-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Nút quay lại trang bác sĩ */
         .btn-back {
             background-color: #6c757d;
             color: white;
             border-radius: 8px;
-            padding: 10px 20px;
+            padding: 10px 24px;
             font-weight: 600;
             transition: all 0.3s ease;
             margin-top: 25px;
         }
+
         .btn-back:hover {
             background-color: #5a6268;
             transform: translateY(-1px);
         }
 
+        /* Footer cuối trang */
         .footer {
             margin-top: 60px;
             text-align: center;
@@ -140,6 +171,7 @@
 </head>
 <body>
 
+<!-- Navbar bác sĩ -->
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <a class="navbar-brand" href="/bacsi/">
@@ -160,53 +192,102 @@
     </div>
 </nav>
 
+<!-- Card thông tin bác sĩ -->
 <div class="container container-main">
     <div class="text-center mb-4">
         <h3 th:text="${nguoi.hoTen}">Nguyễn Văn A</h3>
         <div class="divider"></div>
         <p class="text-muted mb-0">
             <i class="bi bi-hospital"></i>
-            <strong><span th:text="${bacsi.khoa != null ? bacsi.khoa.tenKhoa : 'Chưa xác định khoa'}"></span>
+            <strong>
+                <span th:text="${bacsi.khoa != null ? bacsi.khoa.tenKhoa : 'Chưa xác định khoa'}"></span>
+            </strong>
         </p>
-        <small><strong><span th:text="${bacsi.capDoHanhNghe != null ? bacsi.capDoHanhNghe : 'Chưa cập nhật cấp độ hành nghề'}"></span></strong></small>
+        <small>
+            <strong>
+                <span th:text="${bacsi.capDoHanhNghe != null ? bacsi.capDoHanhNghe : 'Chưa cập nhật cấp độ hành nghề'}"></span>
+            </strong>
+        </small>
     </div>
 
-    <table class="table table-borderless">
+    <!-- Bảng thông tin chi tiết, chia nhóm rõ ràng -->
+    <table class="table table-borderless info-table">
         <tbody>
-        <tr>
-            <th><i class="bi bi-person-badge"></i> Mã bác sĩ:</th>
-            <td th:text="${bacsi.maBacSi}">1</td>
+        <!-- Nhóm: Thông tin hành nghề -->
+        <tr class="section-row">
+            <th colspan="2">
+                <i class="bi bi-briefcase-medical me-1"></i> THÔNG TIN HÀNH NGHỀ
+            </th>
         </tr>
         <tr>
-            <th><i class="bi bi-envelope"></i> Email:</th>
-            <td th:text="${nguoi.email}">abc@example.com</td>
+            <th class="info-label">
+                <i class="bi bi-person-badge me-1"></i> Mã bác sĩ
+            </th>
+            <td class="info-value" th:text="${bacsi.maBacSi}">1</td>
         </tr>
         <tr>
-            <th><i class="bi bi-telephone"></i> Số điện thoại:</th>
-            <td th:text="${nguoi.sdt}">0123 456 789</td>
+            <th class="info-label">
+                <i class="bi bi-hospital me-1"></i> Khoa
+            </th>
+            <td class="info-value"
+                th:text="${bacsi.khoa != null ? bacsi.khoa.tenKhoa : 'Chưa xác định khoa'}">
+                Khoa Nội Tổng Hợp
+            </td>
         </tr>
         <tr>
-            <th><i class="bi bi-calendar text-primary"></i> Ngày sinh:</th>
-            <td th:text="${nguoi.ngaySinh != null ? #dates.format(nguoi.ngaySinh, 'dd/MM/yyyy') : 'Chưa cập nhật'}"></td>
-        </tr>
-        <tr>
-            <th><i class="bi bi-gender-ambiguous"></i> Giới tính:</th>
-            <td th:text="${nguoi.gioiTinh}">Nam</td>
+            <th class="info-label">
+                <i class="bi bi-patch-check me-1"></i> Cấp độ hành nghề
+            </th>
+            <td class="info-value"
+                th:text="${bacsi.capDoHanhNghe != null ? bacsi.capDoHanhNghe : 'Chưa cập nhật cấp độ hành nghề'}">
+                Chuyên khoa I
+            </td>
         </tr>
 
+        <!-- Nhóm: Thông tin liên hệ -->
+        <tr class="section-row">
+            <th colspan="2">
+                <i class="bi bi-person-lines-fill me-1"></i> THÔNG TIN LIÊN HỆ
+            </th>
+        </tr>
         <tr>
-            <th><i class="bi bi-hospital"></i> Khoa:</th>
-            <td th:text="${bacsi.getKhoa().getTenKhoa()}">CNTT</td>
+            <th class="info-label">
+                <i class="bi bi-envelope me-1"></i> Email
+            </th>
+            <td class="info-value" th:text="${nguoi.email}">abc@example.com</td>
+        </tr>
+        <tr>
+            <th class="info-label">
+                <i class="bi bi-telephone me-1"></i> Số điện thoại
+            </th>
+            <td class="info-value" th:text="${nguoi.sdt}">0123 456 789</td>
         </tr>
 
-        <tr>
-            <th><i class="bi bi-patch-check"></i> Cấp độ hành nghề:</th>
-            <td th:text="${bacsi.capDoHanhNghe}">NULL</td>
+        <!-- Nhóm: Thông tin cá nhân -->
+        <tr class="section-row">
+            <th colspan="2">
+                <i class="bi bi-person-vcard me-1"></i> THÔNG TIN CÁ NHÂN
+            </th>
         </tr>
-
+        <tr>
+            <th class="info-label">
+                <i class="bi bi-calendar me-1"></i> Ngày sinh
+            </th>
+            <td class="info-value"
+                th:text="${nguoi.ngaySinh != null ? #dates.format(nguoi.ngaySinh, 'dd/MM/yyyy') : 'Chưa cập nhật'}">
+                01/01/1990
+            </td>
+        </tr>
+        <tr>
+            <th class="info-label">
+                <i class="bi bi-gender-ambiguous me-1"></i> Giới tính
+            </th>
+            <td class="info-value" th:text="${nguoi.gioiTinh}">Nam</td>
+        </tr>
         </tbody>
     </table>
 
+    <!-- Nút quay lại -->
     <div class="text-center">
         <a th:href="@{/bacsi/}" class="btn btn-outline-primary btn-back">
             <i class="bi bi-arrow-left-circle"></i> Quay lại trang bác sĩ
@@ -214,8 +295,9 @@
     </div>
 </div>
 
+<!-- Footer -->
 <div class="footer">
-    <p>📍 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
+    <p>📍 123 Đường Sức Khỏe, TP Hà Nội | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
 </div>
 
 </body>

@@ -10,12 +10,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* [KHỐI CSS GIỮ NGUYÊN] */
+        /* ========= NỀN VÀ NAVBAR CHUNG ========= */
         body {
             background: #E3F2FD;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
+
         .app-nav-link {
             color: #0056b3 !important;
             text-decoration: none;
@@ -26,17 +27,20 @@
             padding: 0 15px;
             border-bottom: 3px solid transparent;
         }
+
         .app-nav-link:hover {
             background-color: #e0f2f7 !important;
             color: #007bff !important;
             border-bottom: 3px solid #0056b3;
         }
+
         .app-nav-link.active,
         .app-nav-link:focus {
             background-color: #e0f2f7 !important;
             color: #007bff !important;
             border-bottom: 3px solid #0056b3;
         }
+
         .navbar {
             background: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -44,10 +48,12 @@
             height: auto;
             border-bottom: 3px solid #007bff;
         }
+
         .navbar .container-fluid,
         .navbar .d-flex.align-items-center {
             height: 100%;
         }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
@@ -55,11 +61,13 @@
             display: flex;
             align-items: center;
         }
+
         .navbar-brand img {
             margin-right: 10px;
             width: 45px;
             height: 45px;
         }
+
         .notif-btn {
             position: relative;
             background: rgba(0, 86, 179, 0.1);
@@ -70,9 +78,11 @@
             border-radius: 50%;
             transition: all 0.3s;
         }
+
         .notif-btn:hover {
             background: rgba(0, 86, 179, 0.2);
         }
+
         .notif-badge {
             position: absolute;
             top: 4px;
@@ -82,73 +92,38 @@
             color: #000;
         }
 
-        /* MAIN GRID 1 CỘT */
-        .app-grid {
-            display: flex;
-            max-width: 900px;
-            margin: 20px;
-            gap: 30px;
-            padding: 0 5%;
-        }
-
-        .feed-header {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0056b3;
-            margin : 30px;
-            margin-bottom: 50px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-
-            display: inline-block;
-            border: 2px solid #007bff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .main-article-feed {
-            flex-grow: 1;
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* ========= KHỐI BÀI VIẾT / TIN TỨC ========= */
 
         .article-item {
             background: white;
             padding: 20px;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 0;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .article-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
+
         .article-item h5 {
             color: #007bff;
             font-weight: 600;
             margin-bottom: 10px;
+            text-align: center;
         }
+
         .article-item img {
-            width: 70%;
-            height: 500px;
+            width: 100%;
+            max-height: 320px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 15px;
-        }
-        .article-content p {
-            margin-bottom: 5px;
-            text-align: left;
-            max-width: 800px;
-            line-height: 1.6em;
-            text-indent: 30px;
         }
 
         .article-content {
@@ -157,13 +132,19 @@
             overflow: hidden;
             margin-bottom: 15px;
             position: relative;
+            width: 100%;
         }
+
         .article-content p {
             margin-bottom: 5px;
+            text-align: left;
+            text-indent: 30px;
         }
+
         .article-content.expanded {
             max-height: none;
         }
+
         .read-more-overlay {
             position: absolute;
             bottom: 0;
@@ -174,9 +155,11 @@
             pointer-events: none;
             z-index: 5;
         }
+
         .article-content.expanded .read-more-overlay {
             display: none;
         }
+
         .read-more-btn {
             cursor: pointer;
             font-weight: 500;
@@ -187,6 +170,146 @@
             font-size: 0.95rem;
         }
 
+        /* ==== KHUNG SLIDER CHO “TIN TỨC VÀ CẢNH BÁO” ==== */
+
+        .article-slider-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .article-slider-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f9fafb;
+        }
+
+        .article-slider-title {
+            font-weight: 700;
+            color: #0056b3;
+            font-size: 1.1rem;
+        }
+
+        .article-slider-controls .btn {
+            padding: 3px 8px;
+            font-size: 0.8rem;
+            border-radius: 999px;
+        }
+
+        .article-slider-body {
+            padding: 16px 20px 18px;
+        }
+
+        #articles-slider .article-item {
+            display: none;
+        }
+
+        #articles-slider .article-item.active {
+            display: flex;
+        }
+
+        .article-slider-index {
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* ==== LAYOUT CHÍNH: FEED + SIDEBAR THÔNG TIN CÁ NHÂN ==== */
+        .layout-main {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            margin-top: 10px;
+            height: fit-content;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 1024px) {
+            .layout-main {
+                flex-direction: column;
+            }
+        }
+
+        /* ========= SIDEBAR THÔNG TIN CÁ NHÂN ========= */
+        .profile-edit-card {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(15, 23, 42, 0.16);
+            padding: 18px 18px 14px;
+            max-width: 320px;
+            border-top: 4px solid #0d6efd;
+        }
+
+        .profile-edit-card h5 {
+            color: #0056b3;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px !important;
+            text-align: center;
+        }
+
+        .profile-edit-card h5 i {
+            margin-right: 4px;
+        }
+
+        .profile-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            column-gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e5e7eb;
+        }
+
+        .profile-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-weight: 600;
+            color: #4b5563;
+            font-size: 0.95rem;
+            min-width: 110px;
+            text-align: left;
+        }
+
+        .profile-label::after {
+            content: ':';
+            margin-left: 4px;
+        }
+
+        .profile-edit-card input {
+            flex: 1;
+            text-align: right;
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0;
+            color: #111827;
+            transition: all 0.2s;
+        }
+
+        .profile-edit-card input:not([readonly]) {
+            border: 1px solid #0d6efd;
+            background: #f7f9fc;
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-weight: 400;
+            color: #000;
+        }
+
+        .profile-edit-card .btn {
+            border-radius: 6px;
+            font-weight: 600;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+        }
+
+        /* ========= FOOTER ========= */
         .footer {
             text-align: center;
             padding: 30px 0;
@@ -195,16 +318,8 @@
             background-color: white;
             border-top: 1px solid #eee;
         }
-        @media (max-width: 1024px) {
-            .app-grid {
-                flex-direction: column;
-            }
-            .main-article-feed {
-                min-width: unset;
-            }
-        }
 
-        /* Nút + khung chatbot */
+        /* ========= CHATBOT FLOATING BUTTON & WIDGET ========= */
         .chatbot-fab {
             position: fixed;
             bottom: 24px;
@@ -374,134 +489,10 @@
             border: 1px solid #bfdbfe;
             border-bottom-left-radius: 4px;
         }
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Nội dung trang chính */
-        .main-content {
-            flex: 1;
-            padding: 30px 40px;
-        }
-
-        /* Sidebar bên phải */
-        .sidebar {
-            width: 320px;
-            background: #ffffff;
-            border-left: 1px solid #e1e1e1;
-            padding: 25px;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .sidebar h2 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .sidebar .info {
-            width: 100%;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-top: 10px;
-        }
-
-        .avatar {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ddd;
-        }
-
-        #avatarInput {
-            margin-top: 15px;
-        }
-        /* ⭐️ CSS CHỈNH SỬA CHO KHỐI CHỈNH SỬA TẠI CHỖ ⭐️ */
-        /* ⭐️ CSS CHỈNH SỬA CHO KHỐI CHỈNH SỬA TẠI CHỖ ⭐️ */
-        .profile-edit-card {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            padding: 15px; /* Giảm padding tổng thể */
-            max-width: 320px;
-            /* height: fit-content; Sẽ tự động fit */
-        }
-
-        .profile-edit-card h5 {
-            color: #0056b3;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 15px !important; /* Đặt margin dưới tiêu đề */
-            text-align: center; /* ⭐️ FIX: Căn giữa tiêu đề ⭐️ */
-        }
-
-        /* Style cho mỗi dòng thông tin (label + value/input) */
-        .profile-info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px; /* ⭐️ Giảm margin giữa các dòng ⭐️ */
-            padding: 2px 0;
-        }
-
-        .profile-edit-card input {
-            border: none;
-            background: transparent;
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 0;
-            text-align: right;
-            transition: all 0.2s;
-            flex-grow: 1;
-            margin-left: 10px;
-            color: #333;
-        }
-        /* Inputs khi chỉnh sửa */
-        .profile-edit-card input:not([readonly]) {
-            border: 1px solid #007bff;
-            background: #f7f9fc;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-weight: 400;
-            color: #000;
-        }
-        .profile-edit-card strong {
-            font-weight: 600;
-            color: #333;
-            flex-shrink: 0;
-        }
-
-        /* Nút hành động */
-        .profile-edit-card .btn {
-            border-radius: 6px;
-            font-weight: 600;
-            padding: 5px 10px;
-            font-size: 0.85rem; /* Thu nhỏ nút chỉnh sửa */
-        }
-        .sidebar-profile {
-            /* ❌ XÓA: width: 350px; */
-            width: fit-content; /* ⭐️ FIX: Chiều rộng tự co theo nội dung ⭐️ */
-            min-width: 300px; /* Đảm bảo chiều rộng tối thiểu để nội dung không bị dồn */
-
-            background: white;
-            padding: 25px; /* Giữ padding để có khoảng trống đẹp */
-            border-radius: 15px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 20px;
-            text-align: center;
-            height: fit-content; /* Giữ lại để đảm bảo chiều cao vừa đủ */
-        }
     </style>
 
+    <!-- ========= SCRIPT DỮ LIỆU / BÀI VIẾT MẪU ========= -->
     <script th:inline="javascript">
-        // ⭐️ NỘI DUNG 1: Phòng ngừa Lây lan Bệnh Cúm Mùa ⭐️
         const content1 = `
             <p><b>1. Cúm Mùa: Hiểu và Phòng Ngừa Cơ Bản</b></p>
             <p>Cúm mùa là bệnh nhiễm trùng đường hô hấp cấp tính do virus cúm gây ra, lây lan nhanh chóng qua các giọt bắn khi ho, hắt hơi hoặc nói chuyện. Việc hiểu rõ cơ chế lây lan là bước đầu tiên để bảo vệ bản thân và cộng đồng.</p>
@@ -515,7 +506,6 @@
             <p>Nếu các triệu chứng trở nặng, bao gồm khó thở hoặc sốt cao kéo dài, cần tìm kiếm sự chăm sóc y tế ngay lập tức.</p>
         `;
 
-        // ⭐️ NỘI DUNG 2: Chăm sóc Sức Khỏe Tim Mạch ⭐️
         const content2 = `
             <p><b>2. Chìa Khóa cho Trái Tim Khỏe Mạnh</b></p>
             <p>Sức khỏe tim mạch là nền tảng của một cuộc sống lâu dài và chất lượng. Các bệnh về tim mạch là nguyên nhân gây tử vong hàng đầu trên thế giới, nhưng phần lớn có thể phòng ngừa được bằng lối sống khoa học.</p>
@@ -530,7 +520,6 @@
             <p>Uống rượu bia có chừng mực. Đối với một số người, kiêng hoàn toàn là lựa chọn tốt nhất.</p>
         `;
 
-        // ⭐️ NỘI DUNG 3: Tăng Cường Hệ Miễn Dịch ⭐️
         const content3 = `
             <p><b>3. Tăng Cường Sức Mạnh Phòng Vệ của Cơ Thể</b></p>
             <p>Hệ miễn dịch là "đội quân" bảo vệ cơ thể khỏi virus, vi khuẩn và các mầm bệnh khác. Một hệ miễn dịch mạnh là chìa khóa để chống lại mọi bệnh tật, từ cảm lạnh thông thường đến các bệnh lý nghiêm trọng hơn.</p>
@@ -545,7 +534,6 @@
             <p>Tránh lạm dụng kháng sinh. Việc này có thể tiêu diệt cả vi khuẩn có lợi, làm suy yếu hệ thống phòng thủ tự nhiên.</p>
         `;
 
-        // ⭐️ NỘI DUNG 4: Quản lý Căng Thẳng và Lo Âu ⭐️
         const content4 = `
             <p><b>4. Quản Lý Stress: Sống Nhẹ Nhàng Hơn</b></p>
             <p>Căng thẳng (stress) là một phản ứng tự nhiên của cơ thể. Tuy nhiên, căng thẳng mạn tính có thể gây ra nhiều vấn đề sức khỏe nghiêm trọng, từ đau đầu, mất ngủ đến các bệnh tim mạch.</p>
@@ -560,7 +548,6 @@
             <p>Tìm kiếm sự trợ giúp chuyên nghiệp. Nếu căng thẳng vượt quá khả năng kiểm soát, hãy nói chuyện với chuyên gia tâm lý.</p>
         `;
 
-        // ⭐️ NỘI DUNG 5: Bệnh Tiểu Đường ⭐️
         const content5 = `
             <p><b>5. Tiểu Đường Type 2: Nhận Diện Sớm và Kiểm Soát</b></p>
             <p>Bệnh tiểu đường (Đái tháo đường) là tình trạng cơ thể không thể sử dụng glucose (đường) một cách hiệu quả, dẫn đến lượng đường trong máu cao. Kiểm soát tốt giúp ngăn ngừa các biến chứng nguy hiểm như bệnh tim, suy thận và tổn thương thần kinh.</p>
@@ -575,7 +562,6 @@
             <p>Tuyệt đối không tự ý ngưng hoặc thay đổi liều thuốc mà không có chỉ định y tế.</p>
         `;
 
-        // ⭐️ NỘI DUNG 6: Dinh dưỡng cho người viêm khớp ⭐️
         const content6 = `
             <p><b>6. Dinh Dưỡng Giảm Viêm cho Bệnh Nhân Viêm Khớp</b></p>
             <p>Viêm khớp (Arthritis) gây đau, cứng và sưng khớp. Chế độ ăn uống không thể chữa khỏi bệnh, nhưng có thể giúp giảm viêm, giảm đau và làm chậm tiến trình của bệnh.</p>
@@ -590,7 +576,6 @@
             <p>Tham khảo ý kiến bác sĩ hoặc chuyên gia dinh dưỡng để xây dựng chế độ ăn phù hợp với tình trạng viêm khớp của bạn.</p>
         `;
 
-        // ⭐️ NỘI DUNG 7: Giấc ngủ ⭐️
         const content7 = `
             <p><b>7. Giấc Ngủ Sâu: Thuốc Chữa Bách Bệnh Tự Nhiên</b></p>
             <p>Giấc ngủ không chỉ là thời gian nghỉ ngơi mà còn là lúc cơ thể thực hiện các chức năng sửa chữa, phục hồi não bộ và củng cố trí nhớ. Chất lượng giấc ngủ kém ảnh hưởng tiêu cực đến mọi mặt của cuộc sống và sức khỏe.</p>
@@ -605,7 +590,6 @@
             <p>Nếu mất ngủ kéo dài và ảnh hưởng đến sức khỏe, hãy tham khảo ý kiến bác sĩ để tìm nguyên nhân và giải pháp.</p>
         `;
 
-        // ⭐️ NỘI DUNG 8: Đau lưng ⭐️
         const content8 = `
             <p><b>8. Chiến Lược Đơn Giản Chống Lại Đau Lưng Mạn Tính</b></p>
             <p>Đau lưng là một trong những vấn đề sức khỏe phổ biến nhất. Trong nhiều trường hợp, đau lưng không phải do chấn thương nghiêm trọng mà do tư thế xấu và thiếu vận động cơ bắp hỗ trợ.</p>
@@ -620,7 +604,6 @@
             <p>Nếu cơn đau kéo dài hơn vài tuần hoặc đi kèm tê bì chân, hãy tham khảo ý kiến bác sĩ vật lý trị liệu.</p>
         `;
 
-        // ⭐️ NỘI DUNG 9: Chăm sóc da ⭐️
         const content9 = `
             <p><b>9. Quy Trình Chăm Sóc Da Cơ Bản Cho Làn Da Khỏe</b></p>
             <p>Làn da là cơ quan lớn nhất của cơ thể và cần được chăm sóc thường xuyên. Một quy trình chăm sóc da cơ bản, đều đặn sẽ giúp ngăn ngừa mụn, nếp nhăn và giữ cho da sáng khỏe.</p>
@@ -636,7 +619,6 @@
             <p>Nếu da có các vấn đề mạn tính như chàm hoặc Rosacea, hãy tham khảo ý kiến bác sĩ da liễu.</p>
         `;
 
-        // ⭐️ NỘI DUNG 10: Sơ cấp cứu ⭐️
         const content10 = `
             <p><b>10. Các Bước Sơ Cấp Cứu Cơ Bản Mọi Người Nên Biết</b></p>
             <p>Kiến thức sơ cấp cứu có thể cứu sống một người trước khi nhân viên y tế chuyên nghiệp đến. Biết cách xử lý tình huống khẩn cấp giúp bạn hành động nhanh chóng và chính xác.</p>
@@ -666,6 +648,7 @@
 
         const articles = [[${articles}]] ? [[${articles}]] : articlesMock;
 
+        // Đọc thêm / thu gọn nội dung bài
         function initializeReadMoreLogic() {
             document.querySelectorAll('.read-more-btn').forEach(button => {
                 button.addEventListener('click', () => {
@@ -683,36 +666,106 @@
             });
         }
 
+        // Render các bài viết mock nếu Controller không truyền dữ liệu
         function renderMockArticles() {
             const container = document.getElementById('mock-articles-container');
-            if (container) {
-                let html = '';
-                articlesMock.forEach((article, index) => {
-                    const safeIndex = index + 10;
-                    html += `
-                        <div class="article-item">
-                            <img src="${article.imageUrl}" alt="${article.title}" class="img-fluid">
-                            <h5>${article.title}</h5>
+            if (!container) return;
 
-                            <div class="article-content" id="content-${safeIndex}">
-                                <div class="read-more-overlay"></div>
-                                ${article.content}
-                            </div>
+            let html = '';
+            articlesMock.forEach((article, index) => {
+                const safeIndex = index + 10;
+                html += `
+                    <div class="article-item">
+                        <img src="${article.imageUrl}" alt="${article.title}" class="img-fluid">
+                        <h5>${article.title}</h5>
 
-                            <a href="javascript:void(0)" class="read-more-btn" data-target="content-${safeIndex}">
-                                Đọc thêm <i class="bi bi-arrow-right"></i>
-                            </a>
+                        <div class="article-content" id="content-${safeIndex}">
+                            <div class="read-more-overlay"></div>
+                            ${article.content}
                         </div>
-                    `;
-                });
-                container.innerHTML = html;
-                initializeReadMoreLogic();
+
+                        <a href="javascript:void(0)" class="read-more-btn" data-target="content-${safeIndex}">
+                            Đọc thêm <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Khởi tạo slider cho khung Tin tức (auto + nút chuyển)
+        function initArticleSlider() {
+            const slider = document.getElementById('articles-slider');
+            if (!slider) return;
+
+            const items = slider.querySelectorAll('.article-item');
+            const total = items.length;
+            const totalSpan = document.getElementById('articleTotal');
+            const indexSpan = document.getElementById('articleIndex');
+            const prevBtn = document.getElementById('prevArticle');
+            const nextBtn = document.getElementById('nextArticle');
+
+            if (!total) {
+                if (totalSpan) totalSpan.textContent = '0';
+                if (indexSpan) indexSpan.textContent = '0';
+                if (prevBtn) prevBtn.disabled = true;
+                if (nextBtn) nextBtn.disabled = true;
+                return;
             }
+
+            let current = 0;
+            if (totalSpan) totalSpan.textContent = total;
+
+            function showSlide(i) {
+                items.forEach((el, idx) => {
+                    if (idx === i) el.classList.add('active');
+                    else el.classList.remove('active');
+                });
+                if (indexSpan) indexSpan.textContent = i + 1;
+            }
+
+            function goNext() {
+                current = (current + 1) % total;
+                showSlide(current);
+            }
+
+            function goPrev() {
+                current = (current - 1 + total) % total;
+                showSlide(current);
+            }
+
+            showSlide(current);
+
+            let autoTimer = setInterval(goNext, 8000);
+
+            function resetAuto() {
+                clearInterval(autoTimer);
+                autoTimer = setInterval(goNext, 8000);
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    goNext();
+                    resetAuto();
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    goPrev();
+                    resetAuto();
+                });
+            }
+
+            slider.addEventListener('mouseenter', () => clearInterval(autoTimer));
+            slider.addEventListener('mouseleave', resetAuto);
         }
     </script>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <a class="navbar-brand" href="/benhnhan/">
@@ -746,7 +799,7 @@
     </div>
 </nav>
 
-<!-- OFFCANVAS (Thông báo) -->
+<!-- OFFCANVAS THÔNG BÁO -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offCanvasNotif" aria-labelledby="offCanvasNotifLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offCanvasNotifLabel">🔔 Thông báo</h5>
@@ -781,71 +834,100 @@
     </div>
 </div>
 
-<!-- ====== LAYOUT CHÍNH: FEED + SIDEBAR ====== -->
-<div style="display: flex; gap: 10px; padding: 20px; margin-top: 10px;height : fit-content;">
+<!-- LAYOUT CHÍNH: KHUNG TIN TỨC + SIDEBAR THÔNG TIN CÁ NHÂN -->
+<div class="layout-main">
 
-    <!-- FEED (bên trái) -->
+    <!-- KHUNG TIN TỨC / CẢNH BÁO Y TẾ (SLIDER) -->
     <div style="flex: 1;">
-        <h2 class="feed-header">Tin tức và Cảnh báo Y tế Gần đây</h2>
+        <div class="article-slider-card">
+            <div class="article-slider-header">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-newspaper text-primary fs-5"></i>
+                    <span class="article-slider-title">Tin tức và Cảnh báo Y tế Gần đây</span>
+                </div>
 
-        <div th:if="${articles != null and !#lists.isEmpty(articles)}"
-             th:each="article, iterStat : ${articles}" class="article-item">
+                <div class="article-slider-controls d-flex align-items-center gap-2">
+                    <button id="prevArticle" type="button" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
 
-            <img th:src="@{${article.imageUrl}}" th:alt="${article.title}" class="img-fluid">
-            <h5 th:text="${article.title}">Tiêu đề Bài báo</h5>
+                    <span class="text-muted small article-slider-index">
+                        <span id="articleIndex">1</span>/<span id="articleTotal">1</span>
+                    </span>
 
-            <div class="article-content" th:id="'content-' + ${iterStat.index}">
-                <div class="read-more-overlay"></div>
-                <p th:utext="${article.content}"></p>
+                    <button id="nextArticle" type="button" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
             </div>
 
-            <a href="javascript:void(0)" class="read-more-btn"
-               th:data-target="'content-' + ${iterStat.index}">
-                Đọc thêm <i class="bi bi-arrow-right"></i>
-            </a>
-        </div>
+            <div class="article-slider-body">
+                <div id="articles-slider">
+                    <!-- Nếu Controller truyền danh sách bài -->
+                    <div th:if="${articles != null and !#lists.isEmpty(articles)}"
+                         th:each="article, iterStat : ${articles}" class="article-item">
 
-        <div th:if="${articles == null or #lists.isEmpty(articles)}" id="mock-articles-container">
-            <div class="text-center text-muted py-5">
-                <i class="bi bi-newspaper fs-3"></i>
-                <p>Đang tải dữ liệu bài báo mô phỏng...</p>
+                        <img th:src="@{${article.imageUrl}}" th:alt="${article.title}" class="img-fluid">
+                        <h5 th:text="${article.title}">Tiêu đề Bài báo</h5>
+
+                        <div class="article-content" th:id="'content-' + ${iterStat.index}">
+                            <div class="read-more-overlay"></div>
+                            <p th:utext="${article.content}"></p>
+                        </div>
+
+                        <a href="javascript:void(0)" class="read-more-btn"
+                           th:data-target="'content-' + ${iterStat.index}">
+                            Đọc thêm <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- Nếu không có dữ liệu từ Controller, render mock bằng JS -->
+                    <div th:if="${articles == null or #lists.isEmpty(articles)}"
+                         id="mock-articles-container">
+                        <div class="text-center text-muted py-5">
+                            <i class="bi bi-newspaper fs-3"></i>
+                            <p>Đang tải dữ liệu bài báo mô phỏng...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="#" class="btn btn-outline-secondary btn-sm">Xem tất cả bài báo</a>
+                </div>
             </div>
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="#" class="btn btn-outline-secondary">Xem tất cả bài báo</a>
         </div>
     </div>
 
-    <!-- SIDEBAR BÊN PHẢI -->
+    <!-- KHUNG THÔNG TIN CÁ NHÂN BÊN PHẢI -->
     <div class="profile-edit-card">
-
-        <h5 class="m-0"><i class="bi bi-person-badge"></i> Thông tin cá nhân</h5>
+        <h5 class="m-0">
+            <i class="bi bi-person-badge"></i> Thông tin cá nhân
+        </h5>
 
         <div class="d-flex flex-column gap-2 mt-3">
             <div class="profile-info-row">
-                <strong>Họ tên    :</strong>
+                <span class="profile-label">Họ tên</span>
                 <input type="text" id="hoTen" th:value="${nguoi.hoTen}" readonly>
             </div>
 
             <div class="profile-info-row">
-                <strong>Ngày sinh :</strong>
+                <span class="profile-label">Ngày sinh</span>
                 <input type="date" id="ngaySinh"
                        th:value="${nguoi.ngaySinh != null ? #dates.format(nguoi.ngaySinh, 'yyyy-MM-dd') : ''}" readonly>
             </div>
 
             <div class="profile-info-row">
-                <strong>Giới tính :</strong>
+                <span class="profile-label">Giới tính</span>
                 <input type="text" id="gioiTinh" th:value="${nguoi.gioiTinh}" readonly>
             </div>
 
             <div class="profile-info-row">
-                <strong>SĐT        :</strong>
+                <span class="profile-label">SĐT</span>
                 <input type="text" id="sdt" th:value="${nguoi.sdt}" readonly>
             </div>
 
             <div class="profile-info-row">
-                <strong>Email      :</strong>
+                <span class="profile-label">Email</span>
                 <input type="email" id="email" th:value="${nguoi.email}" readonly>
             </div>
         </div>
@@ -861,13 +943,10 @@
                 <i class="bi bi-pencil"></i> Chỉnh sửa
             </button>
         </div>
-
     </div>
-
-
 </div>
 
-<!-- NÚT CHATBOT -->
+<!-- NÚT BẬT CHATBOT -->
 <button type="button"
         id="chatbotToggleBtn"
         class="chatbot-fab">
@@ -916,21 +995,23 @@
     </div>
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
     <p>Liên hệ: 123 Đường Sức Khỏe, TP Hà Nội | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
     <p>&copy; 2025 Phòng khám Tận Tâm. All rights reserved.</p>
 </div>
 
 <script>
+    // Khởi tạo phần Tin tức + Chatbot
     document.addEventListener('DOMContentLoaded', () => {
-        // Đọc thêm / thu gọn cho bài báo
-        initializeReadMoreLogic();
-
-        // Nếu Controller không truyền articles thì render mock
-        const hasControllerArticles = document.querySelector('.main-article-feed > .article-item') !== null;
+        // Nếu controller không truyền bài, dùng mock
+        const hasControllerArticles = document.querySelector('#articles-slider .article-item') !== null;
         if (!hasControllerArticles) {
             renderMockArticles();
         }
+
+        initializeReadMoreLogic();
+        initArticleSlider();
 
         // Chatbot
         const toggleBtn = document.getElementById('chatbotToggleBtn');
@@ -1025,6 +1106,8 @@
             });
         }
     });
+
+    // Chỉnh sửa thông tin cá nhân tại chỗ
     document.addEventListener('DOMContentLoaded', function () {
         const editBtn = document.getElementById('edit-btn');
         const saveBtn = document.getElementById('save-btn');
@@ -1032,62 +1115,44 @@
         const card = document.querySelector('.profile-edit-card');
         const inputs = card.querySelectorAll('input');
 
-        // ⭐️ 1. LƯU GIÁ TRỊ BAN ĐẦU ⭐️
         const originalValues = {};
         inputs.forEach(input => {
             originalValues[input.id] = input.value;
         });
 
-        // Hàm bật/tắt chế độ chỉnh sửa
         function setEditMode(isEditing) {
             inputs.forEach(input => {
-                // Không chỉnh sửa Mã BN (nếu có)
                 if (input.id !== 'maBenhNhan' && input.id !== 'cccd') {
                     input.readOnly = !isEditing;
                 }
             });
 
-            // Hiển thị/Ẩn nút
             editBtn.style.display = isEditing ? 'none' : 'block';
             saveBtn.style.display = isEditing ? 'block' : 'none';
             cancelBtn.style.display = isEditing ? 'block' : 'none';
         }
 
-        // --- EVENTS ---
-
-        // 2. Nút CHỈNH SỬA (EDIT)
         editBtn.addEventListener('click', function() {
             setEditMode(true);
-            // Focus vào trường đầu tiên
             document.getElementById('hoTen').focus();
         });
 
-        // 3. Nút HỦY (CANCEL)
         cancelBtn.addEventListener('click', function() {
-            // ⭐️ FIX LỖI: Khôi phục các giá trị về ban đầu ⭐️
             inputs.forEach(input => {
                 input.value = originalValues[input.id];
             });
-
             setEditMode(false);
         });
 
-        // 4. Nút LƯU (SAVE)
         saveBtn.addEventListener('click', function() {
-            // Thu thập dữ liệu
             const updatedData = {};
             inputs.forEach(input => {
                 updatedData[input.id] = input.value;
             });
 
-            // ⭐️ TODO: BẠN CẦN THÊM LOGIC GỌI API ĐỂ LƯU DỮ LIỆU TẠI ĐÂY ⭐️
             console.log("Dữ liệu cần gửi đi:", updatedData);
+            // TODO: gọi API lưu dữ liệu tại đây
 
-            // Sau khi gọi API thành công:
-            // Cập nhật lại originalValues và thoát chế độ chỉnh sửa
-
-            // Ví dụ: Giả định API thành công
-            // Cập nhật OriginalValues sau khi lưu thành công
             inputs.forEach(input => {
                 originalValues[input.id] = input.value;
             });

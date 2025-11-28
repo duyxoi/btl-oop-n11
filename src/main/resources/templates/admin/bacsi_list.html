@@ -9,22 +9,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
+        /* Toàn trang & font */
         body {
-            background-color: #f0f2f5; /* Màu nền đồng bộ */
+            background-color: #f0f2f5;
             font-family: 'Roboto', sans-serif;
             min-height: 100vh;
         }
 
-        /* 🌈 Navbar đồng bộ */
+        /* Navbar admin */
         .navbar {
-            background: #ffffff !important; /* Màu trắng đồng bộ */
+            background: #ffffff !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-bottom: 4px solid #007bff; /* Đường kẻ xanh phân chia */
+            border-bottom: 4px solid #007bff;
             padding: 15px 5%;
         }
 
-        /* ⭐️ Logo/Brand đồng bộ ⭐️ */
+        /* Logo / brand trên navbar */
         .navbar-brand {
             color: #0056b3 !important;
             font-weight: 700;
@@ -32,15 +32,16 @@
             display: flex;
             align-items: center;
         }
+
         .navbar-brand img {
             margin-right: 10px;
-            width: 45px; /* Kích thước logo đồng bộ */
+            width: 45px;
         }
 
-        /* ⭐️ ĐỒNG BỘ NÚT ĐĂNG XUẤT ⭐️ */
+        /* Nút đăng xuất */
         .logout-btn {
             border: none;
-            background-color: #007bff; /* Xanh dương đậm */
+            background-color: #007bff;
             color: white;
             font-size: 0.95rem;
             padding: 8px 15px;
@@ -48,35 +49,39 @@
             font-weight: 600;
             transition: background-color 0.2s;
         }
+
         .logout-btn:hover {
-            background-color: #dc3545; /* Chuyển sang đỏ khi hover */
+            background-color: #dc3545;
         }
 
-        /* ⭐️ Tiêu đề Bảng (Header Table) đồng bộ ⭐️ */
+        /* Header bảng danh sách bác sĩ */
         th {
-            /* Xanh dương chủ đạo */
-            color: white;
-            font-weight: 600;
-            position: sticky; /* Giữ header bảng khi cuộn */
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            position: sticky;
             top: 0;
             z-index: 10;
         }
 
+        /* Bảng dữ liệu */
         table {
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Đổ bóng nhẹ */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* Nút Quay lại và Xem lịch */
+        /* Nút quay lại và nút xem lịch */
         .back-btn {
             border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
         }
 
-        /* ⭐️ Đồng bộ nút Xem lịch ⭐️ */
         .view-btn {
             border-radius: 6px;
             font-size: 0.95rem;
@@ -85,12 +90,57 @@
             border-color: #007bff;
             transition: all 0.2s;
         }
+
         .view-btn:hover {
             background-color: #007bff;
             color: white;
         }
 
-        /* Đồng bộ Footer */
+        /* Thanh công cụ: sắp xếp + tìm kiếm */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .sort-box {
+            flex: 1 1 260px;
+            max-width: 320px;
+        }
+
+        .search-box {
+            flex: 1 1 260px;
+            max-width: 360px;
+        }
+
+        .toolbar .input-group-text {
+            background: linear-gradient(135deg, #0d6efd, #2563eb);
+            color: #ffffff;
+            border-color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .toolbar .input-group-text i {
+            font-size: 1rem;
+        }
+
+        #sortSelect,
+        #searchBacSi {
+            border: 1.5px solid #0d6efd;
+            background-color: #f8fafc;
+        }
+
+        #sortSelect:focus,
+        #searchBacSi:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+            background-color: #ffffff;
+        }
+
+        /* Footer trang */
         .footer {
             margin-top: 60px;
             padding: 20px;
@@ -103,6 +153,7 @@
 </head>
 
 <body>
+<!-- Navbar admin -->
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/admin/">
@@ -128,6 +179,7 @@
 </nav>
 
 <div class="container" style="margin-top: 100px;">
+    <!-- Tiêu đề trang -->
     <div class="text-center mb-4">
         <h2 class="fw-bold" style="color: #0056b3 !important;">
             🩺 Danh sách bác sĩ
@@ -135,29 +187,48 @@
         <p class="text-muted">Thông tin chi tiết về đội ngũ y bác sĩ tại Phòng khám Tận Tâm</p>
     </div>
 
+    <!-- Nút quay lại trang chủ admin -->
     <div class="text-center mb-4">
         <a th:href="@{/admin/}" class="btn btn-secondary back-btn">
             <i class="bi bi-arrow-left-circle"></i> Quay lại trang chủ
         </a>
     </div>
 
-    <div class="text-center mb-3">
-        <a th:href="@{/admin/list/bacsi(sort='nguoi.hoTen')}" class="btn btn-outline-primary me-2">
-            <i class="bi bi-sort-alpha-down"></i> Sắp xếp theo tên
-        </a>
+    <!-- Thanh công cụ: chọn cách sắp xếp + ô tìm kiếm theo tên bác sĩ -->
+    <div class="toolbar">
+        <!-- Box chọn chế độ sắp xếp (dựa trên param.sort) -->
+        <div class="sort-box">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-arrow-down-up"></i>&nbsp;Sắp xếp
+                </span>
+                <select id="sortSelect" class="form-select"
+                        onchange="if(this.value){window.location.href='/admin/list/bacsi?sort=' + this.value;}else{window.location.href='/admin/list/bacsi';}">
+                    <option value="">Mặc định</option>
+                    <option value="nguoi.hoTen" th:selected="${param.sort == 'nguoi.hoTen'}">Theo tên (A → Z)</option>
+                    <option value="nguoi.ngaySinh" th:selected="${param.sort == 'nguoi.ngaySinh'}">Theo ngày sinh</option>
+                    <option value="maBacSi" th:selected="${param.sort == 'maBacSi'}">Theo mã bác sĩ</option>
+                </select>
+            </div>
+        </div>
 
-        <a th:href="@{/admin/list/bacsi(sort='nguoi.ngaySinh')}" class="btn btn-outline-success me-2">
-            <i class="bi bi-calendar-date"></i> Sắp xếp theo ngày sinh
-        </a>
-
-        <a th:href="@{/admin/list/bacsi(sort='maBacSi')}" class="btn btn-outline-dark">
-            <i class="bi bi-list-ol"></i> Sắp xếp theo mã bác sĩ
-        </a>
+        <!-- Ô tìm kiếm theo tên (lọc client-side) -->
+        <div class="search-box">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input id="searchBacSi"
+                       type="text"
+                       class="form-control"
+                       placeholder="Nhập tên bác sĩ cần tìm...">
+            </div>
+        </div>
     </div>
 
-
+    <!-- Bảng danh sách bác sĩ -->
     <div class="table-responsive shadow-sm rounded">
-        <table class="table table-bordered table-hover align-middle text-center">
+        <table class="table table-bordered table-hover align-middle text-center" id="bacsiTable">
             <thead>
             <tr>
                 <th>Mã bác sĩ</th>
@@ -179,7 +250,6 @@
                 <td th:text="${bs.khoa != null ? bs.khoa.getTenKhoa() : 'Không có'}"></td>
                 <td th:text="${bs.capDoHanhNghe}"></td>
                 <td th:text="${bs.nguoi.getSdt()}"></td>
-
                 <td>
                     <a th:href="@{'/bacsi/lich-kham/'+${bs.nguoi.getPersonId()}}"
                        class="btn btn-outline-primary view-btn">
@@ -192,10 +262,51 @@
     </div>
 </div>
 
+<!-- Footer trang -->
 <footer class="footer">
-    <p class="mb-0">📍 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
+    <p class="mb-0">📍 123 Đường Sức Khỏe, TP Hà Nội | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Lọc bảng bác sĩ theo tên (client-side, có bỏ dấu tiếng Việt)
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('searchBacSi');
+        const table = document.getElementById('bacsiTable');
+        if (!input || !table) return;
+
+        const rows = table.querySelectorAll('tbody tr');
+
+        // Chuẩn hóa chuỗi: đưa về thường, bỏ dấu, đổi đ -> d
+        function normalize(str) {
+            return str
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd')
+                .trim();
+        }
+
+        // Lọc theo cột "Họ tên" mỗi khi người dùng gõ
+        input.addEventListener('input', function () {
+            const keyword = normalize(input.value);
+
+            rows.forEach(function (row) {
+                const nameCell = row.cells[1]; // cột Họ tên
+                if (!nameCell) return;
+
+                const nameText = normalize(nameCell.textContent || '');
+
+                if (keyword === '' || nameText.includes(keyword)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

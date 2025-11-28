@@ -8,12 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
 
     <style>
+        /* Nền & font chung */
         body {
-            background: #E0F7FA;
+            background: #E3F2FD;
             font-family: 'Poppins', 'Roboto', sans-serif;
             min-height: 100vh;
         }
 
+        /* Navbar trên cùng */
         .navbar {
             background: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -34,6 +36,7 @@
             margin-right: 10px;
         }
 
+        /* Nút Trang chủ / Đăng xuất trên navbar */
         .action-buttons a,
         .action-buttons button {
             border-radius: 8px;
@@ -66,6 +69,7 @@
             transform: translateY(-1px);
         }
 
+        /* Thanh tiêu đề “Lịch khám của bác sĩ” */
         .header-bar {
             background: #ffffff;
             border-bottom: 2px solid #e0f2f7;
@@ -81,6 +85,7 @@
             font-weight: 700;
         }
 
+        /* Toolbar của FullCalendar */
         .fc-toolbar-chunk:nth-child(2) {
             flex-grow: 1;
             display: flex;
@@ -93,7 +98,7 @@
             font-family: 'Poppins', 'Roboto', sans-serif;
             font-weight: 700 !important;
             font-size: 1.8rem !important;
-            color: #333;
+            color: #1f2933;
             text-transform: capitalize;
         }
 
@@ -105,9 +110,9 @@
             padding: 5px 10px !important;
             font-size: 0.9rem !important;
             margin: 0 2px !important;
-            border: 1px solid #333 !important;
+            border: 1px solid #4b5563 !important;
             background-color: transparent !important;
-            color: #333 !important;
+            color: #374151 !important;
         }
 
         .fc-button-group {
@@ -126,26 +131,27 @@
         }
 
         .fc-button-primary {
-            background-color: #007bff !important;
-            border-color: #007bff !important;
-            color: white !important;
+            background-color: #0d6efd !important;
+            border-color: #0d6efd !important;
+            color: #ffffff !important;
         }
 
         .fc-button-primary:hover:not(:disabled) {
-            background-color: #0056b3 !important;
-            border-color: #0056b3 !important;
+            background-color: #0b5ed7 !important;
+            border-color: #0b5ed7 !important;
         }
 
         .fc-today-button:not(:disabled) {
             background-color: transparent !important;
-            border: 1px solid #333 !important;
-            color: #333 !important;
+            border: 1px solid #4b5563 !important;
+            color: #374151 !important;
         }
 
         .fc-today-button:hover:not(:disabled) {
-            background-color: #eee !important;
+            background-color: #e5e7eb !important;
         }
 
+        /* Lưới calendar & header ngày */
         .fc-theme-standard td,
         .fc-theme-standard th,
         .fc-theme-standard .fc-scrollgrid {
@@ -160,9 +166,9 @@
 
         .fc-col-header-cell {
             background-color: transparent !important;
-            color: #333;
+            color: #374151;
             font-weight: 600;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
 
         .fc-col-header-cell a,
@@ -170,11 +176,12 @@
             text-decoration: none !important;
         }
 
+        /* Ô ngày trong month view */
         .fc-daygrid-day-frame {
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(148, 163, 184, 0.4);
             height: 10rem;
             width: 10rem;
             margin: 0.25rem;
@@ -184,35 +191,38 @@
 
         .fc-daygrid-day-frame:hover {
             transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
-            border-color: #007bff;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+            border-color: #0d6efd;
         }
 
         .fc-daygrid-day-number {
-            font-size: 1.5rem;
-            font-weight: 500;
+            font-size: 1.4rem;
+            font-weight: 600;
             margin: 0 0 1rem 0;
             padding: 0;
-            color: #0056b3;
+            color: #111827;
             text-align: left;
             text-decoration: none !important;
         }
 
+        /* Ô hôm nay – dùng xanh dương, bỏ nền xanh lá */
         .fc-day-today .fc-daygrid-day-frame {
-            background: #C8E6C9;
-            border: 2px solid #388E3C;
+            background: #e0edff;
+            border: 2px solid #0d6efd;
         }
 
+        /* Sự kiện trong calendar (màu xanh dương đồng bộ) */
         .fc-event-main,
         .fc-event {
-            background-color: #4CAF50 !important;
-            border-color: #4CAF50 !important;
+            background-color: #0d6efd !important;
+            border-color: #0d6efd !important;
             border-radius: 8px;
             padding: 3px 6px;
+            color: #ffffff !important;
         }
 
         .patient-event {
-            color: white !important;
+            color: #ffffff !important;
             font-weight: 500;
         }
 
@@ -229,6 +239,7 @@
             white-space: normal;
         }
 
+        /* TimeGrid view (nếu dùng sau này) */
         .fc-timegrid-col.fc-day-today {
             background-color: #f7f9fc !important;
         }
@@ -249,13 +260,20 @@
         }
 
         .fc-timegrid-event.patient-event {
-            background-color: #007bff !important;
-            border-color: #007bff !important;
+            background-color: #0d6efd !important;
+            border-color: #0d6efd !important;
             border-radius: 6px;
         }
 
         .fc-timegrid-now-indicator-line {
             border-color: #dc3545;
+        }
+
+        /* Hàng “không có lịch” trong bảng */
+        .empty-state {
+            text-align: center;
+            padding: 30px 0;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -263,6 +281,7 @@
 <body>
 <div class="container mt-4">
 
+    <!-- Thanh tiêu đề và thông tin bác sĩ -->
     <div class="d-flex justify-content-between align-items-center header-bar">
         <div>
             <h3><i class="bi bi-clipboard2-pulse"></i> Lịch khám của bác sĩ</h3>
@@ -281,6 +300,7 @@
         </div>
     </div>
 
+    <!-- Thông báo thành công / lỗi -->
     <div th:if="${successMessage}"
          class="alert alert-success alert-dismissible fade show text-center shadow-sm"
          role="alert">
@@ -297,6 +317,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
+    <!-- Nút chuyển giữa dạng bảng / calendar -->
     <div class="d-flex justify-content-end mb-3">
         <div class="btn-group">
             <a th:href="@{/bacsi/lich-kham(mode='table')}"
@@ -310,7 +331,7 @@
         </div>
     </div>
 
-    <!-- TABLE MODE -->
+    <!-- DẠNG BẢNG -->
     <div th:if="${mode} == 'table'">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="mb-0">
@@ -391,7 +412,7 @@
         </div>
     </div>
 
-    <!-- CALENDAR MODE -->
+    <!-- DẠNG CALENDAR -->
     <div th:if="${mode} == 'calendar'">
         <div class="card shadow-sm border-0">
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -426,7 +447,7 @@
 
 </div>
 
-<!-- Modal chi tiết -->
+<!-- Modal chi tiết lịch khám -->
 <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -451,7 +472,7 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
 <script>
-    // Calendar
+    // Khởi tạo FullCalendar từ dữ liệu ẩn
     document.addEventListener("DOMContentLoaded", () => {
         const calendarEl = document.getElementById("calendar");
         const dataContainer = document.getElementById("calendar-data");
@@ -554,7 +575,7 @@
         calendar.render();
     });
 
-    // Lọc tên bệnh nhân
+    // Lọc tên bệnh nhân trong dạng bảng
     document.addEventListener("DOMContentLoaded", () => {
         const searchInput = document.getElementById("searchPatient");
         if (!searchInput) return;
