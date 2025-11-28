@@ -12,34 +12,34 @@
     <style>
         /* ⭐️ ĐỒNG BỘ: MÀU NỀN VÀ PHÔNG CHỮ ⭐️ */
         body {
-            background: #E3F2FD; /* Màu nền đồng bộ */
+            background: #E3F2FD;
             font-family: 'Roboto', sans-serif;
         }
 
         /* 🌈 Navbar đồng bộ */
         .navbar {
-            background: #ffffff; /* Màu trắng đồng bộ */
+            background: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-bottom: 4px solid #007bff; /* Đường kẻ xanh phân chia */
-            padding: 15px 5%; /* Padding đồng bộ */
+            border-bottom: 4px solid #007bff;
+            padding: 15px 5%;
         }
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem; /* Kích thước đồng bộ */
-            color: #0056b3 !important; /* Màu xanh đậm đồng bộ */
+            font-size: 1.5rem;
+            color: #0056b3 !important;
             display: flex;
             align-items: center;
         }
 
         .navbar-brand img {
             margin-right: 10px;
-            width: 45px; /* Kích thước logo đồng bộ */
+            width: 45px;
         }
 
         .notif-btn {
             position: relative;
-            background: rgba(0, 86, 179, 0.1); /* Màu nền nhạt khi không hover */
+            background: rgba(0, 86, 179, 0.1);
             border: none;
             color: #0056b3; /* Màu xanh đậm */
             font-size: 1.2rem;
@@ -63,7 +63,7 @@
 
         /* ⭐️ NÚT ĐĂNG XUẤT ĐỒNG BỘ ⭐️ */
         .navbar .btn-danger {
-            background-color: #007bff; /* Màu xanh dương đậm */
+            background-color: #007bff;
             border-color: #007bff;
             font-weight: 600;
             transition: all 0.2s;
@@ -78,7 +78,7 @@
         /* ⭐️ CONTAINER CHÍNH ĐỒNG BỘ ⭐️ */
         .container-main {
             max-width: 850px;
-            margin-top: 60px; /* Giảm margin top để cân đối */
+            margin-top: 60px;
             background: white;
             padding: 50px;
             border-radius: 18px;
@@ -107,7 +107,7 @@
 
         /* ⭐️ ĐỒNG BỘ MÀU CÁC NÚT MAIN ⭐️ */
         .btn-info {
-            background-color: #17a2b8; /* Màu info chuẩn */
+            background-color: #17a2b8;
             border-color: #17a2b8;
         }
         .btn-info:hover {
@@ -210,16 +210,16 @@
         </a>
 
         <a th:href="@{/bacsi/lich-kham/{id}(id=${doctor.getPersonId()})}" class="btn btn-success btn-main">
-            <i class="bi bi-calendar-week"></i> Xem lịch khám
+            <i class="bi bi-calendar-week"></i> Khám cho bệnh nhân
         </a>
 
-        <a th:href="@{/bacsi/benh-nhan-hom-nay}" class="btn btn-secondary btn-main">
-            <i class="bi bi-people-fill"></i> Danh sách bệnh nhân hôm nay
+        <a th:href="@{/bacsi/lich-kham/{id}(id=${doctor.getPersonId()}, mode='calendar')}" class="btn btn-secondary btn-main">
+            <i class="bi bi-people-fill"></i> Xem lịch khám
         </a>
     </div>
 
     <div class="footer mt-5">
-        <p>📍 123 Đường Sức Khỏe, Quận 1, TP.HCM | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
+        <p>📍 123 Đường Sức Khỏe, TP Hà Nội | 📞 0123 456 789 | ✉️ phongkhamabc@gmail.com</p>
     </div>
 </div>
 
